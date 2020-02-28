@@ -1,17 +1,19 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider, useSelector, useDispatch } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import createSagaMiddleware from 'redux-saga'
 import reducers from './reducer'
 import sagas from './sagas'
 import action from './actions'
 
 const sagaMiddleware = createSagaMiddleware()
-
 const store = createStore(
   reducers,
-  applyMiddleware(sagaMiddleware)
+  composeWithDevTools(
+    applyMiddleware(sagaMiddleware)
+  )
 )
 
 sagaMiddleware.run(sagas)
