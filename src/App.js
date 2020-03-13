@@ -15,7 +15,7 @@ class App extends React.Component {
 
     return (
       <BrowserRouter basename="/page-builder">
-        <div>123</div>
+        <div>12</div>
       </BrowserRouter>
     )
   }
