@@ -1,5 +1,7 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+
 
 class App extends React.Component {
 
@@ -15,7 +17,12 @@ class App extends React.Component {
 
     return (
       <BrowserRouter basename="/page-builder">
-        <div>12</div>
+        <Switch>
+          <Route exact path="/animals" component={() => <div>animals exact</div>} />
+          <Route path="/animals/fish" component={() => <div>animals/fish</div>} />
+          <Route component={() => <div>no</div>} />
+        </Switch>
+        <Route path="/animals" component={() => <div>animals</div>} />
       </BrowserRouter>
     )
   }

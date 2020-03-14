@@ -6,6 +6,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 module.exports = merge(baseConfig, {
   mode: 'development',
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, 'dist'),
     port: 9000
   },
