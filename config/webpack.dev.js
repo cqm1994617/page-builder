@@ -17,6 +17,7 @@ module.exports = merge(baseConfig, {
         use: [
           'style-loader',
           'css-loader',
+          'postcss-loader',
           'sass-loader'
         ]
       }
