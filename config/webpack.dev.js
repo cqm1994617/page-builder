@@ -24,6 +24,6 @@ module.exports = merge(baseConfig, {
   },
   devtool: 'source-map',
   plugins: [
-    new OpenBrowserPlugin({ url: 'http://localhost:9000' })
+    new OpenBrowserPlugin({ url: 'http://localhost:9000/page-builder' })
   ]
 })
