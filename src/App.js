@@ -1,24 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import './App.scss'
+import Edit from './pages/edit'
 
-
-function Test() {
-  const [a, setA] = useState('A')
-
-  useEffect(() => {
-
-    setTimeout(() => {
-      setA('vbff')
-      console.log(a)
-    }, 1000)
-  }, [a])
-
-  return (
-    <div className="test">{a}</div>
-  )
-
-}
+const a = import('./pages/edit/index')
 
 class App extends React.Component {
 
@@ -34,13 +18,9 @@ class App extends React.Component {
 
     return (
       <BrowserRouter basename="/page-builder">
-        <Test />
         <Switch>
-          <Route exact path="/animals" component={() => <div>animals exact</div>} />
-          <Route path="/animals/fish" component={() => <div>animals/fish</div>} />
-          <Route component={() => <div>no</div>} />
+          <Route exact path="/edit" component={() => <Edit />} />
         </Switch>
-        <Route path="/animals" component={() => <div>animals</div>} />
       </BrowserRouter>
     )
   }
