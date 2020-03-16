@@ -1,8 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React, { lazy, Suspense, useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Edit from './pages/edit'
 
-const a = import('./pages/edit/index')
+const Edit = lazy(() => import('./pages/edit/index'))
+
+const Loading = () => <div>加载中</div>
+
+function WaitingComponent(Component) {
+  return () => (
+    <Suspense fallback={<Loading />}>
+      <Component />
+    </Suspense>
+  )
+}
+
+
 
 class App extends React.Component {
 
@@ -19,7 +30,7 @@ class App extends React.Component {
     return (
       <BrowserRouter basename="/page-builder">
         <Switch>
-          <Route exact path="/edit" component={() => <Edit />} />
+          <Route exact path="/edit" component={WaitingComponent(Edit)} />
         </Switch>
       </BrowserRouter>
     )

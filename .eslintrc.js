@@ -1,10 +1,9 @@
 module.exports = {
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 7,
     "sourceType": "module",
-    "ecmaFeatures": { // 添加ES特性支持，使之能够识别ES6语法
-      "jsx": true
-    }
+    "allowImportExportEverywhere": false,
+    "codeFrame": true
   },
   "plugins": [
     "react-hooks"
