@@ -7,7 +7,7 @@ const config = {
   entry: ['@babel/polyfill', path.resolve(__dirname, '../src/index.js')],
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/',
+    publicPath: '/page-builder/',
     filename: 'static/js/[name].[contenthash].js'
   },
   optimization: {
