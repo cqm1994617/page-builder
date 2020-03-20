@@ -6,6 +6,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = merge(baseConfig, {
   mode: 'production',
+  output: {
+    publicPath: '/page-builder/'
+  },
   module: {
     rules: [
       {
