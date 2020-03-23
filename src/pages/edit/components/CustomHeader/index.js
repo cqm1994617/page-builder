@@ -19,6 +19,8 @@ const ButtonGroup = styled.div`
 `
 
 const headerStyle = {
+  position: 'relative',
+  zIndex: 2,
   backgroundColor: '#fff',
   boxShadow: '0 1px 7px rgba(0, 0, 0, 0.06)'
 }
