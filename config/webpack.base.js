@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 console.log(`envirmonent: ${process.env.NODE_ENV}`)
 
 const config = {
-  entry: ['@babel/polyfill', path.resolve(__dirname, '../src/index.js')],
+  entry: ['@babel/polyfill', path.resolve(__dirname, '../src/client/index.js')],
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
