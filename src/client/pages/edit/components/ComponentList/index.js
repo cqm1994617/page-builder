@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Button} from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 
 
@@ -32,7 +33,7 @@ const HeaderTitle = styled.div`
   }
 `
 
-function ComponentList() {
+function ComponentList({setComponentList}) {
 
   return (
     <Panel>
@@ -41,6 +42,8 @@ function ComponentList() {
         <span>
           <CloseOutlined />
         </span>
+
+        <Button>添加Banner</Button>
       </HeaderTitle>
     </Panel>
   )

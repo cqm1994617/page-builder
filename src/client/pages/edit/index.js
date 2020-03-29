@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentList from './components/ComponentList'
@@ -26,13 +26,16 @@ const MainContent = styled.div`
 `
 
 function Edit() {
+
+  const [componentList, setComponentList] = useState([])
+
   return (
     <Page>
       <div>
         <CustomHeader />
         <MainContent>
-          <ComponentList />
-          <SandBox />
+          <ComponentList setComponentList={setComponentList} />
+          <SandBox componentList={componentList} />
           <EditPanel />
         </MainContent>
       </div>
