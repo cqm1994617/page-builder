@@ -1,44 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
+import Banner from '../../../../../component-list/banner/display/index'
 
 const Viewer = styled.div`
+  position: relative;
   margin: 40px auto 0;
   width: 375px;
   min-height: 667px;
   background-color: #fff;
+  overflow: hidden;
 `
 
-function Tab() {
-  return <div>Tab</div>
-}
-
-function Banner() {
-  return <div>Banner</div>
-}
-
-const componentList = [
-  {
-    id: 0,
-    componentName: 'Tab',
-    
-  },
-  {
-    id: 1,
-    componentName: 'Banner'
-  }
-]
-
-const componentMap = {
-  Tab: <Tab />,
-  Banner: <Banner />,
-}
-
-function SandBox() {
+function SandBox({componentList}) {
   return (
     <Viewer>
       {
-        componentList.map(item => {
-          return componentMap[item.componentName]
+        componentList.map((item, index) => {
+          return <Banner key={index} {...item.props} />
         })
       }
     </Viewer>

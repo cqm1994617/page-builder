@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentList from './components/ComponentList'
@@ -29,12 +29,16 @@ function Edit() {
 
   const [componentList, setComponentList] = useState([])
 
+  useEffect(() => {
+    console.log(JSON.stringify(componentList))
+  }, [componentList])
+
   return (
     <Page>
       <div>
         <CustomHeader />
         <MainContent>
-          <ComponentList setComponentList={setComponentList} />
+          <ComponentList componentList={componentList} setComponentList={setComponentList} />
           <SandBox componentList={componentList} />
           <EditPanel />
         </MainContent>

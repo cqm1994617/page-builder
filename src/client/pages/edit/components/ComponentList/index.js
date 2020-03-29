@@ -33,7 +33,27 @@ const HeaderTitle = styled.div`
   }
 `
 
-function ComponentList({setComponentList}) {
+function ComponentList({componentList, setComponentList}) {
+
+
+  const addBanner = () => {
+    setComponentList(componentList.concat([{
+      name: 'Banner',
+      props: {
+        bannerList: [
+          {
+            imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
+            to: 'https://www.baidu.com'
+          },
+          {
+            imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
+            to: 'https://www.taobao.com'
+          }
+        ],
+        height: '200px'
+      }
+    }]))
+  }
 
   return (
     <Panel>
@@ -42,9 +62,8 @@ function ComponentList({setComponentList}) {
         <span>
           <CloseOutlined />
         </span>
-
-        <Button>添加Banner</Button>
       </HeaderTitle>
+      <Button onClick={addBanner}>添加Banner</Button>
     </Panel>
   )
 }

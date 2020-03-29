@@ -20,7 +20,7 @@ function Banner({ bannerList, height }) {
     <div ref={banner}>
       <div className="swiper-wrapper">
         {bannerList.map((item, index) => (
-          <div key={index} className="swiper-slide"  style={{overflow: 'hidden'}}>
+          <div key={index} className="swiper-slide" style="overflow: hidden;">
             <div style={{
               height: height || '150px',
               background: `url(${item.imgUrl})`,

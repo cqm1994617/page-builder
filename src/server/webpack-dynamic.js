@@ -52,13 +52,12 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       title: '页面生成平台',
-      template: path.resolve(__dirname, '../public/index.html')
+      template: path.resolve(__dirname, './template.html')
     }),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css",
       chunkFilename: "[id].css"
-    }),
-    new CleanWebpackPlugin()
+    })
   ]
 }
 
