@@ -9,7 +9,7 @@ const Panel = styled.div`
   left: 0;
   top: 0;
   height: 100%;
-  width: 300px;
+  width: 400px;
   background-color: #fff;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
 `
@@ -56,6 +56,29 @@ function ComponentList({componentList, setComponentList}) {
     }]))
   }
 
+  const test = () => {
+
+    const res = [{
+      name: 'Banner',
+      key: uuidv4(),
+      props: {
+        bannerList: [
+          {
+            imgUrl: 'http://qiniu.xingheaoyou.com/3.jpg',
+            to: 'https://www.baidu.com'
+          },
+          {
+            imgUrl: 'http://qiniu.xingheaoyou.com/3.jpg',
+            to: 'https://www.taobao.com'
+          }
+        ],
+        height: '200px'
+      }
+    }].concat(componentList.slice(1))
+    
+    setComponentList(res)
+  }
+
   return (
     <Panel>
       <HeaderTitle>
@@ -65,6 +88,7 @@ function ComponentList({componentList, setComponentList}) {
         </span>
       </HeaderTitle>
       <Button onClick={addBanner}>添加Banner</Button>
+      <Button onClick={test}>测试</Button>
     </Panel>
   )
 }

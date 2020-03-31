@@ -1,32 +1,48 @@
 import React from 'react'
 import styled from 'styled-components'
-import {BannerClient as Banner} from '@/component-list/banner'
+import { BannerClient as Banner } from '@/component-list/banner'
+import Wrap from '@/component-list/utils/wrap'
 
 const Viewer = styled.div`
   position: relative;
   margin: 40px auto 0;
   width: 375px;
-  min-height: 667px;
+  height: 667px;
   background-color: #fff;
-  overflow: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.06);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.12);
+  }
+
 `
 
 const componentMap = {
-  'Banner': (props, select, index) => <Banner key={index} onClick={select} {...props} />
+  'Banner': (props, select) => <Banner onClick={select} {...props} />
 }
 
-function SandBox({componentList, setSelectComponent}) {
+function SandBox({ componentList, setCurrentSelect }) {
 
   const select = (e) => {
-    console.log(e)
-    setSelectComponent(e)
+    setCurrentSelect(e)
   }
 
   return (
     <Viewer>
       {
-        componentList.map((item, index) => {
-          return componentMap[item.name](item.props, () => select(item), index)
+        componentList.map((item) => {
+          return <Wrap key={item.key} addComponentOver={() => console.log('over')} addComponentUnder={() => console.log('under')}>
+            {componentMap[item.name](item.props, () => select(item))}
+          </Wrap>
         })
       }
     </Viewer>
