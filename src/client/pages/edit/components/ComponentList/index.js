@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {Button} from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-
+import { v4 as uuidv4 } from 'uuid'
 
 const Panel = styled.div`
   position: absolute;
@@ -39,6 +39,7 @@ function ComponentList({componentList, setComponentList}) {
   const addBanner = () => {
     setComponentList(componentList.concat([{
       name: 'Banner',
+      key: uuidv4(),
       props: {
         bannerList: [
           {

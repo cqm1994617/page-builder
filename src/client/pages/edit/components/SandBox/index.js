@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Banner from '../../../../../component-list/banner/display/index'
+import {BannerClient as Banner} from '@/component-list/banner'
 
 const Viewer = styled.div`
   position: relative;
@@ -11,12 +11,22 @@ const Viewer = styled.div`
   overflow: hidden;
 `
 
-function SandBox({componentList}) {
+const componentMap = {
+  'Banner': (props, select, index) => <Banner key={index} onClick={select} {...props} />
+}
+
+function SandBox({componentList, setSelectComponent}) {
+
+  const select = (e) => {
+    console.log(e)
+    setSelectComponent(e)
+  }
+
   return (
     <Viewer>
       {
         componentList.map((item, index) => {
-          return <Banner key={index} {...item.props} />
+          return componentMap[item.name](item.props, () => select(item), index)
         })
       }
     </Viewer>

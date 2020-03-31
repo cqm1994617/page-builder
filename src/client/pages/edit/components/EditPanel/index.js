@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {ToolPanel as BannerToolPanel} from '@/component-list/banner'
 
 const Panel = styled.div`
   position: absolute;
@@ -10,6 +11,8 @@ const Panel = styled.div`
   background-color: #fff;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
 `
+
+
 
 function EditPanel() {
 

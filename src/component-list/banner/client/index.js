@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import Swiper from 'swiper'
 import 'swiper/css/swiper.min.css'
 
-function Banner({ bannerList, height }) {
+function Banner({ bannerList, height, onClick }) {
 
   const banner = useRef(null)
 
@@ -17,7 +17,7 @@ function Banner({ bannerList, height }) {
   }, [])
 
   return (
-    <div ref={banner}>
+    <div ref={banner} onClick={onClick}>
       <div className="swiper-wrapper">
         {bannerList.map((item, index) => (
           <div key={index} className="swiper-slide"  style={{overflow: 'hidden'}}>

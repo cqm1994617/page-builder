@@ -10,6 +10,11 @@ const config = {
     publicPath: '/',
     filename: 'static/js/[name].[contenthash].js'
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+    },
+  },
   optimization: {
     splitChunks: {}
   },
