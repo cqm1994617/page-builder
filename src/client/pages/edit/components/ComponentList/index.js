@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Button} from 'antd'
+import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Panel = styled.div`
   position: absolute;
@@ -33,8 +34,10 @@ const HeaderTitle = styled.div`
   }
 `
 
-function ComponentList({componentList, setComponentList}) {
+function ComponentList({ componentList, setComponentList }) {
 
+  const store = useSelector(state => state)
+  const dispatch = useDispatch()
 
   const addBanner = () => {
     setComponentList(componentList.concat([{
@@ -56,7 +59,11 @@ function ComponentList({componentList, setComponentList}) {
     }]))
   }
 
+
+
   const test = () => {
+
+    dispatch({type: 'COMPONENT_LIST/SET_COMPONENT_LIST', payload: [1,2,3]})
 
     const res = [{
       name: 'Banner',
@@ -75,9 +82,12 @@ function ComponentList({componentList, setComponentList}) {
         height: '200px'
       }
     }].concat(componentList.slice(1))
-    
+
     setComponentList(res)
   }
+
+  console.log('store', store)
+
 
   return (
     <Panel>

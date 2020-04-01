@@ -14,6 +14,7 @@ const config = {
     alias: {
       '@': path.resolve(__dirname, '../src'),
     },
+    extensions: [".js", ".json"]
   },
   optimization: {
     splitChunks: {}
