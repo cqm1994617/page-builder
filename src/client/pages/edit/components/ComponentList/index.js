@@ -4,6 +4,7 @@ import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
+import {setComponentList} from '@/client/actions/componentList'
 
 const Panel = styled.div`
   position: absolute;
@@ -34,59 +35,39 @@ const HeaderTitle = styled.div`
   }
 `
 
-function ComponentList({ componentList, setComponentList }) {
+function ComponentList() {
 
-  const store = useSelector(state => state)
+  const componentList = useSelector(state => state.componentListReducer)
   const dispatch = useDispatch()
 
   const addBanner = () => {
-    setComponentList(componentList.concat([{
-      name: 'Banner',
-      key: uuidv4(),
-      props: {
-        bannerList: [
-          {
-            imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
-            to: 'https://www.baidu.com'
-          },
-          {
-            imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
-            to: 'https://www.taobao.com'
-          }
-        ],
-        height: '200px'
-      }
-    }]))
+
+    dispatch(
+      setComponentList(componentList.concat([{
+        name: 'Banner',
+        key: uuidv4(),
+        props: {
+          bannerList: [
+            {
+              imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
+              to: 'https://www.baidu.com'
+            },
+            {
+              imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
+              to: 'https://www.taobao.com'
+            }
+          ],
+          height: '200px'
+        }
+      }]))
+    )
   }
 
 
 
   const test = () => {
 
-    dispatch({type: 'COMPONENT_LIST/SET_COMPONENT_LIST', payload: [1,2,3]})
-
-    const res = [{
-      name: 'Banner',
-      key: uuidv4(),
-      props: {
-        bannerList: [
-          {
-            imgUrl: 'http://qiniu.xingheaoyou.com/3.jpg',
-            to: 'https://www.baidu.com'
-          },
-          {
-            imgUrl: 'http://qiniu.xingheaoyou.com/3.jpg',
-            to: 'https://www.taobao.com'
-          }
-        ],
-        height: '200px'
-      }
-    }].concat(componentList.slice(1))
-
-    setComponentList(res)
   }
-
-  console.log('store', store)
 
 
   return (

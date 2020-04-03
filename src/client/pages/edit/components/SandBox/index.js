@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { BannerClient as Banner } from '@/component-list/banner'
 import Wrap from '@/component-list/utils/wrap'
+import { useSelector, useDispatch } from 'react-redux'
+import {setCurrentSelect} from '@/client/actions/currentSelect'
 
 const Viewer = styled.div`
   position: relative;
@@ -30,10 +32,13 @@ const componentMap = {
   'Banner': (props, select) => <Banner onClick={select} {...props} />
 }
 
-function SandBox({ componentList, setCurrentSelect }) {
+function SandBox() {
+
+  const componentList = useSelector(state => state.componentListReducer)
+  const dispatch = useDispatch()
 
   const select = (e) => {
-    setCurrentSelect(e)
+    dispatch(setCurrentSelect(e))
   }
 
   return (

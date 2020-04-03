@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, Radio } from 'antd';
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch, useSelector } from 'react-redux';
+import { setComponentList } from '@/client/actions/componentList';
 
-function Tool({ setComponentList, componentList, currentSelect }) {
+function Tool() {
+
+  const dispatch = useDispatch()
+  const componentList = useSelector(state => state.componentListReducer)
+  const currentSelect = useSelector(state => state.currentSelectReducer)
 
   const [height, setHeight] = useState(currentSelect.props.height)
 
@@ -14,7 +20,7 @@ function Tool({ setComponentList, componentList, currentSelect }) {
     setHeight(currentSelect.props.height)
   }, [currentSelect])
 
-  const submit = (e) => {
+  const submit = () => {
     let newArr = [...componentList]
     componentList.forEach((item, index) => {
       if (item.key === currentSelect.key) {
@@ -37,7 +43,7 @@ function Tool({ setComponentList, componentList, currentSelect }) {
         }
       }
     })
-    setComponentList(newArr)
+    dispatch(setComponentList(newArr))
   }
 
   return (

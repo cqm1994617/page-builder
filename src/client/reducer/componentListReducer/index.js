@@ -1,12 +1,7 @@
-import { createActions, handleActions, combineActions } from 'redux-actions'
+import { handleActions } from 'redux-actions'
 import { setComponentList, clearComponentList } from '../../actions/componentList'
 
-const defaultState = []
-
-console.log({
-  [setComponentList]: '1',
-  [clearComponentList]: 22
-})
+const initialState = []
 
 const componentListReducer = handleActions(
   {
@@ -17,13 +12,7 @@ const componentListReducer = handleActions(
       return []
     }
   },
-  defaultState
+  initialState
 )
-
-// const currentSelectReducer = handleActions(
-//   {
-    
-//   }
-// )
 
 export default componentListReducer
