@@ -28,6 +28,7 @@ const MainContent = styled.div`
 function Edit() {
 
   const [componentList, setComponentList] = useState([])
+  const [currentSelect, setCurrentSelect] = useState(null)
 
   useEffect(() => {
     console.log(JSON.stringify(componentList))
@@ -39,8 +40,8 @@ function Edit() {
         <CustomHeader />
         <MainContent>
           <ComponentList componentList={componentList} setComponentList={setComponentList} />
-          <SandBox componentList={componentList} />
-          <EditPanel />
+          <SandBox componentList={componentList} setCurrentSelect={setCurrentSelect} />
+          <EditPanel componentList={componentList} setComponentList={setComponentList} currentSelect={currentSelect} />
         </MainContent>
       </div>
     </Page>
