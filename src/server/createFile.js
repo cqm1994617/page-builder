@@ -3,6 +3,19 @@ const webpack = require('webpack')
 const config = require('./webpack-dynamic')
 const path = require('path')
 
+function buildPromise() {
+
+  return new Promise((resolve, reject) => {
+    webpack(config, (err, stat) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(stat)
+      }
+    })
+  })
+}
+
 async function createFile(list) {
   const codeStr = `
   import React from 'react'
@@ -29,11 +42,9 @@ async function createFile(list) {
 
   fs.writeFileSync(path.resolve(__dirname, 'test.js'), codeStr, 'utf8')
 
+  console.log('打包开始')
 
-  webpack(config, (err, stat) => {
-    console.log(err)
-    console.log('打包完成', Date.now())
-  })
+  await buildPromise()
 }
 
 

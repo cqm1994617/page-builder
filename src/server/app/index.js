@@ -12,13 +12,13 @@ router
   .get('/server', (ctx) => {
     ctx.body = "服务已开启"
   })
-  .post('/server/publish', (ctx) => {
+  .post('/server/publish', async (ctx) => {
     const body = ctx.request.body
 
-    createFile(body.componentList)
-    ctx.body = {
-      a: 1
-    }
+
+    await createFile(body.componentList)
+
+    ctx.body = "打包完成"
   })
 
 

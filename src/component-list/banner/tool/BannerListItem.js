@@ -27,7 +27,10 @@ const BannerItemEdit = styled.div`
   }
 `
 const BannerItemPanel = styled.div`
-  margin: 10px 10px 0 10px;
+  margin-top: 10px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  background-color: #f6f6f6;
   & > div {
     margin-bottom: 15px;
   }
