@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BannerClient as Banner } from '@/component-list/banner'
-import Wrap from '@/component-list/common/Wrap'
+import Wrap from '@/component-list/common/ComponentWrap'
 import { useSelector, useDispatch } from 'react-redux'
 import {setCurrentSelect} from '@/client/actions/currentSelect'
 

@@ -11,6 +11,12 @@ const config = {
     publicPath: './',
     filename: 'static/js/[name].[contenthash].js'
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../../src'),
+    },
+    extensions: [".js", ".json"]
+  },
   optimization: {
     splitChunks: {}
   },

@@ -1,0 +1,6 @@
+{
+  "ignore": [
+    "./src/server/test.js",
+    "./src/server/dist/*"
+  ]
+}

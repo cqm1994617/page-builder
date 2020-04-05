@@ -2,7 +2,8 @@ import React from 'react'
 import { Layout, Button } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons';
 import styled from 'styled-components'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 const { Header } = Layout
 
@@ -23,7 +24,7 @@ const headerStyle = {
   position: 'relative',
   zIndex: 2,
   backgroundColor: '#fff',
-  boxShadow: '0 1px 7px rgba(0, 0, 0, 0.06)'
+  boxShadow: '0 1px 7px rgba(0, 0, 0, 0.06)' 
 }
 
 
@@ -33,6 +34,13 @@ function CustomHeader() {
 
   const publish = () => {
     console.log(componentList)
+    axios.post('http://localhost:9090/server/publish', {
+      componentList,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   return (
