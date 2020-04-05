@@ -49,10 +49,12 @@ function ComponentList() {
         props: {
           bannerList: [
             {
+              id: uuidv4(),
               imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
               to: 'https://www.baidu.com'
             },
             {
+              id: uuidv4(),
               imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
               to: 'https://www.taobao.com'
             }

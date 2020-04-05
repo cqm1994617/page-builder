@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import Wrap from '../../utils/wrap'
+import Wrap from '../../common/wrap'
 import Swiper from 'swiper'
 import 'swiper/css/swiper.min.css'
 

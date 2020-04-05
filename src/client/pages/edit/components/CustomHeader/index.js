@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout, Button } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons';
 import styled from 'styled-components'
+import {useSelector} from 'react-redux'
 
 const { Header } = Layout
 
@@ -27,6 +28,12 @@ const headerStyle = {
 
 
 function CustomHeader() {
+
+  const componentList = useSelector(state => state.componentListReducer)
+
+  const publish = () => {
+    console.log(componentList)
+  }
 
   return (
     <Header style={headerStyle}>
@@ -54,6 +61,7 @@ function CustomHeader() {
               type="primary"
               size="large"
               icon={<SendOutlined />}
+              onClick={publish}
             >
               发布
               </Button>
