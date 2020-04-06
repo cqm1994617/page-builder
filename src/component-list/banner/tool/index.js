@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { setComponentList } from '@/client/actions/componentList'
+import { editComponent } from '@/client/actions/componentList'
+import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
 import ToolContainer from '@/component-list/common/ToolContainer'
-import { setCurrentSelect } from '@/client/actions/currentSelect'
 import BannerListItem from './BannerListItem'
 
 function Tool() {
 
   const dispatch = useDispatch()
-  const componentList = useSelector(state => state.componentListReducer)
-  const currentSelect = useSelector(state => state.currentSelectReducer)
+  const componentList = useGetComponentList()
+  const currentSelect = useGetCurrentSelectComponent()
 
   const [height, setHeight] = useState(currentSelect.props.height)
   const [bannerList, setBannerList] = useState(currentSelect.props.bannerList)
@@ -96,7 +96,6 @@ function Tool() {
       }
     })
     dispatch(setComponentList(newArr))
-    dispatch(setCurrentSelect(currentTarget))
   }
 
   return (

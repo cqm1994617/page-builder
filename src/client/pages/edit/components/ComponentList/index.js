@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import {setComponentList} from '@/client/actions/componentList'
+import { addComponent } from '@/client/actions/componentList'
 
 const Panel = styled.div`
   position: absolute;
@@ -37,13 +37,11 @@ const HeaderTitle = styled.div`
 
 function ComponentList() {
 
-  const componentList = useSelector(state => state.componentListReducer)
   const dispatch = useDispatch()
 
   const addBanner = () => {
-
     dispatch(
-      setComponentList(componentList.concat([{
+      addComponent({
         name: 'Banner',
         key: uuidv4(),
         props: {
@@ -61,7 +59,7 @@ function ComponentList() {
           ],
           height: '200px'
         }
-      }]))
+      })
     )
   }
 

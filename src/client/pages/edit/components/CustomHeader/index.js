@@ -30,12 +30,11 @@ const headerStyle = {
 
 function CustomHeader() {
 
-  const componentList = useSelector(state => state.componentListReducer)
+  const pageList = useSelector(state => state.pageListReducer)
 
   const publish = () => {
-    console.log(componentList)
     axios.post('http://localhost:9090/server/publish', {
-      componentList,
+      pageList,
     }, {
       headers: {
         'Content-Type': 'application/json'

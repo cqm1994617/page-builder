@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { BannerClient as Banner } from '@/component-list/banner'
 import Wrap from '@/component-list/common/ComponentWrap'
 import { useSelector, useDispatch } from 'react-redux'
-import {setCurrentSelect} from '@/client/actions/currentSelect'
+import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
+import { useGetComponentList } from '@/client/hooks'
 
 const Viewer = styled.div`
   position: relative;
@@ -34,11 +35,11 @@ const componentMap = {
 
 function SandBox() {
 
-  const componentList = useSelector(state => state.componentListReducer)
   const dispatch = useDispatch()
-
-  const select = (e) => {
-    dispatch(setCurrentSelect(e))
+  const componentList = useGetComponentList()
+  
+  const select = (key) => {
+    dispatch(setCurrentSelectComponent(key))
   }
 
   return (
@@ -46,7 +47,7 @@ function SandBox() {
       {
         componentList.map((item) => {
           return <Wrap key={item.key} addComponentOver={() => console.log('over')} addComponentUnder={() => console.log('under')}>
-            {componentMap[item.name](item.props, () => select(item))}
+            {componentMap[item.name](item.props, () => select(item.key))}
           </Wrap>
         })
       }

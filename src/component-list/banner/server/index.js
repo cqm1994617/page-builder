@@ -17,9 +17,6 @@ function Banner({ bannerList, height }) {
   }, [])
 
   const click = (url) => {
-    console.log(1)
-    console.log(url)
-
     if (url) {
       window.location.href = url
     }

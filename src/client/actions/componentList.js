@@ -1,14 +1,37 @@
-import {createActions} from 'redux-actions'
+import { setPageList } from './pageList'
 
-const {componentList} = createActions({
-  'COMPONENT_LIST/SET_COMPONENT_LIST': (componentList = []) => componentList,
-  'COMPONENT_LIST/CLEAR_COMPONENT_LIST': () => []
-})
+const addComponent = (component, index) => (dispatch, getState) => {
 
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
 
-const {setComponentList, clearComponentList} = componentList
+  const pageList = [...state.pageListReducer]
+  if (!index) {
+    const newPageList = pageList.map(item => item.id === pageId ? {
+      ...item,
+      componentList: item.componentList.concat([component])
+    } : item)
+
+    dispatch(
+      setPageList(newPageList)
+    )
+  }
+}
+
+const deleteComponent = (index) => (dispatch, getState) => {
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
+}
+
+const editComponent = (component) => (dispatch, getState) => {
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
+  
+}
+
 
 export {
-  setComponentList,
-  clearComponentList
+  addComponent,
+  deleteComponent,
+  editComponent
 }

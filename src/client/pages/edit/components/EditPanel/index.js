@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ToolPanel as BannerToolPanel } from '@/component-list/banner'
 import { useDispatch, useSelector } from 'react-redux'
+import { useGetCurrentSelectComponent } from '@/client/hooks'
 
 const Panel = styled.div`
   position: absolute;
@@ -22,14 +23,12 @@ const getPanelMap = (name) => {
 
 function EditPanel() {
 
-  const currentSelect = useSelector(state => state.currentSelectReducer)
-
-  console.log(currentSelect)
+  const currentSelectComponent = useGetCurrentSelectComponent()
 
   return (
     <Panel>
       {
-        currentSelect ? getPanelMap(currentSelect.name)() : <div>未选择</div>
+        currentSelectComponent ? getPanelMap(currentSelectComponent.name)() : <div>未选择</div>
       }
     </Panel>
   )

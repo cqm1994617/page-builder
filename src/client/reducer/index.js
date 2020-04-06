@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux'
-import componentListReducer from './componentListReducer'
-import currentSelectReducer from './currentSelectReducer'
+import pageListReducer from './pageListReducer'
+import currentSelectComponentReducer from './currentSelectComponentReducer'
+import currentSelectPageReducer from './currentSelectPageReducer'
 
 export default combineReducers({
-  componentListReducer,
-  currentSelectReducer
+  pageListReducer,
+  currentSelectComponentReducer,
+  currentSelectPageReducer
 })

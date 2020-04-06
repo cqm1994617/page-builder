@@ -1,4 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
+import { setPageList } from '@/client/actions/pageList'
+import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentList from './components/ComponentList'
@@ -27,7 +31,25 @@ const MainContent = styled.div`
 
 function Edit() {
 
+  const pageList = useSelector(state => state.pageListReducer)
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (pageList.length === 0) {
+      const page = {
+        title: '首页',
+        id: uuidv4(),
+        path: uuidv4(),
+        componentList: []
+      }
+      dispatch(
+        setPageList([page])
+      )
+      dispatch(
+        setCurrentSelectPage(page.id)
+      )
+    }
+  }, [pageList, dispatch])
 
   return (
     <Page>
