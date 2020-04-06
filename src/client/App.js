@@ -23,7 +23,6 @@ function WaitingComponent(Component) {
 }
 
 
-
 class App extends React.Component {
 
   componentDidCatch() {
