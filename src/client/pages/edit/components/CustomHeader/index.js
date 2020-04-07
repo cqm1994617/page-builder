@@ -33,6 +33,9 @@ function CustomHeader() {
   const pageList = useSelector(state => state.pageListReducer)
 
   const publish = () => {
+    console.log(pageList)
+
+
     axios.post('http://localhost:9090/server/publish', {
       pageList,
     }, {

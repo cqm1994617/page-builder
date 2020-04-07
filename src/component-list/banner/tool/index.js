@@ -79,9 +79,6 @@ function Tool() {
 
   const submit = () => {
 
-    console.log(bannerList)
-    console.log(height)
-
     dispatch(editComponent({
       name: 'Banner',
       key: uuidv4(),

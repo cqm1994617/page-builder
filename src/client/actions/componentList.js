@@ -27,7 +27,7 @@ const editComponent = (component) => (dispatch, getState) => {
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const componentKey = state.currentSelectComponentReducer
-  
+
   const pageList = [...state.pageListReducer]
 
   const newPageList = pageList.map(item => item.id === pageId ? {
@@ -37,8 +37,9 @@ const editComponent = (component) => (dispatch, getState) => {
     })
   } : item)
 
-  setPageList(newPageList)
-
+  dispatch(
+    setPageList(newPageList)
+  )
 }
 
 

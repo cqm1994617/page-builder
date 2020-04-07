@@ -39,7 +39,7 @@ function Edit() {
       const page = {
         title: '首页',
         id: uuidv4(),
-        path: uuidv4(),
+        path: 'index',
         componentList: []
       }
       dispatch(
