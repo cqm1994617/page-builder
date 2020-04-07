@@ -42,6 +42,8 @@ function SandBox() {
     dispatch(setCurrentSelectComponent(key))
   }
 
+  console.log(componentList)
+
   return (
     <Viewer>
       {

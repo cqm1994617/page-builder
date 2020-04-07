@@ -11,15 +11,15 @@ function Tool() {
 
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
-  const currentSelect = useGetCurrentSelectComponent()
+  const currentSelectComponent = useGetCurrentSelectComponent()
 
-  const [height, setHeight] = useState(currentSelect.props.height)
-  const [bannerList, setBannerList] = useState(currentSelect.props.bannerList)
+  const [height, setHeight] = useState(currentSelectComponent.props.height)
+  const [bannerList, setBannerList] = useState(currentSelectComponent.props.bannerList)
 
   useEffect(() => {
-    setHeight(currentSelect.props.height)
-    setBannerList(currentSelect.props.bannerList)
-  }, [currentSelect])
+    setHeight(currentSelectComponent.props.height)
+    setBannerList(currentSelectComponent.props.bannerList)
+  }, [currentSelectComponent])
 
   const changeHeight = (e) => {
     setHeight(e.target.value)
@@ -78,24 +78,18 @@ function Tool() {
 
 
   const submit = () => {
-    let newArr = [...componentList]
 
-    let currentTarget = null
+    console.log(bannerList)
+    console.log(height)
 
-    newArr.forEach((item, index) => {
-      if (item.key === currentSelect.key) {
-        currentTarget = {
-          name: 'Banner',
-          key: uuidv4(),
-          props: {
-            bannerList,
-            height
-          }
-        }
-        newArr[index] = currentTarget
+    dispatch(editComponent({
+      name: 'Banner',
+      key: uuidv4(),
+      props: {
+        bannerList,
+        height
       }
-    })
-    dispatch(setComponentList(newArr))
+    }))
   }
 
   return (

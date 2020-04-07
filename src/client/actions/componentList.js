@@ -26,7 +26,19 @@ const deleteComponent = (index) => (dispatch, getState) => {
 const editComponent = (component) => (dispatch, getState) => {
   const state = getState()
   const pageId = state.currentSelectPageReducer
+  const componentKey = state.currentSelectComponentReducer
   
+  const pageList = [...state.pageListReducer]
+
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: item.componentList.map((componentItem) => {
+      return componentItem.key === componentKey ? component : componentItem
+    })
+  } : item)
+
+  setPageList(newPageList)
+
 }
 
 
