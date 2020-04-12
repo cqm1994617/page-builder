@@ -1,6 +1,7 @@
 {
   "ignore": [
     "src/server/test.js",
-    "src/server/dist/*"
+    "src/server/page-file/*",
+    "src/server/build-page/*"
   ]
 }

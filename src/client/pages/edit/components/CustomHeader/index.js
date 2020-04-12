@@ -1,10 +1,15 @@
-import React from 'react'
-import { Layout, Button } from 'antd'
-import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons';
+import React, { useState } from 'react'
+import { Layout, Button, Select, Modal, Form, Input } from 'antd'
+import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
+import { useGetCurrentSelectPage } from '@/client/hooks'
+import { addPage } from '@/client/actions/pageList'
+import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import { v4 as uuidv4 } from 'uuid'
 
+const { Option } = Select
 const { Header } = Layout
 
 const HeaderContainer = styled.div`
@@ -19,21 +24,39 @@ const HeaderContainer = styled.div`
 const ButtonGroup = styled.div`
   margin-left: ${props => props.marginLeft || '10px'};
 `
+const PageSelected = styled.div`
+  display: flex;
+`
+const FormItem = styled.div`
 
+`
 const headerStyle = {
   position: 'relative',
   zIndex: 2,
   backgroundColor: '#fff',
-  boxShadow: '0 1px 7px rgba(0, 0, 0, 0.06)' 
+  boxShadow: '0 1px 7px rgba(0, 0, 0, 0.06)'
 }
+const selectStyle = {
+  width: '200px',
+  marginRight: '20px'
+}
+
 
 function CustomHeader() {
 
+  const dispatch = useDispatch()
+
   const pageList = useSelector(state => state.pageListReducer)
+  // const state = useSelector(state => state)
+  const selectedPage = useGetCurrentSelectPage()
+
+  const [newPageInfo, setNewPageInfo] = useState({
+    title: '',
+    path: ''
+  })
+  const [pageModalShow, setPageModalShow] = useState(false)
 
   const publish = () => {
-    console.log(pageList)
-
 
     axios.post('http://localhost:9090/server/publish', {
       pageList,
@@ -44,10 +67,51 @@ function CustomHeader() {
     })
   }
 
+  const hidePageModal = () => {
+    setNewPageInfo({
+      title: '',
+      path: ''
+    })
+    setPageModalShow(false)
+  }
+
+  const showPageModal = () => {
+    setPageModalShow(true)
+  }
+
+  const inputPageInfo = (label) => (e) => {
+    setNewPageInfo({
+      ...newPageInfo,
+      [label]: e.target.value
+    })
+  }
+
+  const changePage = (id) => {
+    dispatch(setCurrentSelectPage(id))
+  }
+
+  const pageSubmit = () => {
+    setPageModalShow(false)
+
+    dispatch(addPage({
+      ...newPageInfo,
+      id: uuidv4(),
+      componentList: []
+    }))
+  }
+
   return (
     <Header style={headerStyle}>
       <HeaderContainer>
-        <div>测试主页</div>
+        <PageSelected>
+          <div>当前页面：</div>
+          <Select onChange={changePage} style={selectStyle} value={selectedPage ? selectedPage.id : ''}>
+            {
+              pageList.map(item => <Option value={item.id} key={item.id}>{item.title}-{item.path}</Option>)
+            }
+          </Select>
+          <Button onClick={showPageModal}>新增页面</Button>
+        </PageSelected>
         <div>
           <ButtonGroup>
             <Button
@@ -77,6 +141,21 @@ function CustomHeader() {
           </ButtonGroup>
         </div>
       </HeaderContainer>
+
+      <Modal
+        visible={pageModalShow}
+        onCancel={hidePageModal}
+        onOk={pageSubmit}
+      >
+        <Form style={{ marginTop: '30px' }}>
+          <Form.Item label="页面标题">
+            <Input style={{ width: '400px' }} value={newPageInfo.title} onChange={inputPageInfo('title')} />
+          </Form.Item>
+          <Form.Item label="页面名称">
+            <Input style={{ width: '400px' }} value={newPageInfo.name} onChange={inputPageInfo('path')} suffix=".html" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Header>
   )
 

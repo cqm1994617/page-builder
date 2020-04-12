@@ -1,12 +1,15 @@
 const fs = require('fs')
 const webpack = require('webpack')
-const config = require('./webpack-dynamic')
+const getConfig = require('./webpack-dynamic')
 const path = require('path')
+const AdmZip = require('adm-zip')
+const uuid = require('uuid')
 
-function buildPromise() {
+function buildPromise(folderId) {
 
   return new Promise((resolve, reject) => {
-    webpack(config, (err, stat) => {
+    webpack(getConfig(folderId), (err, stat) => {
+      console.log(err)
       if (err) {
         reject(err)
       } else {
@@ -16,13 +19,14 @@ function buildPromise() {
   })
 }
 
-async function createFile(list) {
-  const codeStr = `
+function getPageHTML(title, componentList) {
+  return `
   import React from 'react'
   import ReactDOM from 'react-dom'
-  import {BannerServer as Banner} from '../component-list/banner'
+  import {BannerServer as Banner} from '@/component-list/banner'
 
-  const list = ${JSON.stringify(list)}
+  const list = ${JSON.stringify(componentList)}
+  document.title = '${title}' || '页面生成平台'
 
   function App() {
     return (
@@ -37,14 +41,28 @@ async function createFile(list) {
   }
 
   ReactDOM.render(<App />, document.getElementById('app'))
-`
-  console.log(codeStr)
+  `
+}
 
-  fs.writeFileSync(path.resolve(__dirname, 'test.js'), codeStr, 'utf8')
+async function createFile(list) {
 
-  console.log('打包开始')
+  const folderId = uuid.v4()
 
-  await buildPromise()
+  if (!fs.existsSync(path.resolve(__dirname, './page-file'))) {
+    fs.mkdirSync(path.resolve(__dirname, './page-file'))
+  }
+
+  fs.mkdirSync(path.resolve(__dirname, `./page-file/${folderId}`))
+
+  list.forEach(item => {
+    fs.writeFileSync(path.resolve(__dirname, `./page-file/${folderId}/${item.path}.js`), getPageHTML(item.title, item.componentList), 'utf8')
+  })
+
+
+  await buildPromise(folderId)
+
+  // const zip = new AdmZip(path.resolve(__dirname, `./page-file/${folderId}.zip`))
+  // zip.extractAllTo(path.resolve(__dirname, `./page-file/${folderId}`), true);
 }
 
 

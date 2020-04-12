@@ -2,4 +2,6 @@
 node_modules/
 dist/
 npm-debug.log
-.idea/
+.idea/'
+src/server/build-page/
+src/server/page-file/

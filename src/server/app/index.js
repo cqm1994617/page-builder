@@ -15,7 +15,7 @@ router
   .post('/server/publish', async (ctx) => {
     const body = ctx.request.body
 
-    await createFile(body.pageList[0].componentList)
+    await createFile(body.pageList)
 
     ctx.body = "打包完成"
   })
