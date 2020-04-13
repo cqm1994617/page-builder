@@ -91,6 +91,15 @@ function CustomHeader() {
   }
 
   const pageSubmit = () => {
+
+    console.log(pageList)
+
+    const hasPath = pageList.map(item => item.path).includes(newPageInfo.path)
+
+    console.log(hasPath)
+
+    return
+
     setPageModalShow(false)
 
     dispatch(addPage({
@@ -149,7 +158,11 @@ function CustomHeader() {
       >
         <Form style={{ marginTop: '30px' }}>
           <Form.Item label="页面标题">
-            <Input style={{ width: '400px' }} value={newPageInfo.title} onChange={inputPageInfo('title')} />
+            <Input
+              style={{ width: '400px' }}
+              value={newPageInfo.title}
+              onChange={inputPageInfo('title')}
+            />
           </Form.Item>
           <Form.Item label="页面名称">
             <Input style={{ width: '400px' }} value={newPageInfo.name} onChange={inputPageInfo('path')} suffix=".html" />
