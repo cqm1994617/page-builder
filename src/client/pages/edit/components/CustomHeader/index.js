@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Button, Select, Modal, Form, Input } from 'antd'
+import { Layout, Button, Select, Modal, Form, Input, message } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
@@ -92,15 +92,24 @@ function CustomHeader() {
 
   const pageSubmit = () => {
 
-    console.log(pageList)
-
     const hasPath = pageList.map(item => item.path).includes(newPageInfo.path)
 
-    console.log(hasPath)
-
-    return
-
+    if (!newPageInfo.title) {
+      return message.warn('标题不得为空')
+    }
+    if (hasPath) {
+      return message.warn('已创建页面中已有相同的path')
+    }
+    if (!/^\w+$/.test(newPageInfo.path)) {
+      return message.warn('页面路径只能包含数字、字母、下划线')
+    }
+    
     setPageModalShow(false)
+
+    setNewPageInfo({
+      title: '',
+      path: ''
+    })
 
     dispatch(addPage({
       ...newPageInfo,
@@ -164,8 +173,8 @@ function CustomHeader() {
               onChange={inputPageInfo('title')}
             />
           </Form.Item>
-          <Form.Item label="页面名称">
-            <Input style={{ width: '400px' }} value={newPageInfo.name} onChange={inputPageInfo('path')} suffix=".html" />
+          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
+            <Input style={{ width: '400px' }} value={newPageInfo.path} onChange={inputPageInfo('path')} suffix=".html" />
           </Form.Item>
         </Form>
       </Modal>

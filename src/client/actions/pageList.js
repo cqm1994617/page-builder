@@ -1,5 +1,6 @@
 import { createActions } from 'redux-actions'
 import { v4 as uuidv4 } from 'uuid'
+import { setCurrentSelectPage } from './currentSelectPage'
 
 const { pageList } = createActions({
   'PAGE_LIST/SET_PAGE_LIST': (pageList = []) => pageList,
@@ -19,6 +20,10 @@ const addPage = (pageInfo) => (dispatch, getState) => {
   dispatch(
     setPageList(pageList.concat([info]))
   )
+  dispatch(
+    setCurrentSelectPage(info.id)
+  )
+
 }
 
 export {
