@@ -159,7 +159,6 @@ function CustomHeader() {
           </ButtonGroup>
         </div>
       </HeaderContainer>
-
       <Modal
         visible={pageModalShow}
         onCancel={hidePageModal}
