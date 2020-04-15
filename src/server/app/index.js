@@ -20,7 +20,6 @@ router
     ctx.body = "打包完成"
   })
 
-
 app.use(cors())
 
 app.use(router.routes()).use(router.allowedMethods())
