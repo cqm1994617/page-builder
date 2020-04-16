@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import PathSelect from '@/component-list/common/PathSelect'
 import {Input} from 'antd'
 
 const BannerItem = styled.div`
@@ -64,6 +65,7 @@ function BannerListItem({ index, bannerItem, changeImgUrl, changeTo, deleteBanne
           <div>
             <Input value={bannerItem.to} onChange={(e) => changeTo(e, bannerItem.id)} />
           </div>
+          <PathSelect></PathSelect>
         </div>
       </BannerItemPanel>
     }
