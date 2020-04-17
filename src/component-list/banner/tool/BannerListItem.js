@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import PathSelect from '@/component-list/common/PathSelect'
-import {Input} from 'antd'
+import {Input, Radio} from 'antd'
 
 const BannerItem = styled.div`
   margin-bottom: 10px;
@@ -62,6 +62,10 @@ function BannerListItem({ index, bannerItem, changeImgUrl, changeTo, deleteBanne
         </div>
         <div>
           <BannerItemTitle>跳转链接</BannerItemTitle>
+          <Radio.Group>
+            <Radio value={1}>本站页面</Radio>
+            <Radio value={2}>外部链接</Radio>
+          </Radio.Group>
           <div>
             <Input value={bannerItem.to} onChange={(e) => changeTo(e, bannerItem.id)} />
           </div>
