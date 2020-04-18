@@ -89,7 +89,7 @@ function Tool() {
       return message.info('高度必须为数字')
     }
     dispatch(editComponent({
-      name: 'Banner',
+      type: 'banner',
       key: uuidv4(),
       props: {
         bannerList,

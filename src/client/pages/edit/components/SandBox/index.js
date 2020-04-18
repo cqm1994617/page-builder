@@ -4,7 +4,9 @@ import { BannerClient as Banner } from '@/component-list/banner'
 import Wrap from '@/component-list/common/ComponentWrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
+import { addComponent } from '@/client/actions/componentList'
 import { useGetComponentList } from '@/client/hooks'
+import { Result, Button } from 'antd'
 
 const Viewer = styled.div`
   position: relative;
@@ -26,20 +28,40 @@ const Viewer = styled.div`
     border-radius: 3px;
     background: rgba(0,0,0,0.12);
   }
-
+`
+const Empty = styled.div `
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  height: 120px;
 `
 
 const componentMap = {
-  'Banner': (props, select) => <Banner onClick={select} {...props} />
+  'banner': (props, select) => <Banner onClick={select} {...props} />
 }
 
 function SandBox() {
 
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
-  
+
   const select = (key) => {
     dispatch(setCurrentSelectComponent(key))
+  }
+
+  const add = () => {
+    dispatch(addComponent())
+  }
+
+  const addOver = (e) => {
+    console.log(e)
+  }
+  const addUnder = (e) => {
+    console.log(e)
   }
 
   console.log(componentList)
@@ -47,11 +69,18 @@ function SandBox() {
   return (
     <Viewer>
       {
-        componentList.map((item) => {
-          return <Wrap key={item.key} addComponentOver={() => console.log('over')} addComponentUnder={() => console.log('under')}>
-            {componentMap[item.name](item.props, () => select(item.key))}
+        componentList && componentList.length > 0 ? componentList.map((item) => {
+          if (item.type === 'empty') {
+            return <Empty key={item.key}>请在此处添加组件</Empty>
+          }
+          return <Wrap key={item.key} component={item} addComponentOver={addOver} addComponentUnder={addUnder}>
+            {componentMap[item.type](item.props, () => select(item.key))}
           </Wrap>
-        })
+        }) : <Result
+            status="info"
+            subTitle="请先添加组件"
+            extra={<Button type="primary" onClick={add}>添加组件</Button>}
+          />
       }
     </Viewer>
   )

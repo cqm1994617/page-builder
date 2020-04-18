@@ -4,14 +4,21 @@ import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { addComponent } from '@/client/actions/componentList'
+import { selectComponent, cleanEmpty } from '@/client/actions/componentList'
+import { setComponentPanelVisible } from '@/client/actions/componentPanel'
 
 const Panel = styled.div`
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
+  width: 100%;
+`
+const PanelContainer = styled.div`
   width: 400px;
+  height: 100%;
+  position: relative;
+  z-index: 9;
   background-color: #fff;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
 `
@@ -34,6 +41,15 @@ const HeaderTitle = styled.div`
     }
   }
 `
+const Mask = styled.div`
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+`
 
 function ComponentList() {
 
@@ -41,8 +57,8 @@ function ComponentList() {
 
   const addBanner = () => {
     dispatch(
-      addComponent({
-        name: 'Banner',
+      selectComponent({
+        type: 'banner',
         key: uuidv4(),
         props: {
           bannerList: [
@@ -63,23 +79,24 @@ function ComponentList() {
     )
   }
 
-
-
-  const test = () => {
-
+  const closePanel = () => {
+    dispatch(setComponentPanelVisible(false))
+    dispatch(cleanEmpty())
   }
 
 
   return (
     <Panel>
-      <HeaderTitle>
-        <h3>添加组件</h3>
-        <span>
-          <CloseOutlined />
-        </span>
-      </HeaderTitle>
-      <Button onClick={addBanner}>添加Banner</Button>
-      <Button onClick={test}>测试</Button>
+      <PanelContainer>
+        <HeaderTitle>
+          <h3>添加组件</h3>
+          <span>
+            <CloseOutlined onClick={closePanel} />
+          </span>
+        </HeaderTitle>
+        <Button onClick={addBanner}>添加Banner</Button>
+      </PanelContainer>
+      <Mask onClick={closePanel} />
     </Panel>
   )
 }

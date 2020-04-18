@@ -16,7 +16,7 @@ const Panel = styled.div`
 
 const getPanelMap = (name) => {
   const panelMap = {
-    'Banner': () => <BannerToolPanel />
+    'banner': () => <BannerToolPanel />
   }
   return panelMap[name]
 }
@@ -28,7 +28,7 @@ function EditPanel() {
   return (
     <Panel>
       {
-        currentSelectComponent ? getPanelMap(currentSelectComponent.name)() : <div>未选择</div>
+        currentSelectComponent ? getPanelMap(currentSelectComponent.type)() : <div>未选择</div>
       }
     </Panel>
   )

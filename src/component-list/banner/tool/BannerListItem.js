@@ -72,8 +72,8 @@ function BannerListItem({ index, bannerItem, changeImgUrl, changePath, deleteBan
           <BannerItemTitle>跳转链接</BannerItemTitle>
           <RadioBar>
             <Radio.Group value={urlType} onChange={(e) => setUrlType(e.target.value)}>
-              <Radio value={1}>本站页面</Radio>
-              <Radio value={2}>外部链接</Radio>
+              <Radio value={1}>外部链接</Radio>
+              <Radio value={2}>本站页面</Radio>
             </Radio.Group>
           </RadioBar>
           {

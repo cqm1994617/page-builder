@@ -5,7 +5,7 @@ import { setPageList } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
-import ComponentList from './components/ComponentList'
+import ComponentPanel from './components/ComponentPanel'
 import SandBox from './components/SandBox'
 import EditPanel from './components/EditPanel'
 
@@ -34,6 +34,8 @@ function Edit() {
   const pageList = useSelector(state => state.pageListReducer)
   const dispatch = useDispatch()
 
+  const panelShow = useSelector(state => state.componentPanelReducer)
+
   useEffect(() => {
     if (pageList.length === 0) {
       const page = {
@@ -56,7 +58,7 @@ function Edit() {
       <div>
         <CustomHeader />
         <MainContent>
-          <ComponentList />
+          {panelShow && <ComponentPanel />}
           <SandBox />
           <EditPanel />
         </MainContent>

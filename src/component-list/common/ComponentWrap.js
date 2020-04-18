@@ -1,16 +1,16 @@
 import React, { useState, useCallback } from 'react'
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 
-const Container = styled.div `
+const Container = styled.div`
   position: relative;
   cursor: pointer;
 `
-const AddButton = styled.div `
+const AddButton = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
   position: absolute;
-  left: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,18 +18,20 @@ const AddButton = styled.div `
   font-size: 18px;
   color: #999;
 `
-const TopButton = styled(AddButton) `
+const TopButton = styled(AddButton)`
   top: 0;
   transform: translate(-50%, -50%);
   z-index: 99;
+  left: 50%;
 `
-const BottomButton = styled(AddButton) `
+const BottomButton = styled(AddButton)`
   bottom: 0;
   transform: translate(-50%, 50%);
   z-index: 99;
+  left: 50%;
 `
 
-function Wrap({addComponentOver, addComponentUnder, children}) {
+function Wrap({ component, addComponentOver, addComponentUnder, children }) {
 
   const [showButton, setShowButton] = useState(false)
 
@@ -43,9 +45,9 @@ function Wrap({addComponentOver, addComponentUnder, children}) {
 
   return (
     <Container onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      {showButton ? <TopButton>+</TopButton> : null}
+      {showButton ? <TopButton onClick={() => addComponentOver(component)}>+</TopButton> : null}
       {children}
-      {showButton ? <BottomButton>+</BottomButton> : null}
+      {showButton ? <BottomButton onClick={() => addComponentUnder(component)}>+</BottomButton> : null}
     </Container>
   )
 }
