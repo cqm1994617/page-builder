@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import PathSelect from '@/component-list/common/PathSelect'
-import {Input, Radio} from 'antd'
+import { Input, Radio } from 'antd'
 
 const BannerItem = styled.div`
   margin-bottom: 10px;
@@ -39,10 +39,18 @@ const BannerItemPanel = styled.div`
 const BannerItemTitle = styled.div`
   margin-bottom: 5px;
 `
+const RadioBar = styled.div`
+  margin: 10px 0;
+`
 
-function BannerListItem({ index, bannerItem, changeImgUrl, changeTo, deleteBannerItem }) {
+function BannerListItem({ index, bannerItem, changeImgUrl, changePath, deleteBannerItem }) {
 
   const [showDetail, setShowDetail] = useState(!(bannerItem.imgUrl && bannerItem.to))
+  const [urlType, setUrlType] = useState(1)
+
+  const selectPath = (e) => {
+    changePath(`./${e.path}.html`, bannerItem.id)
+  }
 
   return <BannerItem>
     <BannerItemHeader>
@@ -62,14 +70,16 @@ function BannerListItem({ index, bannerItem, changeImgUrl, changeTo, deleteBanne
         </div>
         <div>
           <BannerItemTitle>跳转链接</BannerItemTitle>
-          <Radio.Group>
-            <Radio value={1}>本站页面</Radio>
-            <Radio value={2}>外部链接</Radio>
-          </Radio.Group>
-          <div>
-            <Input value={bannerItem.to} onChange={(e) => changeTo(e, bannerItem.id)} />
-          </div>
-          <PathSelect></PathSelect>
+          <RadioBar>
+            <Radio.Group value={urlType} onChange={(e) => setUrlType(e.target.value)}>
+              <Radio value={1}>本站页面</Radio>
+              <Radio value={2}>外部链接</Radio>
+            </Radio.Group>
+          </RadioBar>
+          {
+            urlType === 1 ? <Input value={bannerItem.to} onChange={(e) => changePath(e.target.value, bannerItem.id)} /> : <PathSelect onChange={selectPath}></PathSelect>
+          }
+
         </div>
       </BannerItemPanel>
     }

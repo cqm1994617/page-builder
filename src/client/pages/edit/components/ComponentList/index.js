@@ -57,7 +57,7 @@ function ComponentList() {
               to: 'https://www.taobao.com'
             }
           ],
-          height: '200px'
+          height: 200
         }
       })
     )

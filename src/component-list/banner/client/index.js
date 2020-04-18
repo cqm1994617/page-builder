@@ -22,7 +22,7 @@ function Banner({ bannerList, height, onClick }) {
         {bannerList.map((item, index) => (
           <div key={index} className="swiper-slide">
             <div style={{
-              height: height || '150px',
+              height: `${height}px` || '150px',
               background: `url(${item.imgUrl})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'

@@ -24,6 +24,7 @@ function Tool() {
   const changeHeight = (e) => {
     setHeight(e.target.value)
   }
+
   const changeImgUrl = (e, id) => {
     const newList = bannerList.map(item => {
       if (item.id === id) {
@@ -36,12 +37,13 @@ function Tool() {
     })
     setBannerList(newList)
   }
-  const changeTo = (e, id) => {
+
+  const changePath = (e, id) => {
     const newList = bannerList.map(item => {
       if (item.id === id) {
         return {
           ...item,
-          to: e.target.value
+          to: e
         }
       }
       return item
@@ -78,13 +80,20 @@ function Tool() {
 
 
   const submit = () => {
-
+    bannerList.forEach(item => {
+      if (!item.to && !item.imgUrl) {
+        return message.info('请检查是否有未输入的图片或跳转链接')
+      }
+    })
+    if (!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(height)) {
+      return message.info('高度必须为数字')
+    }
     dispatch(editComponent({
       name: 'Banner',
       key: uuidv4(),
       props: {
         bannerList,
-        height
+        height: height
       }
     }))
   }
@@ -97,7 +106,7 @@ function Tool() {
             (item, index) =>
               <BannerListItem
                 changeImgUrl={changeImgUrl}
-                changeTo={changeTo}
+                changePath={changePath}
                 bannerItem={item}
                 key={item.id}
                 index={index}
