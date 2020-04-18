@@ -31,7 +31,7 @@ const BottomButton = styled(AddButton)`
   left: 50%;
 `
 
-function Wrap({ component, addComponentOver, addComponentUnder, children }) {
+function Wrap({ component, addComponentOver, addComponentUnder, children, style = {} }) {
 
   const [showButton, setShowButton] = useState(false)
 
@@ -44,7 +44,7 @@ function Wrap({ component, addComponentOver, addComponentUnder, children }) {
   }, [])
 
   return (
-    <Container onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
+    <Container onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} style={style}>
       {showButton ? <TopButton onClick={() => addComponentOver(component)}>+</TopButton> : null}
       {children}
       {showButton ? <BottomButton onClick={() => addComponentUnder(component)}>+</BottomButton> : null}

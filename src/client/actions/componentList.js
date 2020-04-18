@@ -3,28 +3,58 @@ import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 
-const addComponent = (key, direction) => (dispatch, getState) => {
+const addComponent = () => (dispatch, getState) => {
   dispatch(setComponentPanelVisible(true))
 
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
 
-  if (!key) {
-    const newPageList = pageList.map(item => item.id === pageId ? {
-      ...item,
-      componentList: item.componentList.concat([{
-        type: 'empty',
-        key: uuidv4()
-      }])
-    } : item)
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: item.componentList.concat([{
+      type: 'empty',
+      key: uuidv4()
+    }])
+  } : item)
 
-    dispatch(
-      setPageList(newPageList)
-    )
+  dispatch(
+    setPageList(newPageList)
+  )
+
+}
+
+const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
+  dispatch(setComponentPanelVisible(true))
+
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
+  const pageList = [...state.pageListReducer]
+
+  const currentPage = pageList.filter(item => item.id === pageId)[0]
+  const index = currentPage.componentList.map(item => item.key).indexOf(key)
+  let beforeArr = [], afterArr = []
+
+  if (direction === 'over') {
+    beforeArr = currentPage.componentList.slice(0, index)
+    afterArr = currentPage.componentList.slice(index)
   } else {
-
+    beforeArr = currentPage.componentList.slice(0, index + 1)
+    afterArr = currentPage.componentList.slice(index + 1)
   }
+
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: beforeArr.concat([{
+      type: 'empty',
+      key: uuidv4()
+    }], afterArr)
+  } : item)
+
+  dispatch(
+    setPageList(newPageList)
+  )
+
 }
 
 const selectComponent = (component) => (dispatch, getState) => {
@@ -93,5 +123,6 @@ export {
   deleteComponent,
   editComponent,
   selectComponent,
-  cleanEmpty
+  cleanEmpty,
+  addComponentFromWrap
 }

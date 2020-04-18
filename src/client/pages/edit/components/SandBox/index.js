@@ -4,17 +4,17 @@ import { BannerClient as Banner } from '@/component-list/banner'
 import Wrap from '@/component-list/common/ComponentWrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
-import { addComponent } from '@/client/actions/componentList'
-import { useGetComponentList } from '@/client/hooks'
+import { addComponent, addComponentFromWrap } from '@/client/actions/componentList'
+import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
 import { Result, Button } from 'antd'
 
 const Viewer = styled.div`
   position: relative;
-  margin: 40px auto 0;
+  margin: 40px auto;
   width: 375px;
-  height: 667px;
+  min-height: 667px;
   background-color: #fff;
-  overflow-y: auto;
+  overflow-y: hidden;
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -29,7 +29,7 @@ const Viewer = styled.div`
     background: rgba(0,0,0,0.12);
   }
 `
-const Empty = styled.div `
+const Empty = styled.div`
   border: 2px dashed #ccc;
   border-radius: 4px;
   margin: 10px;
@@ -40,6 +40,10 @@ const Empty = styled.div `
   height: 120px;
 `
 
+const currentSelectStyle = {
+  boxShadow: '3px 3px 3px #000'
+}
+
 const componentMap = {
   'banner': (props, select) => <Banner onClick={select} {...props} />
 }
@@ -48,6 +52,7 @@ function SandBox() {
 
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
+  const currentSelectComponent = useGetCurrentSelectComponent()
 
   const select = (key) => {
     dispatch(setCurrentSelectComponent(key))
@@ -58,13 +63,13 @@ function SandBox() {
   }
 
   const addOver = (e) => {
-    console.log(e)
+
+    dispatch(addComponentFromWrap(e.key, 'over'))
   }
   const addUnder = (e) => {
-    console.log(e)
-  }
 
-  console.log(componentList)
+    dispatch(addComponentFromWrap(e.key, 'under'))
+  }
 
   return (
     <Viewer>
@@ -73,7 +78,13 @@ function SandBox() {
           if (item.type === 'empty') {
             return <Empty key={item.key}>请在此处添加组件</Empty>
           }
-          return <Wrap key={item.key} component={item} addComponentOver={addOver} addComponentUnder={addUnder}>
+          return <Wrap
+            style={currentSelectComponent && item.key === currentSelectComponent.key ? currentSelectStyle : {}}
+            key={item.key}
+            component={item}
+            addComponentOver={addOver}
+            addComponentUnder={addUnder}
+          >
             {componentMap[item.type](item.props, () => select(item.key))}
           </Wrap>
         }) : <Result
