@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
-import { editComponent } from '@/client/actions/componentList'
+import { editComponent, deleteComponent } from '@/client/actions/componentList'
+import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
 import ToolContainer from '@/component-list/common/ToolContainer'
 import BannerListItem from './BannerListItem'
+import PositionMove from '@/component-list/common/PositionMove'
 
 function Tool() {
 
@@ -88,14 +90,22 @@ function Tool() {
     if (!/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(height)) {
       return message.info('高度必须为数字')
     }
+    const newKey = uuidv4()
     dispatch(editComponent({
       type: 'banner',
-      key: uuidv4(),
+      key: newKey,
       props: {
         bannerList,
         height: height
       }
     }))
+    dispatch(setCurrentSelectComponent(newKey))
+  }
+
+  const remove = () => {
+    dispatch(
+      deleteComponent(currentSelectComponent)
+    )
   }
 
   return (
@@ -120,8 +130,10 @@ function Tool() {
         <Form.Item label="高度(px)">
           <Input placeholder="高度" onChange={changeHeight} value={height} />
         </Form.Item>
+        <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item>
           <Button type="primary" onClick={submit}>确认</Button>
+          <Button type="danger" onClick={remove}>删除</Button>
         </Form.Item>
       </Form>
     </ToolContainer>

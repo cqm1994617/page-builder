@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 
+
 const addComponent = () => (dispatch, getState) => {
   dispatch(setComponentPanelVisible(true))
 
@@ -75,9 +76,22 @@ const selectComponent = (component) => (dispatch, getState) => {
   dispatch(setCurrentSelectComponent(component.key))
 }
 
-const deleteComponent = (id) => (dispatch, getState) => {
+const deleteComponent = (component) => (dispatch, getState) => {
   const state = getState()
   const pageId = state.currentSelectPageReducer
+  const pageList = [...state.pageListReducer]
+
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: item.componentList.filter(item => item.key !== component.key)
+  } : item)
+
+  dispatch(
+    setCurrentSelectComponent(null)
+  )
+  dispatch(
+    setPageList(newPageList)
+  )
 }
 
 const editComponent = (component) => (dispatch, getState) => {
@@ -118,11 +132,60 @@ const cleanEmpty = () => (dispatch, getState) => {
   }
 }
 
+const moveUpComponent = (component) => (dispatch, getState) => {
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
+  const pageList = [...state.pageListReducer]
+
+  const currentPage = pageList.filter(item => item.id === pageId)[0]
+
+  let componentList = [...currentPage.componentList]
+  const index = componentList.map(item => item.key).indexOf(component.key)
+
+  componentList[index] = componentList[index - 1]
+  componentList[index - 1] = component
+
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: componentList
+  } : item)
+
+  dispatch(
+    setPageList(newPageList)
+  )
+
+}
+
+const moveDownComponent = (component) => (dispatch, getState) => {
+  const state = getState()
+  const pageId = state.currentSelectPageReducer
+  const pageList = [...state.pageListReducer]
+
+  const currentPage = pageList.filter(item => item.id === pageId)[0]
+
+  let componentList = [...currentPage.componentList]
+  const index = componentList.map(item => item.key).indexOf(component.key)
+
+  componentList[index] = componentList[index + 1]
+  componentList[index + 1] = component
+
+  const newPageList = pageList.map(item => item.id === pageId ? {
+    ...item,
+    componentList: componentList
+  } : item)
+
+  dispatch(
+    setPageList(newPageList)
+  )
+}
+
 export {
   addComponent,
   deleteComponent,
   editComponent,
   selectComponent,
   cleanEmpty,
-  addComponentFromWrap
+  addComponentFromWrap,
+  moveUpComponent,
+  moveDownComponent
 }

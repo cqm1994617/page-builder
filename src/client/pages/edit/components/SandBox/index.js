@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { BannerClient as Banner } from '@/component-list/banner'
 import Wrap from '@/component-list/common/ComponentWrap'
@@ -12,9 +12,9 @@ const Viewer = styled.div`
   position: relative;
   margin: 40px auto;
   width: 375px;
-  min-height: 667px;
+  height: 667px;
   background-color: #fff;
-  overflow-y: hidden;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -40,10 +40,6 @@ const Empty = styled.div`
   height: 120px;
 `
 
-const currentSelectStyle = {
-  boxShadow: '3px 3px 3px #000'
-}
-
 const componentMap = {
   'banner': (props, select) => <Banner onClick={select} {...props} />
 }
@@ -52,7 +48,6 @@ function SandBox() {
 
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
-  const currentSelectComponent = useGetCurrentSelectComponent()
 
   const select = (key) => {
     dispatch(setCurrentSelectComponent(key))
@@ -63,11 +58,9 @@ function SandBox() {
   }
 
   const addOver = (e) => {
-
     dispatch(addComponentFromWrap(e.key, 'over'))
   }
   const addUnder = (e) => {
-
     dispatch(addComponentFromWrap(e.key, 'under'))
   }
 
@@ -79,7 +72,6 @@ function SandBox() {
             return <Empty key={item.key}>请在此处添加组件</Empty>
           }
           return <Wrap
-            style={currentSelectComponent && item.key === currentSelectComponent.key ? currentSelectStyle : {}}
             key={item.key}
             component={item}
             addComponentOver={addOver}
