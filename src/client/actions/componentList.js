@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 
-
 const addComponent = () => (dispatch, getState) => {
   dispatch(setComponentPanelVisible(true))
 
@@ -119,6 +118,7 @@ const cleanEmpty = () => (dispatch, getState) => {
   const pageList = [...state.pageListReducer]
 
   const currentPage = pageList.filter(item => item.id === pageId)[0]
+
   const hasEmpty = currentPage.componentList.map(item => item.type).includes('empty')
 
   if (hasEmpty) {
@@ -160,7 +160,6 @@ const moveDownComponent = (component) => (dispatch, getState) => {
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
-
   const currentPage = pageList.filter(item => item.id === pageId)[0]
 
   let componentList = [...currentPage.componentList]
