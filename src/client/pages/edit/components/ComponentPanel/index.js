@@ -50,8 +50,11 @@ const Mask = styled.div`
   top: 0;
   background-color: rgba(0, 0, 0, 0.1);
 `
+const ComponentList = styled.div `
 
-function ComponentList() {
+`
+
+function ComponentPanel() {
 
   const dispatch = useDispatch()
 
@@ -95,10 +98,13 @@ function ComponentList() {
           </span>
         </HeaderTitle>
         <Button onClick={addBanner}>添加Banner</Button>
+        <ComponentList>
+
+        </ComponentList>
       </PanelContainer>
       <Mask onClick={closePanel} />
     </Panel>
   )
 }
 
-export default ComponentList
+export default ComponentPanel
