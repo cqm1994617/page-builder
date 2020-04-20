@@ -100,6 +100,8 @@ function Tool() {
       }
     }))
     dispatch(setCurrentSelectComponent(newKey))
+
+    message.info('修改成功')
   }
 
   const remove = () => {
