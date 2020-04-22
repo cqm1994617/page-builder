@@ -23,11 +23,11 @@ module.exports = merge(baseConfig, {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[id].[contenthash].css"
     }),
-    new CleanWebpackPlugin(),
     new BundleAnalyzerPlugin()
   ]
 })

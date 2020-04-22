@@ -76,6 +76,9 @@
     "last 2 versions"
   ],
   "sideEffects": [
-    "./src/component-list"
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
   ]
 }
