@@ -51,6 +51,17 @@ const Mask = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
 `
 const ComponentList = styled.div `
+  display: flex;
+
+`
+
+const TagList = styled.div `
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+`
+
+const TagItem = styled.div `
 
 `
 
@@ -99,7 +110,11 @@ function ComponentPanel() {
         </HeaderTitle>
         <Button onClick={addBanner}>添加Banner</Button>
         <ComponentList>
-
+          <TagList>
+            <TagItem>
+              Banner
+            </TagItem>
+          </TagList>
         </ComponentList>
       </PanelContainer>
       <Mask onClick={closePanel} />
