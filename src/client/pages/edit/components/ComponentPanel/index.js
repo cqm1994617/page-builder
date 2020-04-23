@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectComponent, cleanEmpty } from '@/client/actions/componentList'
 import { setComponentPanelVisible } from '@/client/actions/componentPanel'
+import componentList from '@/component-list/componentList'
 
 const Panel = styled.div`
   position: absolute;
@@ -50,19 +51,23 @@ const Mask = styled.div`
   top: 0;
   background-color: rgba(0, 0, 0, 0.1);
 `
-const ComponentList = styled.div `
+const List = styled.div`
   display: flex;
 
 `
 
-const TagList = styled.div `
+const TagList = styled.div`
   width: 90px;
-  height: 50px;
-  line-height: 50px;
 `
 
-const TagItem = styled.div `
-
+const TagItem = styled.div`
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  color: #1890ff;
+  cursor: pointer;
 `
 
 function ComponentPanel() {
@@ -98,6 +103,7 @@ function ComponentPanel() {
     dispatch(cleanEmpty())
   }
 
+  console.log(componentList)
 
   return (
     <Panel>
@@ -109,13 +115,13 @@ function ComponentPanel() {
           </span>
         </HeaderTitle>
         <Button onClick={addBanner}>添加Banner</Button>
-        <ComponentList>
+        <List>
           <TagList>
             <TagItem>
               Banner
             </TagItem>
           </TagList>
-        </ComponentList>
+        </List>
       </PanelContainer>
       <Mask onClick={closePanel} />
     </Panel>

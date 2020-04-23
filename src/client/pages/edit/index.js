@@ -33,7 +33,7 @@ function Edit() {
 
   const pageList = useSelector(state => state.pageListReducer)
   const dispatch = useDispatch()
-
+console.log(pageList)
   const panelShow = useSelector(state => state.componentPanelReducer)
 
   useEffect(() => {
