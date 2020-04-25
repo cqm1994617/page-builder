@@ -70,6 +70,10 @@ const TagItem = styled.div`
   cursor: pointer;
 `
 
+const ComponentSelect = styled.div`
+
+`
+
 function ComponentPanel() {
 
   const dispatch = useDispatch()
@@ -116,11 +120,17 @@ function ComponentPanel() {
         </HeaderTitle>
         <Button onClick={addBanner}>添加Banner</Button>
         <List>
+          {
+            componentList.map((item, index) => (
+              <TagItem key={item.id}>{item.name}</TagItem>
+            ))
+          }
           <TagList>
-            <TagItem>
-              Banner
-            </TagItem>
+
           </TagList>
+          <ComponentSelect>
+
+          </ComponentSelect>
         </List>
       </PanelContainer>
       <Mask onClick={closePanel} />
