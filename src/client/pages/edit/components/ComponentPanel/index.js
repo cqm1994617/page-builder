@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
@@ -53,7 +53,8 @@ const Mask = styled.div`
 `
 const List = styled.div`
   display: flex;
-
+  box-sizing: border-box;
+  padding-left: 20px;
 `
 
 const TagList = styled.div`
@@ -61,22 +62,28 @@ const TagList = styled.div`
 `
 
 const TagItem = styled.div`
-  height: 50px;
+  height: 30px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  padding: 5px 10px;
-  color: #1890ff;
   cursor: pointer;
+  margin-bottom: 10px;
+  & > div {
+    padding: 5px 10px;
+    color: ${props => props.isActive ? '#fff' : '#666'};
+    background: ${props => props.isActive ? '#1890ff' : '#fff'};
+    border-radius: 4px;
+  }
 `
 
 const ComponentSelect = styled.div`
-
+  
 `
 
 function ComponentPanel() {
 
   const dispatch = useDispatch()
+  const [selectItem, setSelectItem] = useState(componentList[0])
 
   const addBanner = () => {
     dispatch(
@@ -107,7 +114,14 @@ function ComponentPanel() {
     dispatch(cleanEmpty())
   }
 
+  const selectTagList = (item) => {
+    console.log(item)
+    setSelectItem(item)
+  }
+
   console.log(componentList)
+
+  console.log(selectItem)
 
   return (
     <Panel>
@@ -120,16 +134,21 @@ function ComponentPanel() {
         </HeaderTitle>
         <Button onClick={addBanner}>添加Banner</Button>
         <List>
-          {
-            componentList.map((item, index) => (
-              <TagItem key={item.id}>{item.name}</TagItem>
-            ))
-          }
           <TagList>
-
+            {
+              componentList.map(item => (
+                <TagItem onClick={() => selectTagList(item)} isActive={item.id === selectItem.id} key={item.id}>
+                  <div>{item.name}</div>
+                </TagItem>
+              ))
+            }
           </TagList>
           <ComponentSelect>
-
+            {
+              selectItem.children.map(item => (
+                <div key={item.id}>{item.name}</div>
+              ))
+            }
           </ComponentSelect>
         </List>
       </PanelContainer>
