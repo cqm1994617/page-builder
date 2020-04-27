@@ -77,7 +77,23 @@ const TagItem = styled.div`
 `
 
 const ComponentSelect = styled.div`
-  
+  margin: 0 25px;
+`
+const ComponentItem = styled.div`
+  cursor: pointer;
+  & > img {
+    display: block;
+    width: 100%;
+    transition: 0.2s all;
+    &:hover {
+      transform: scale(1.05)
+    }
+  }
+  & > div {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+  }
 `
 
 function ComponentPanel() {
@@ -85,29 +101,29 @@ function ComponentPanel() {
   const dispatch = useDispatch()
   const [selectItem, setSelectItem] = useState(componentList[0])
 
-  const addBanner = () => {
-    dispatch(
-      selectComponent({
-        type: 'banner',
-        key: uuidv4(),
-        props: {
-          bannerList: [
-            {
-              id: uuidv4(),
-              imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
-              to: 'https://www.baidu.com'
-            },
-            {
-              id: uuidv4(),
-              imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
-              to: 'https://www.taobao.com'
-            }
-          ],
-          height: 200
-        }
-      })
-    )
-  }
+  // const addBanner = () => {
+  //   dispatch(
+  //     selectComponent({
+  //       type: 'banner',
+  //       key: uuidv4(),
+  //       props: {
+  //         bannerList: [
+  //           {
+  //             id: uuidv4(),
+  //             imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
+  //             to: 'https://www.baidu.com'
+  //           },
+  //           {
+  //             id: uuidv4(),
+  //             imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
+  //             to: 'https://www.taobao.com'
+  //           }
+  //         ],
+  //         height: 200
+  //       }
+  //     })
+  //   )
+  // }
 
   const closePanel = () => {
     dispatch(setComponentPanelVisible(false))
@@ -117,6 +133,19 @@ function ComponentPanel() {
   const selectTagList = (item) => {
     console.log(item)
     setSelectItem(item)
+  }
+
+  const componentConfirm = (item) => () => {
+    console.log(item.defaultProps)
+    dispatch(
+      selectComponent({
+        type: item.componentType,
+        key: uuidv4(),
+        props: {
+          ...item.defaultProps
+        }
+      })
+    )
   }
 
   console.log(componentList)
@@ -132,7 +161,7 @@ function ComponentPanel() {
             <CloseOutlined onClick={closePanel} />
           </span>
         </HeaderTitle>
-        <Button onClick={addBanner}>添加Banner</Button>
+        {/* <Button onClick={addBanner}>添加Banner</Button> */}
         <List>
           <TagList>
             {
@@ -146,7 +175,10 @@ function ComponentPanel() {
           <ComponentSelect>
             {
               selectItem.children.map(item => (
-                <div key={item.id}>{item.name}</div>
+                <ComponentItem key={item.id} onClick={componentConfirm(item)}>
+                  <img src={item.imgUrl} />
+                  <div>{item.name}</div>
+                </ComponentItem>
               ))
             }
           </ComponentSelect>
