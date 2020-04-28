@@ -16,7 +16,7 @@ const Page = styled.div`
   width: 100%;
   height: 100%;
   & > div {
-    min-width: 1200px;
+    min-width: 1300px;
     height: 100%;
   }
 `
@@ -24,7 +24,7 @@ const Page = styled.div`
 const MainContent = styled.div`
   overflow: hidden;
   position: relative;
-  min-width: 1200px;
+  min-width: 1300px;
   height: calc(100% - 65px);
   background-color: #f5f5f7;
 `
