@@ -54,6 +54,7 @@
     "adm-zip": "^0.4.14",
     "antd": "^4.0.0",
     "axios": "^0.19.2",
+    "braft-editor": "^2.3.9",
     "cross-env": "^7.0.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
