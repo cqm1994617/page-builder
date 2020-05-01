@@ -131,12 +131,12 @@ function ComponentPanel() {
   }
 
   const selectTagList = (item) => {
-    console.log(item)
+
     setSelectItem(item)
   }
 
-  const componentConfirm = (item) => () => {
-    console.log(item.defaultProps)
+  const componentConfirm = (item) => () => 
+  
     dispatch(
       selectComponent({
         type: item.componentType,
