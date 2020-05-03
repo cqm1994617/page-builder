@@ -46,7 +46,7 @@ function getConfig(folderId) {
       splitChunks: {
         chunks: 'all',
         cacheGroups: {
-          common: {
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'common',
             chunks: 'initial',

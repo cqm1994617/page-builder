@@ -135,8 +135,8 @@ function ComponentPanel() {
     setSelectItem(item)
   }
 
-  const componentConfirm = (item) => () => 
-  
+  const componentConfirm = (item) => () => {
+
     dispatch(
       selectComponent({
         type: item.componentType,
@@ -157,6 +157,7 @@ function ComponentPanel() {
       <PanelContainer>
         <HeaderTitle>
           <h3>添加组件</h3>
+
           <span>
             <CloseOutlined onClick={closePanel} />
           </span>

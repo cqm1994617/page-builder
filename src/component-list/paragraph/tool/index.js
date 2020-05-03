@@ -5,6 +5,7 @@ import PositionMove from '@/component-list/common/PositionMove'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import ToolContainer from '@/component-list/common/ToolContainer'
+import RichEdit from '@/component-list/common/RichEdit'
 import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
 import { useDispatch } from 'react-redux'
 
@@ -43,7 +44,11 @@ function Tool() {
           <Input placeholder="标题" onChange={(e) => setTitle(e.target.value)} value={title} />
         </Form.Item>
         <Form.Item label="内容">
-          <Input placeholder="内容" onChange={(e) => setContent(e.target.value)} value={content} />
+          {/* <Input placeholder="内容" onChange={(e) => setContent(e.target.value)} value={content} /> */}
+          <RichEdit
+            onChange={html => { setContent(html) }}
+
+          />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item>
