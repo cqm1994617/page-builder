@@ -5,7 +5,7 @@ const Container = styled.div`
   padding: 20px 15px;
 `
 const Title = styled.div`
-  padding: 10px 15px;
+  padding: 0px 15px 10px;
   font-size: 18px;
   position: relative;
   &::after {
@@ -13,13 +13,12 @@ const Title = styled.div`
     position: absolute;
     display: block;
     left: 5px;
-    top: 15px;
+    top: 5px;
     height: 18px;
     width: 4px;
     background-color: #1890ff;
   }
 `
-
 
 function Paragraph({ title, content }) {
 

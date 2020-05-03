@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button, message, Modal } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
@@ -32,10 +32,17 @@ function Tool() {
   }
 
   const remove = () => {
-    dispatch(
-      deleteComponent(currentSelectComponent)
-    )
+    Modal.confirm({
+      content: '确认要删除当前组件？',
+      onOk() {
+        dispatch(
+          deleteComponent(currentSelectComponent)
+        )
+      }
+    })
   }
+
+  console.log(currentSelectComponent)
 
   return (
     <ToolContainer>
@@ -47,13 +54,13 @@ function Tool() {
           {/* <Input placeholder="内容" onChange={(e) => setContent(e.target.value)} value={content} /> */}
           <RichEdit
             onChange={html => { setContent(html) }}
-
+            html={currentSelectComponent.props.content}
           />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
-        <Form.Item>
+        <Form.Item style={{ marginTop: '40px' }}>
           <Button type="primary" onClick={submit}>确认</Button>
-          <Button type="danger" onClick={remove}>删除</Button>
+          <Button type="danger" style={{ marginLeft: '20px' }} onClick={remove}>删除</Button>
         </Form.Item>
       </Form>
     </ToolContainer>

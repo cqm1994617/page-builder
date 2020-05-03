@@ -39,7 +39,7 @@ const componentList = [
         componentType: 'paragraph',
         defaultProps: {
           title: '标题',
-          content: '这是内容~~~'
+          content: '<p>这是一个默认段落的内容</p><p>感谢您的使用</p>'
         }
       }
     ]

@@ -12,7 +12,13 @@ const Panel = styled.div`
   height: 100%;
   width: 400px;
   background-color: #fff;
+  overflow: hidden;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
+`
+const Info = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  color: #999;
 `
 
 const getPanelMap = (name) => {
@@ -30,7 +36,7 @@ function EditPanel() {
   return (
     <Panel>
       {
-        currentSelectComponent ? getPanelMap(currentSelectComponent.type)() : <div>未选择</div>
+        currentSelectComponent ? getPanelMap(currentSelectComponent.type)() : <Info>暂未选择组件</Info>
       }
     </Panel>
   )

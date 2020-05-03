@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button, message, Modal } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
@@ -54,7 +54,6 @@ function Tool() {
   }
 
   const addBanner = () => {
-
     const last = bannerList[bannerList.length - 1] || {}
 
     if (last.imgUrl && last.to) {
@@ -105,9 +104,14 @@ function Tool() {
   }
 
   const remove = () => {
-    dispatch(
-      deleteComponent(currentSelectComponent)
-    )
+    Modal.confirm({
+      content: '确认要删除当前组件？',
+      onOk() {
+        dispatch(
+          deleteComponent(currentSelectComponent)
+        )
+      }
+    })
   }
 
   return (
@@ -133,9 +137,9 @@ function Tool() {
           <Input placeholder="高度" onChange={changeHeight} value={height} />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
-        <Form.Item>
+        <Form.Item style={{ marginTop: '40px' }}>
           <Button type="primary" onClick={submit}>确认</Button>
-          <Button type="danger" onClick={remove}>删除</Button>
+          <Button type="danger" style={{ marginLeft: '20px' }} onClick={remove}>删除</Button>
         </Form.Item>
       </Form>
     </ToolContainer>
