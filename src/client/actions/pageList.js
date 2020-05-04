@@ -26,8 +26,24 @@ const addPage = (pageInfo) => (dispatch, getState) => {
 
 }
 
+const editPage = (pageInfo) => (dispatch, getState) => {
+  const pageList = (getState()).pageListReducer
+  const newPageList = pageList.map(item => {
+    if (item.id === pageInfo.id) {
+      return {
+        ...pageInfo
+      }
+    }
+    return item
+  })
+
+  dispatch(setPageList(newPageList))
+
+}
+
 export {
   setPageList,
   clearPageList,
-  addPage
+  addPage,
+  editPage
 }

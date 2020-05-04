@@ -131,7 +131,6 @@ function ComponentPanel() {
   }
 
   const selectTagList = (item) => {
-
     setSelectItem(item)
   }
 
@@ -147,10 +146,6 @@ function ComponentPanel() {
       })
     )
   }
-
-  console.log(componentList)
-
-  console.log(selectItem)
 
   return (
     <Panel>

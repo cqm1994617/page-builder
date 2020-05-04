@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Button, Select, Modal, Form, Input, message } from 'antd'
+import { Layout, Button, Select, Modal, Form, Input } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useGetCurrentSelectPage } from '@/client/hooks'
 import { addPage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import useNewPageModal from './hooks/useNewPageModal'
+import useEditPageModal from './hooks/useEditPageModal'
 import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
@@ -45,16 +47,27 @@ const selectStyle = {
 function CustomHeader() {
 
   const dispatch = useDispatch()
-
   const pageList = useSelector(state => state.pageListReducer)
-  // const state = useSelector(state => state)
   const selectedPage = useGetCurrentSelectPage()
+  const {
+    newPageModalSubmit,
+    hideNewPageModal,
+    showNewPageModal,
+    newPageModalShow,
+    inputNewPageInfo,
+    newPageInfo
+  } = useNewPageModal()
 
-  const [newPageInfo, setNewPageInfo] = useState({
-    title: '',
-    path: ''
-  })
-  const [pageModalShow, setPageModalShow] = useState(false)
+  const {
+    editPageModalSubmit,
+    editPageInfo,
+    inputEditPageInfo,
+    editPageModalShow,
+    hideEditPageModal,
+    showEditPageModal
+  } = useEditPageModal()
+
+
 
   const publish = () => {
 
@@ -67,55 +80,8 @@ function CustomHeader() {
     })
   }
 
-  const hidePageModal = () => {
-    setNewPageInfo({
-      title: '',
-      path: ''
-    })
-    setPageModalShow(false)
-  }
-
-  const showPageModal = () => {
-    setPageModalShow(true)
-  }
-
-  const inputPageInfo = (label) => (e) => {
-    setNewPageInfo({
-      ...newPageInfo,
-      [label]: e.target.value
-    })
-  }
-
   const changePage = (id) => {
     dispatch(setCurrentSelectPage(id))
-  }
-
-  const pageSubmit = () => {
-
-    const hasPath = pageList.map(item => item.path).includes(newPageInfo.path)
-
-    if (!newPageInfo.title) {
-      return message.warn('标题不得为空')
-    }
-    if (hasPath) {
-      return message.warn('已创建页面中已有相同的path')
-    }
-    if (!/^\w+$/.test(newPageInfo.path)) {
-      return message.warn('页面路径只能包含数字、字母、下划线')
-    }
-    
-    setPageModalShow(false)
-
-    setNewPageInfo({
-      title: '',
-      path: ''
-    })
-
-    dispatch(addPage({
-      ...newPageInfo,
-      id: uuidv4(),
-      componentList: []
-    }))
   }
 
   return (
@@ -128,7 +94,8 @@ function CustomHeader() {
               pageList.map(item => <Option value={item.id} key={item.id}>{item.title}-{item.path}</Option>)
             }
           </Select>
-          <Button onClick={showPageModal}>新增页面</Button>
+          <Button onClick={showNewPageModal}>新增页面</Button>
+          <Button onClick={showEditPageModal} style={{ marginLeft: '20px' }}>编辑当前页</Button>
         </PageSelected>
         <div>
           <ButtonGroup>
@@ -160,20 +127,39 @@ function CustomHeader() {
         </div>
       </HeaderContainer>
       <Modal
-        visible={pageModalShow}
-        onCancel={hidePageModal}
-        onOk={pageSubmit}
+        visible={newPageModalShow}
+        onCancel={hideNewPageModal}
+        onOk={newPageModalSubmit}
       >
         <Form style={{ marginTop: '30px' }}>
           <Form.Item label="页面标题">
             <Input
               style={{ width: '400px' }}
               value={newPageInfo.title}
-              onChange={inputPageInfo('title')}
+              onChange={inputNewPageInfo('title')}
             />
           </Form.Item>
           <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
-            <Input style={{ width: '400px' }} value={newPageInfo.path} onChange={inputPageInfo('path')} suffix=".html" />
+            <Input style={{ width: '400px' }} value={newPageInfo.path} onChange={inputNewPageInfo('path')} suffix=".html" />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        visible={editPageModalShow}
+        onCancel={hideEditPageModal}
+        onOk={editPageModalSubmit}
+      >
+        <Form style={{ marginTop: '30px' }}>
+          <Form.Item label="页面标题">
+            <Input
+              style={{ width: '400px' }}
+              value={editPageInfo.title}
+              onChange={inputEditPageInfo('title')}
+            />
+          </Form.Item>
+          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
+            <Input style={{ width: '400px' }} value={editPageInfo.path} onChange={inputEditPageInfo('path')} suffix=".html" />
           </Form.Item>
         </Form>
       </Modal>
