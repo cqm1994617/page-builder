@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Layout, Button, Select, Modal, Form, Input } from 'antd'
+import { Layout, Button, Select, Modal, Form, Input, message } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { useGetCurrentSelectPage } from '@/client/hooks'
-import { addPage } from '@/client/actions/pageList'
+import { deletePage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
@@ -84,6 +84,20 @@ function CustomHeader() {
     dispatch(setCurrentSelectPage(id))
   }
 
+  const removePage = () => {
+    if (pageList.length > 1) {
+      Modal.warning({
+        title: '确认删除',
+        content: '是否删除当页面？',
+        onOk() {
+          dispatch(deletePage(selectedPage.id))
+        }
+      })
+    } else {
+      message.info('已是最后一个页面，无法删除')
+    }
+  }
+
   return (
     <Header style={headerStyle}>
       <HeaderContainer>
@@ -96,6 +110,7 @@ function CustomHeader() {
           </Select>
           <Button onClick={showNewPageModal}>新增页面</Button>
           <Button onClick={showEditPageModal} style={{ marginLeft: '20px' }}>编辑当前页</Button>
+          <Button onClick={removePage} style={{ marginLeft: '20px' }} danger >删除当页</Button>
         </PageSelected>
         <div>
           <ButtonGroup>

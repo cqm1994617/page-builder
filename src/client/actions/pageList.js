@@ -38,12 +38,20 @@ const editPage = (pageInfo) => (dispatch, getState) => {
   })
 
   dispatch(setPageList(newPageList))
+}
 
+const deletePage = (pageId) => (dispatch, getState) => {
+  const pageList = (getState()).pageListReducer
+  const newPageList = pageList.filter(item => item.id !== pageId)
+
+  dispatch(setPageList(newPageList))
+  dispatch(setCurrentSelectPage(pageList[0].id))
 }
 
 export {
   setPageList,
   clearPageList,
   addPage,
-  editPage
+  editPage,
+  deletePage
 }
