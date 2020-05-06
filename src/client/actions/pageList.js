@@ -23,7 +23,6 @@ const addPage = (pageInfo) => (dispatch, getState) => {
   dispatch(
     setCurrentSelectPage(info.id)
   )
-
 }
 
 const editPage = (pageInfo) => (dispatch, getState) => {
