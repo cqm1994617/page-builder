@@ -9,6 +9,7 @@ import { deletePage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
+import usePublishModal from './hooks/usePublishModal'
 import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
@@ -49,6 +50,7 @@ function CustomHeader() {
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.pageListReducer)
   const selectedPage = useGetCurrentSelectPage()
+
   const {
     newPageModalSubmit,
     hideNewPageModal,
@@ -67,9 +69,19 @@ function CustomHeader() {
     showEditPageModal
   } = useEditPageModal()
 
+  const {
+    publishStatus,
+    setPublishStatus,
+    publishModalShow,
+    openPublishModal,
+    hidePublishModal
+  } = usePublishModal()
+
 
 
   const publish = () => {
+    openPublishModal()
+    setPublishStatus(2)
 
     axios.post('http://localhost:9090/server/publish', {
       pageList,
@@ -77,6 +89,8 @@ function CustomHeader() {
       headers: {
         'Content-Type': 'application/json'
       }
+    }).then(() => {
+      setPublishStatus(3)
     })
   }
 
@@ -177,6 +191,26 @@ function CustomHeader() {
             <Input style={{ width: '400px' }} value={editPageInfo.path} onChange={inputEditPageInfo('path')} suffix=".html" />
           </Form.Item>
         </Form>
+      </Modal>
+
+      <Modal
+        visible={publishModalShow}
+        onCancel={hidePublishModal}
+        onOk={hidePublishModal}
+      >
+        <div>
+          {(() => {
+            if (publishStatus === 1) {
+              return '未开始'
+            }
+            if (publishStatus === 2) {
+              return '打包中'
+            }
+            if (publishStatus === 3) {
+              return '打包完成'
+            }
+          })()}
+        </div>
       </Modal>
     </Header>
   )
