@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const PackageWebpackPlugin = require('./package-webpack-plugin')
 const glob = require('glob')
 
 function getConfig(folderId) {
@@ -12,7 +13,7 @@ function getConfig(folderId) {
     const entryMap = {}
     files.forEach(entry => {
       const pathArr = entry.split('/')
-      console.log('pathArr: ', pathArr)
+
       const fileName = pathArr[pathArr.length - 1].replace(/.js/g, '')
       entryMap[fileName] = ['@babel/polyfill', entry]
 
@@ -26,7 +27,7 @@ function getConfig(folderId) {
       )
 
     })
-    console.log(HtmlWebpackPlugins)
+
     return entryMap
   }
 
@@ -99,6 +100,7 @@ function getConfig(folderId) {
     },
     plugins: [
       ...HtmlWebpackPlugins,
+      new PackageWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename: "static/css/[name].[contenthash].css",
         chunkFilename: "[id].css"
