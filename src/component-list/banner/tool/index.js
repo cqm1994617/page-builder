@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
-import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
+import { useGetComponentList, useGetCurrentSelectComponent, useDeleteCurrentComponent } from '@/client/hooks'
 import ToolContainer from '@/component-list/common/ToolContainer'
 import BannerListItem from './BannerListItem'
 import PositionMove from '@/component-list/common/PositionMove'
@@ -14,6 +14,7 @@ function Tool() {
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
   const currentSelectComponent = useGetCurrentSelectComponent()
+  const deleteCurrentComponent = useDeleteCurrentComponent()
 
   const [height, setHeight] = useState(currentSelectComponent.props.height)
   const [bannerList, setBannerList] = useState(currentSelectComponent.props.bannerList)
@@ -103,17 +104,6 @@ function Tool() {
     message.info('修改成功')
   }
 
-  const remove = () => {
-    Modal.confirm({
-      content: '确认要删除当前组件？',
-      onOk() {
-        dispatch(
-          deleteComponent(currentSelectComponent)
-        )
-      }
-    })
-  }
-
   return (
     <ToolContainer>
       <Form>
@@ -139,7 +129,7 @@ function Tool() {
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item style={{ marginTop: '40px' }}>
           <Button type="primary" onClick={submit}>确认</Button>
-          <Button type="danger" style={{ marginLeft: '20px' }} onClick={remove}>删除</Button>
+          <Button type="danger" style={{ marginLeft: '20px' }} onClick={deleteCurrentComponent}>删除</Button>
         </Form.Item>
       </Form>
     </ToolContainer>

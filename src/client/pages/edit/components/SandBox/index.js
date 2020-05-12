@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { BannerClient as Banner } from '@/component-list/banner'
 import { ParagraphClient as Paragraph } from '@/component-list/paragraph'
+import { TextClient as Text } from '@/component-list/text'
 import Wrap from '@/component-list/common/ComponentWrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
@@ -43,7 +44,8 @@ const Empty = styled.div`
 
 const componentMap = {
   'banner': (props, select) => <Banner onClick={select} {...props} />,
-  'paragraph': (props, select) => <Paragraph onClick={select} {...props} />
+  'paragraph': (props, select) => <Paragraph onClick={select} {...props} />,
+  'text': (props, select) => <Text onClick={select} {...props} />
 }
 
 function SandBox() {

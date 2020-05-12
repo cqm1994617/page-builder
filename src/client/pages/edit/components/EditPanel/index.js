@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ToolPanel as BannerToolPanel } from '@/component-list/banner'
 import { ToolPanel as ParagraphPanel } from '@/component-list/paragraph'
+import { ToolPanel as TextPanel } from '@/component-list/text'
 import { useDispatch, useSelector } from 'react-redux'
 import { useGetCurrentSelectComponent } from '@/client/hooks'
 
@@ -24,7 +25,8 @@ const Info = styled.div`
 const getPanelMap = (name) => {
   const panelMap = {
     'banner': () => <BannerToolPanel />,
-    'paragraph': () => <ParagraphPanel />
+    'paragraph': () => <ParagraphPanel />,
+    'text': () => <TextPanel />
   }
   return panelMap[name]
 }

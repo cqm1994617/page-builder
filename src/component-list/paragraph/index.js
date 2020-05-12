@@ -1,11 +1,11 @@
 import ParagraphClient from './client'
 import ParagraphServer from './server'
 import ToolPanel from './tool'
-import componentItem from './componentItem'
+import defaultValue from './defaultValue'
 
 export {
   ParagraphClient,
   ParagraphServer,
   ToolPanel,
-  componentItem
+  defaultValue
 }

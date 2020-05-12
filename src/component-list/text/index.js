@@ -1,11 +1,11 @@
-import BannerClient from './client'
-import BannerServer from './server'
+import TextClient from './client'
+import TextServer from './server'
 import ToolPanel from './tool'
 import defaultValue from './defaultValue'
 
 export {
-  BannerClient,
-  BannerServer,
+  TextClient,
+  TextServer,
   ToolPanel,
   defaultValue
 }

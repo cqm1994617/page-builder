@@ -6,7 +6,7 @@ import { editComponent, deleteComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import ToolContainer from '@/component-list/common/ToolContainer'
 import RichEdit from '@/component-list/common/RichEdit'
-import { useGetComponentList, useGetCurrentSelectComponent } from '@/client/hooks'
+import { useGetComponentList, useGetCurrentSelectComponent, useDeleteCurrentComponent } from '@/client/hooks'
 import { useDispatch } from 'react-redux'
 
 function Tool() {
@@ -14,6 +14,7 @@ function Tool() {
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
   const currentSelectComponent = useGetCurrentSelectComponent()
+  const deleteCurrentComponent = useDeleteCurrentComponent()
 
   const [title, setTitle] = useState(currentSelectComponent.props.title)
   const [content, setContent] = useState(currentSelectComponent.props.content)
@@ -60,7 +61,7 @@ function Tool() {
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item style={{ marginTop: '40px' }}>
           <Button type="primary" onClick={submit}>确认</Button>
-          <Button type="danger" style={{ marginLeft: '20px' }} onClick={remove}>删除</Button>
+          <Button type="danger" style={{ marginLeft: '20px' }} onClick={deleteCurrentComponent}>删除</Button>
         </Form.Item>
       </Form>
     </ToolContainer>

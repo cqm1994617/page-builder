@@ -25,13 +25,15 @@ function getPageHTML(title, componentList) {
   import ReactDOM from 'react-dom'
   import {BannerServer as Banner} from '@/component-list/banner'
   import {ParagraphServer as Paragraph} from '@/component-list/paragraph'
+  import {TextServer as Text} from '@/component-list/text'
 
   const list = ${JSON.stringify(componentList)}
   document.title = '${title}' || '页面生成平台'
 
   const componentMap = {
     'banner': (item) => <Banner key={item.key} {...item.props} />,
-    'paragraph': (item) => <Paragraph key={item.key} {...item.props} />
+    'paragraph': (item) => <Paragraph key={item.key} {...item.props} />,
+    'text': (item) => <Text key={item.key} {...item.props} />
   }
 
   function App() {

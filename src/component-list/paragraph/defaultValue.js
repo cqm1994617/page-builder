@@ -1,4 +1,4 @@
-const componentItem = {
+const defaultValue = {
   id: 'PARAGRAPH_COMPONENT_DEFAULT',
   name: '默认段落',
   imgUrl: 'https://gw.alipayobjects.com/os/q/cms/images/jnlh2jbs/6a988b50-e8ad-48c7-9e3e-bf6d4e1b1e2a.cms/images/07b38968-3ad0-4e4c-8631-d7adbfec66a8.png?x-oss-process=image/resize,w_560/crop,h_560',
@@ -9,4 +9,4 @@ const componentItem = {
   }
 }
 
-export default componentItem
+export default defaultValue
