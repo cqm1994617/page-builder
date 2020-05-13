@@ -1,8 +1,24 @@
 import React from 'react'
+import styled from 'styled-components'
 
-function Image({onClick, imgUrl}) {
+const ImageContent = styled.div `
+  background: url(${props => props.imgUrl});
+  background-size: cover;
+  width: 100%;
+  height: ${props => props.imgHeight || 200}px;
+`
+
+const modeMap = {
+  
+}
+
+function Image({onClick, height, imgUrl}) {
+
   return <div onClick={onClick}>
-    <img src={imgUrl} />
+    <ImageContent 
+      imgUrl={imgUrl} 
+      imgHeight={height}
+    />
   </div>
 }
 

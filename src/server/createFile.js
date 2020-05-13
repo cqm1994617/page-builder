@@ -26,6 +26,7 @@ function getPageHTML(title, componentList) {
   import {BannerServer as Banner} from '@/component-list/banner'
   import {ParagraphServer as Paragraph} from '@/component-list/paragraph'
   import {TextServer as Text} from '@/component-list/text'
+  import {ImageServer as Image} from '@/component-list/image'
 
   const list = ${JSON.stringify(componentList)}
   document.title = '${title}' || '页面生成平台'
@@ -33,7 +34,8 @@ function getPageHTML(title, componentList) {
   const componentMap = {
     'banner': (item) => <Banner key={item.key} {...item.props} />,
     'paragraph': (item) => <Paragraph key={item.key} {...item.props} />,
-    'text': (item) => <Text key={item.key} {...item.props} />
+    'text': (item) => <Text key={item.key} {...item.props} />,
+    'image': (item) => <Image key={item.key} {...item.props} />
   }
 
   function App() {

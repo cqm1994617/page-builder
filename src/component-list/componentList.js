@@ -1,6 +1,7 @@
 import { defaultValue as bannerDefaultValue } from './banner'
 import { defaultValue as paragraphDefaultValue } from './paragraph'
 import { defaultValue as textDefaultValue } from './text'
+import { defaultValue as imageDefaultValue } from './image'
 
 const componentList = [
   {
@@ -22,6 +23,13 @@ const componentList = [
     name: '文本',
     children: [
       { ...textDefaultValue }
+    ]
+  },
+  {
+    id: 'IMAGE_COMPONENT',
+    name: '图片',
+    children: [
+      { ...imageDefaultValue }
     ]
   }
 ]
