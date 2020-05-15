@@ -31,10 +31,6 @@ class App extends React.Component {
     console.log('catch')
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
 
     return (
