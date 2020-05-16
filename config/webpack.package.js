@@ -24,10 +24,10 @@ const entries = getEntry(path.resolve(__dirname, `../src/component-list/**/serve
 
 console.log(entries)
 const config = {
-  mode: 'development',
+  mode: 'production',
   entry: entries,
   output: {
-    path: path.resolve(__dirname, `../package`),
+    path: path.resolve(__dirname, `../package/`),
     publicPath: './',
     filename: "MyComponent.[name].js",
     libraryTarget: 'umd',
@@ -39,6 +39,20 @@ const config = {
   },
   resolve: {
     extensions: [".js", ".json"]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'common',
+          chunks: 'initial',
+          priority: 2,
+          minChunks: 2,
+        },
+      }
+    }
   },
   module: {
     rules: [
