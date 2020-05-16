@@ -7,10 +7,10 @@ const Container = styled.div`
   color: #333;
 `
 
-function Text({ content, onClick }) {
+function Text({ content }) {
 
   return (
-    <Container onClick={onClick}>
+    <Container>
       <div>{content}</div>
     </Container>
   )
