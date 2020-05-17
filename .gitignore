@@ -5,3 +5,4 @@ npm-debug.log
 .idea/'
 src/server/build-page/
 src/server/page-file/
+src/server/preview-page/

@@ -3,6 +3,7 @@ const bodyParser = require('koa-bodyparser')
 const Router = require('koa-router')
 const cors = require('@koa/cors')
 const createFile = require('../createFile')
+const createPreview = require('../createPreview')
 
 const app = new Koa()
 const router = new Router()
@@ -18,6 +19,20 @@ router
     await createFile(body.pageList)
 
     ctx.body = "打包完成"
+  })
+  .post('/server/preview', async (ctx) => {
+
+    const body = ctx.request.body
+  
+    const startTime = Date.now()
+
+    const folderId = await createPreview(body.pageList)
+
+    ctx.body = {
+      text: '预览包生成完毕',
+      folderId,
+      time: `${Date.now() - startTime}毫秒`
+    }
   })
 
 app.use(cors())

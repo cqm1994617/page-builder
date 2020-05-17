@@ -17,7 +17,7 @@ function Banner({ bannerList, height, onClick }) {
   }, [])
 
   return (
-    <div ref={banner} onClick={onClick} style={{overflow: 'hidden'}}>
+    <div ref={banner} onClick={onClick} style={{overflow: 'hidden', height: height ? `${height}px` : '150px' }}>
       <div className="swiper-wrapper" >
         {bannerList.map((item, index) => (
           <div key={index} className="swiper-slide">

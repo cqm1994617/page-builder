@@ -25,7 +25,7 @@ function Banner({ bannerList, height }) {
   }, [])
 
   return (
-    <div ref={banner} style={{ overflow: 'hidden' }}>
+    <div ref={banner} style={{ overflow: 'hidden', height: height ? `${height}px` : '150px' }}>
       <div className="swiper-wrapper" >
         {bannerList.map((item, index) => (
           <div key={index} className="swiper-slide">

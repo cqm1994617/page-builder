@@ -112,6 +112,18 @@ function CustomHeader() {
     }
   }
 
+  const preview = () => {
+    axios.post('http://localhost:9090/server/preview', {
+      pageList
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      console.log(res.data)
+    })
+  }
+
   return (
     <Header style={headerStyle}>
       <HeaderContainer>
@@ -131,6 +143,7 @@ function CustomHeader() {
             <Button
               type="link"
               icon={<EyeOutlined />}
+              onClick={preview}
             >
               预览
               </Button>
