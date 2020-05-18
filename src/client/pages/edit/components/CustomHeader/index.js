@@ -121,6 +121,7 @@ function CustomHeader() {
       }
     }).then((res) => {
       console.log(res.data)
+      window.open(`http://localhost:9090/preview/${res.data.folderId}`)
     })
   }
 

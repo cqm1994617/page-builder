@@ -27,7 +27,7 @@ const config = {
   mode: 'production',
   entry: entries,
   output: {
-    path: path.resolve(__dirname, `../package/`),
+    path: path.resolve(__dirname, `../src/server/preview-page/package`),
     publicPath: './',
     filename: "MyComponent.[name].js",
     libraryTarget: 'umd',

@@ -15,17 +15,17 @@ function getPageHTML(title, componentList, packageList, cssList) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     ${
       cssList.map(item => {
-        return `<link href="../../../../package/static/css/${item}" rel="stylesheet">`
+        return `<link href="/preview/package/static/css/${item}" rel="stylesheet">`
       })
     }
     <title>${title}</title>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
-    <script src="../../../../package/MyComponent.common.js"></script>
+    <script src="/preview/package/MyComponent.common.js"></script>
     ${
       packageList.filter(item => item !== 'MyComponent.common.js').map(item => {
-        return `<script src="../../../../package/${item}"></script>`
+        return `<script src="/preview/package/${item}"></script>`
       }).join('\n')
     }
   </head>
@@ -75,11 +75,11 @@ async function createPreview(list) {
 
   fs.mkdirSync(path.resolve(__dirname, `./preview-page/${folderId}`))
 
-  const packageList = glob.sync(path.resolve(__dirname, '../../package/*.js')).map(item => {
+  const packageList = glob.sync(path.resolve(__dirname, './preview-page/package/*.js')).map(item => {
     const pathList = item.split('/')
     return pathList[pathList.length - 1]
   })
-  const cssList = glob.sync(path.resolve(__dirname, '../../package/static/css/*.css')).map(item => {
+  const cssList = glob.sync(path.resolve(__dirname, './preview-page/package/static/css/*.css')).map(item => {
     const pathList = item.split('/')
     return pathList[pathList.length - 1]
   })
