@@ -4,6 +4,9 @@ const Router = require('koa-router')
 const cors = require('@koa/cors')
 const createFile = require('../createFile')
 const createPreview = require('../createPreview')
+const serve = require('koa-static')
+const mount = require('koa-mount')
+const path = require('path')
 
 const app = new Koa()
 const router = new Router()
@@ -23,7 +26,7 @@ router
   .post('/server/preview', async (ctx) => {
 
     const body = ctx.request.body
-  
+
     const startTime = Date.now()
 
     const folderId = await createPreview(body.pageList)
@@ -36,6 +39,8 @@ router
   })
 
 app.use(cors())
+
+app.use(mount('/preview', serve(path.resolve(__dirname, '../preview-page'))))
 
 app.use(router.routes()).use(router.allowedMethods())
 
