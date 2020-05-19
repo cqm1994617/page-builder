@@ -6,7 +6,9 @@ import thunk from 'redux-thunk'
 import reducers from './reducer'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+import styled from 'styled-components'
 
+const Home = lazy(() => import('./pages/home/index'))
 const Edit = lazy(() => import('./pages/edit/index'))
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(reducers, composeEnhancers(
@@ -14,11 +16,17 @@ const store = createStore(reducers, composeEnhancers(
 )
 )
 
-const Loading = () => <div>加载中</div>
+const Loading = styled.div `
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 function WaitingComponent(Component) {
   return () => (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading>加载中...</Loading>}>
       <Component />
     </Suspense>
   )
@@ -27,17 +35,17 @@ function WaitingComponent(Component) {
 
 class App extends React.Component {
 
-  componentDidCatch() {
-    console.log('catch')
+  componentDidCatch(err) {
+    console.log(err)
   }
 
   render() {
-
     return (
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
           <BrowserRouter basename="/page-builder">
             <Switch>
+              <Route exact path="/home" component={WaitingComponent(Home)} />
               <Route exact path="/edit" component={WaitingComponent(Edit)} />
             </Switch>
           </BrowserRouter>
