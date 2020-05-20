@@ -43,7 +43,7 @@ function Tool() {
 
   const upload = (e) => {
     const file = e.target.files[0]
-    console.log(file.size)
+
     const reader = new FileReader()
     reader.addEventListener('load', () => {
       if (file.size < 1024000) {

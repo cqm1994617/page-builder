@@ -5,27 +5,17 @@ import { useHistory } from 'react-router-dom'
 const Page = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #f6f6f6;
+  background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-const Block = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: #1890ff;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  transition: 0.3s all;
-  &:hover {
-    transform: scale(1.1);
-  }
+const Content = styled.div `
+  width: 1000px;
+  background-color: #fff;
 `
+
 
 function Home() {
 
@@ -37,9 +27,7 @@ function Home() {
 
   return (
     <Page>
-      <Block onClick={toEdit}>
-        默认模式
-      </Block>
+      <Content></Content>
     </Page>
   )
 }
