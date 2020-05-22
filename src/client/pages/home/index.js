@@ -1,7 +1,8 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { List, Button } from 'antd'
+import CreateAppModal from './components/CreateAppModal'
 
 const Page = styled.div`
   width: 100%;
@@ -25,24 +26,23 @@ const EditText = styled.div`
 `
 
 const listReducer = (state, action) => {
-  console.log(action)
   switch (action.type) {
     case 'INIT':
       return {
         ...action.payload,
       }
-    default: 
+    default:
       return {
         ...state
       }
   }
-
 }
 
 function Home() {
 
   const history = useHistory()
-  const [state, dispatch] = useReducer(listReducer, [])
+  const [listState, listDispatch] = useReducer(listReducer, [])
+  const [createModalVisible, setCreateModalVisible] = useState(false)
 
   useEffect(() => {
     const projectStorage = localStorage.getItem('projectList')
@@ -50,7 +50,7 @@ function Home() {
     try {
       if (projectStorage) {
         const projectList = JSON.parse(projectStorage)
-        dispatch({
+        listDispatch({
           type: 'INIT',
           payload: projectList
         })
@@ -59,15 +59,14 @@ function Home() {
       console.log(err)
       localStorage.setItem('project', null)
     }
-
   }, [])
 
-  return (
+  return useMemo(() => (
     <Page>
       <Content>
         <Header>
-          <Button type="primary">创建应用</Button>
-          <Button type="danger" style={{marginLeft: '20px'}}>清空应用</Button>
+          <Button type="primary" onClick={() => setCreateModalVisible(true)}>创建应用</Button>
+          <Button type="danger" style={{ marginLeft: '20px' }}>清空应用</Button>
         </Header>
         <List
           dataSource={[
@@ -87,8 +86,12 @@ function Home() {
           )}
         />
       </Content>
+      <CreateAppModal
+        visible={createModalVisible}
+        onCancel={() => setCreateModalVisible(false)}
+      />
     </Page>
-  )
+  ), [createModalVisible, setCreateModalVisible])
 }
 
 export default Home
