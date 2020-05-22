@@ -1,19 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Form, Input, message } from 'antd'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Content = styled.div`
   margin-top: 30px;
 `
 
-function CreateAppModal({ visible, closeModal, addApp }) {
+function EditAppModal({ visible, editAppInfo, closeModal, selectItem }) {
 
-  const history = useHistory()
   const [formData, setFormData] = useState({
     name: '',
     desc: ''
   })
+
+  useEffect(() => {
+    setFormData({
+      name: selectItem.name,
+      desc: selectItem.desc
+    })
+  }, [selectItem])
 
   const changeValue = label => e => {
     setFormData({
@@ -34,16 +39,13 @@ function CreateAppModal({ visible, closeModal, addApp }) {
     if (!formData.name) {
       return message.info('应用名称不得为空')
     }
-    const appId = addApp({
-      name: formData.name,
-      desc: formData.desc
-    })
-    if (appId) {
-      _closeModal()
 
-      setTimeout(() => {
-        history.push(`/edit?appId=${appId}`)
-      }, 500)
+    const result = editAppInfo({
+      ...formData,
+      id: selectItem.id
+    })
+    if (result) {
+      _closeModal()
     }
   }
 
@@ -73,4 +75,4 @@ function CreateAppModal({ visible, closeModal, addApp }) {
 
 }
 
-export default CreateAppModal
+export default EditAppModal
