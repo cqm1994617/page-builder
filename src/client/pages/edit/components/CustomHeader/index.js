@@ -4,13 +4,13 @@ import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { useGetCurrentSelectPage } from '@/client/hooks'
+import { useGetCurrentSelectPage, useAppList } from '@/client/hooks'
 import { deletePage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import queryString  from 'query-string'
 import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
 import usePublishModal from './hooks/usePublishModal'
-import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 const { Header } = Layout
@@ -77,6 +77,9 @@ function CustomHeader() {
     hidePublishModal
   } = usePublishModal()
 
+  const {
+    saveAppLayout
+  } = useAppList()
 
 
   const publish = () => {
@@ -91,6 +94,24 @@ function CustomHeader() {
       }
     }).then(() => {
       setPublishStatus(3)
+    })
+  }
+
+  const save = () => {
+    const appId = queryString.parse(window.location.search).appId
+    saveAppLayout(appId, JSON.stringify(pageList))
+    message.info('保存成功！')
+  }
+
+  const preview = () => {
+    axios.post('http://localhost:9090/server/preview', {
+      pageList
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      window.open(`http://localhost:9090/preview/${res.data.folderId}`)
     })
   }
 
@@ -110,19 +131,6 @@ function CustomHeader() {
     } else {
       message.info('已是最后一个页面，无法删除')
     }
-  }
-
-  const preview = () => {
-    axios.post('http://localhost:9090/server/preview', {
-      pageList
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => {
-      console.log(res.data)
-      window.open(`http://localhost:9090/preview/${res.data.folderId}`)
-    })
   }
 
   return (
@@ -153,6 +161,7 @@ function CustomHeader() {
             <Button
               type="link"
               icon={<SaveOutlined />}
+              onClick={save}
             >
               保存
               </Button>

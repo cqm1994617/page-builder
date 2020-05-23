@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { message } from 'antd'
 
@@ -37,19 +37,17 @@ function useAppList() {
 
   const _checkName = (name) => {
     const list = _getList()
-    console.log(list.map(item => item.name).includes(name))
     return list.map(item => item.name).includes(name)
   }
 
-  const getAppDetail = (appId) => {
+  const getAppDetail = useCallback((appId) => {
     const list = _getList()
     const app = list.filter(item => item.id === appId)[0] || null
-
+    
     return app
-  }
+  }, [])
 
-  const addApp = (app) => {
-    console.log(app.name)
+  const addApp = useCallback((app) => {
     if (!_checkName(app.name)) {
       const list = _getList()
       const id = uuidv4()
@@ -63,9 +61,9 @@ function useAppList() {
     }
     message.warn('应用名重复，请更改')
     return false
-  }
+  }, [])
 
-  const editAppInfo = (app) => {
+  const editAppInfo = useCallback((app) => {
     if (!_checkName(app.name)) {
       const list = _getList()
       const newList = list.map(item => {
@@ -84,33 +82,33 @@ function useAppList() {
     }
     message.warn('应用名重复，请更改')
     return false
-  }
+  }, [])
 
-  const saveAppLayout = (app) => {
+  const saveAppLayout = useCallback((appId, layout) => {
     const list = _getList()
     const newList = list.map(item => {
-      if (app.id === item.id) {
+      if (appId === item.id) {
         return {
           ...item,
-          layout: app.layout
+          layout
         }
       }
       return item
     })
     _setAppList(newList)
-  }
+  }, [])
 
-  const removeApp = (appId) => {
+  const removeApp = useCallback((appId) => {
     const list = _getList()
     const newList = list.filter(item => {
       return item.id !== appId
     })
     _setAppList(newList)
-  }
+  }, [])
 
-  const clearApp = () => {
+  const clearApp = useCallback(() => {
     _setAppList()
-  }
+  }, [])
 
   return {
     appList,
