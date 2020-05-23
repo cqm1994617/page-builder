@@ -72,7 +72,6 @@ function Edit() {
         dispatch(
           setPageList(layout)
         )
-
         dispatch(
           setCurrentSelectPage(layout[0].id)
         )
@@ -81,6 +80,7 @@ function Edit() {
       console.log(err)
       _initPage()
     }
+
   }, [dispatch, getAppDetail, _initPage])
 
   return (
