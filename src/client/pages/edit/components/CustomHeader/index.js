@@ -111,7 +111,7 @@ function CustomHeader() {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      window.open(`http://localhost:9090/preview/${res.data.folderId}`)
+      window.open(`http://localhost:9090/preview/${res.data.folderId}/${selectedPage.path}.html`)
     })
   }
 

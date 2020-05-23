@@ -5,7 +5,6 @@ const uuid = require('uuid')
 const glob = require('glob')
 
 function getPageHTML(title, componentList, packageList, cssList) {
-  console.log(componentList)
   return `
   <html lang="en">
 
@@ -19,6 +18,34 @@ function getPageHTML(title, componentList, packageList, cssList) {
       })
     }
     <title>${title}</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      
+      #app {
+        margin: 100px auto;
+        width: 375px;
+        height: 667px;
+        overflow-y: auto;
+        border: 4px solid #ccc;
+        border-radius: 10px;
+      }
+      #app::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      #app::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background: rgba(0,0,0,0.06);
+      }
+    
+      #app::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: rgba(0,0,0,0.12);
+      }
+    </style>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
