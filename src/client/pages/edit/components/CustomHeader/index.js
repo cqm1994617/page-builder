@@ -7,10 +7,11 @@ import axios from 'axios'
 import { useGetCurrentSelectPage, useAppList } from '@/client/hooks'
 import { deletePage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
-import queryString  from 'query-string'
+import queryString from 'query-string'
 import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
 import usePublishModal from './hooks/usePublishModal'
+import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 const { Header } = Layout
@@ -83,17 +84,24 @@ function CustomHeader() {
 
 
   const publish = () => {
+
+    const packageId = uuidv4()
+
     openPublishModal()
     setPublishStatus(2)
 
+    const ws = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
+
     axios.post('http://localhost:9090/server/publish', {
       pageList,
+      packageId
     }, {
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(() => {
       setPublishStatus(3)
+      ws.close()
     })
   }
 

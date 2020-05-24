@@ -2,6 +2,8 @@ class PackageWebpackPlugin {
   constructor(option) {
     this.option = option
     this.time = Date.now()
+    this.packageId = option.packageId
+    this.wsMap = option.wsMap
   }
   apply(compiler) {
     compiler.hooks.entryOption.tap('entryOption', () => {
@@ -17,6 +19,7 @@ class PackageWebpackPlugin {
       console.log('资源生成完成', Date.now())
     })
     compiler.hooks.emit.tap('done', () => {
+      console.log('打包', this.wsMap)
       console.log('打包完成，总用时: ', ((Date.now() - this.time) / 1000).toFixed(1))
     })
   }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { setPageList } from '@/client/actions/pageList'
-import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import { setPageList, clearPageList } from '@/client/actions/pageList'
+import { setCurrentSelectPage, clearCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import { clearCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentPanel from './components/ComponentPanel'
@@ -79,6 +80,18 @@ function Edit() {
     } catch (err) {
       console.log(err)
       _initPage()
+    }
+
+    return () => {
+      dispatch(
+        clearPageList()
+      )
+      dispatch(
+        clearCurrentSelectPage()
+      )
+      dispatch(
+        clearCurrentSelectComponent()
+      )
     }
 
   }, [dispatch, getAppDetail, _initPage])

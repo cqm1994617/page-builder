@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const PackageWebpackPlugin = require('./package-webpack-plugin')
 const glob = require('glob')
 
-function getConfig(folderId) {
+function getConfig(folderId, packageId, wsMap) {
 
   const HtmlWebpackPlugins = []
 
@@ -100,7 +100,10 @@ function getConfig(folderId) {
     },
     plugins: [
       ...HtmlWebpackPlugins,
-      new PackageWebpackPlugin(),
+      new PackageWebpackPlugin({
+        packageId,
+        wsMap
+      }),
       new MiniCssExtractPlugin({
         filename: "static/css/[name].[contenthash].css",
         chunkFilename: "[id].css"

@@ -7,10 +7,15 @@ const createPreview = require('../createPreview')
 const serve = require('koa-static')
 const mount = require('koa-mount')
 const path = require('path')
+const http = require('http')
+const WebSocket = require('ws')
+const WebSocketAPI = require('./WebSocketAPI')
 
 const app = new Koa()
 const router = new Router()
 app.use(bodyParser())
+
+const wsMap = {}
 
 router
   .get('/server', (ctx) => {
@@ -19,7 +24,7 @@ router
   .post('/server/publish', async (ctx) => {
     const body = ctx.request.body
 
-    await createFile(body.pageList)
+    await createFile(body.pageList, body.packageId, wsMap)
 
     ctx.body = "打包完成"
   })
@@ -44,4 +49,15 @@ app.use(mount('/preview', serve(path.resolve(__dirname, '../preview-page'))))
 
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(9090)
+// app.listen(9090)
+
+const server = http.createServer(app.callback())
+
+const wss = new WebSocket.Server({
+  server,
+  path: '/ws'
+})
+
+WebSocketAPI(wss, wsMap)
+
+server.listen(9090)
