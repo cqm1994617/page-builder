@@ -11,7 +11,10 @@ const WebSocketAPI = (wss, wsMap) => {
       console.log(`关闭--${packageId}`)
       delete wsMap[packageId]
     })
-    ws.send('INIT')
+    ws.send(JSON.stringify({
+      status: 'init',
+      text: '成功与服务端建立连接...'
+    }))
   })
 }
 

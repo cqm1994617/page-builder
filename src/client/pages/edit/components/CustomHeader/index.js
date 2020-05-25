@@ -92,6 +92,10 @@ function CustomHeader() {
 
     const ws = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
 
+    ws.onmessage = (e) => {
+      console.log(e.data)
+    }
+
     axios.post('http://localhost:9090/server/publish', {
       pageList,
       packageId
