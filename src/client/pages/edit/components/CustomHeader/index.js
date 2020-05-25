@@ -12,6 +12,9 @@ import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
 import usePublishModal from './hooks/usePublishModal'
 import { v4 as uuidv4 } from 'uuid'
+import NewPageModal from './components/NewPageModal'
+import EditPageModal from './components/EditPageModal'
+import PublishModal from './components/PublishModal'
 
 const { Option } = Select
 const { Header } = Layout
@@ -190,43 +193,26 @@ function CustomHeader() {
           </ButtonGroup>
         </div>
       </HeaderContainer>
-      <Modal
-        visible={newPageModalShow}
-        onCancel={hideNewPageModal}
-        onOk={newPageModalSubmit}
-      >
-        <Form style={{ marginTop: '30px' }}>
-          <Form.Item label="页面标题">
-            <Input
-              style={{ width: '400px' }}
-              value={newPageInfo.title}
-              onChange={inputNewPageInfo('title')}
-            />
-          </Form.Item>
-          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
-            <Input style={{ width: '400px' }} value={newPageInfo.path} onChange={inputNewPageInfo('path')} suffix=".html" />
-          </Form.Item>
-        </Form>
-      </Modal>
 
-      <Modal
-        visible={editPageModalShow}
-        onCancel={hideEditPageModal}
-        onOk={editPageModalSubmit}
-      >
-        <Form style={{ marginTop: '30px' }}>
-          <Form.Item label="页面标题">
-            <Input
-              style={{ width: '400px' }}
-              value={editPageInfo.title}
-              onChange={inputEditPageInfo('title')}
-            />
-          </Form.Item>
-          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
-            <Input style={{ width: '400px' }} value={editPageInfo.path} onChange={inputEditPageInfo('path')} suffix=".html" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <NewPageModal
+        newPageModalShow={newPageModalShow}
+        hideNewPageModal={hideNewPageModal}
+        newPageModalSubmit={newPageModalSubmit}
+        inputNewPageInfo={inputNewPageInfo}
+        newPageInfo={newPageInfo}
+      />
+
+      <EditPageModal
+        editPageModalShow={editPageModalShow}
+        hideEditPageModal={hideEditPageModal}
+        editPageModalSubmit={editPageModalSubmit}
+        editPageInfo={editPageInfo}
+        inputEditPageInfo={inputEditPageInfo}
+      />
+
+      <PublishModal 
+        
+      />
 
       <Modal
         visible={publishModalShow}

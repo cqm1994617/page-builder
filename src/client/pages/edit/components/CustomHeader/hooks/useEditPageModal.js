@@ -24,7 +24,6 @@ function useEditPageModal() {
   }, [currentSelectPage])
 
   const editPageModalSubmit = () => {
-    console.log(5)
     const hasPath = pageList.map(item => item.path).filter(path => path !== currentSelectPage.path).includes(editPageInfo.path)
 
     if (!editPageInfo.title) {
