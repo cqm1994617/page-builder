@@ -1,27 +1,30 @@
 import React from 'react'
 import { Modal } from 'antd'
+import styled from 'styled-components'
 
-function PackageModal({ publishModalShow, hidePublishModal }) {
+const Command = styled.div `
+  margin-top: 20px;
+  background-color: #111;
+  color: #fff;
+  padding: 15px;
+  width: 700px;
+  max-height: 500px;
+`
+
+function PackageModal({ publishModalShow, hidePublishModal, publishStatus }) {
 
   return (
     <Modal
       visible={publishModalShow}
       onCancel={hidePublishModal}
       onOk={hidePublishModal}
+      width={800}
     >
-      <div>
-        {(() => {
-          if (publishStatus === 1) {
-            return '未开始'
-          }
-          if (publishStatus === 2) {
-            return '打包中'
-          }
-          if (publishStatus === 3) {
-            return '打包完成'
-          }
-        })()}
-      </div>
+      <Command>
+        {
+          publishStatus.map((item, index) => <div key={index}>{item.text}</div>)
+        }
+      </Command>
     </Modal>
   )
 

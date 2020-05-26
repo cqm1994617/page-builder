@@ -1,25 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer, useCallback } from 'react'
+
+function statuReducer(state, action) {
+  switch (action.type) {
+    case 'ADD': 
+      return [
+        ...state,
+        {...action.payload}
+      ]
+    case 'CLEAR':
+      return []
+    default:
+      return [...state]
+  }
+}
 
 function usePublishModal() {
   const [publishModalShow, setPublishModalShow] = useState(false)
-  /*
-  * 1. 未开始
-  * 2. 打包中
-  * 3. 打包完成
-  */
-  const [publishStatus, setPublishStatus] = useState(1)
+  const [publishStatus, dispatch] = useReducer(statuReducer, [])
 
-  const openPublishModal = () => {
+  const openPublishModal = useCallback(() => {
     setPublishModalShow(true)
-  }
+  }, [])
 
-  const hidePublishModal = () => {
+  const hidePublishModal = useCallback(() => {
     setPublishModalShow(false)
-  }
+  }, [])
+
+  const addPublishStatus = useCallback((statuObj) => {
+    dispatch({
+      type: 'ADD',
+      payload: statuObj
+    })
+  }, [dispatch])
+
+  const clearPublishStatus = useCallback(() => {
+    dispatch({
+      type: 'CLEAR'
+    })
+  }, [dispatch])
 
   return {
     publishStatus,
-    setPublishStatus,
+    clearPublishStatus,
+    addPublishStatus,
     publishModalShow,
     openPublishModal,
     hidePublishModal
