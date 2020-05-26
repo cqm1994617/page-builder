@@ -66,7 +66,7 @@ function Home() {
     <Page>
       <Content>
         <Header>
-          <Button type="primary">创建应用</Button>
+          <Button type="primary" onClick={}>创建应用</Button>
           <Button type="danger" style={{marginLeft: '20px'}}>清空应用</Button>
         </Header>
         <List
