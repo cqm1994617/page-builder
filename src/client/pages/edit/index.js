@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { setPageList } from '@/client/actions/pageList'
-import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import { setPageList, clearPageList } from '@/client/actions/pageList'
+import { setCurrentSelectPage, clearCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import { clearCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentPanel from './components/ComponentPanel'
 import SandBox from './components/SandBox'
 import EditPanel from './components/EditPanel'
+import { useAppList } from '@/client/hooks'
+import queryString from 'query-string'
 
 const Page = styled.div`
   position: absolute;
@@ -31,27 +34,67 @@ const MainContent = styled.div`
 
 function Edit() {
 
+  const { getAppDetail } = useAppList()
   const pageList = useSelector(state => state.pageListReducer)
+  const state = useSelector(state => state)
   const dispatch = useDispatch()
-
   const panelShow = useSelector(state => state.componentPanelReducer)
 
+  const _initPage = useCallback(() => {
+    const initPage = {
+      title: '首页',
+      id: uuidv4(),
+      path: 'index',
+      componentList: []
+    }
+    dispatch(
+      setPageList([initPage])
+    )
+    dispatch(
+      setCurrentSelectPage(initPage.id)
+    )
+  }, [dispatch])
+
   useEffect(() => {
-    if (pageList.length === 0) {
-      const page = {
-        title: '首页',
-        id: uuidv4(),
-        path: 'index',
-        componentList: []
+
+    const appId = queryString.parse(window.location.search).appId
+    const appDetail = getAppDetail(appId)
+
+    try {
+      if (!appDetail.layout) {
+        return _initPage()
       }
+      
+      const layout = JSON.parse(appDetail.layout)
+
+      if (layout.length === 0) {
+        _initPage()
+      } else {
+        dispatch(
+          setPageList(layout)
+        )
+        dispatch(
+          setCurrentSelectPage(layout[0].id)
+        )
+      }
+    } catch (err) {
+      console.log(err)
+      _initPage()
+    }
+
+    return () => {
       dispatch(
-        setPageList([page])
+        clearPageList()
       )
       dispatch(
-        setCurrentSelectPage(page.id)
+        clearCurrentSelectPage()
+      )
+      dispatch(
+        clearCurrentSelectComponent()
       )
     }
-  }, [pageList, dispatch])
+
+  }, [dispatch, getAppDetail, _initPage])
 
   return (
     <Page>

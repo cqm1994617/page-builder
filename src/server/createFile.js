@@ -5,10 +5,10 @@ const path = require('path')
 const AdmZip = require('adm-zip')
 const uuid = require('uuid')
 
-function buildPromise(folderId) {
+function buildPromise(folderId, packageId, wsMap) {
 
   return new Promise((resolve, reject) => {
-    webpack(getConfig(folderId), (err, stat) => {
+    webpack(getConfig(folderId, packageId, wsMap), (err, stat) => {
       console.log(err)
       if (err) {
         reject(err)
@@ -54,7 +54,7 @@ function getPageHTML(title, componentList) {
   `
 }
 
-async function createFile(list) {
+async function createFile(list, packageId, wsMap) {
 
   const folderId = uuid.v4()
 
@@ -69,7 +69,7 @@ async function createFile(list) {
   })
 
 
-  await buildPromise(folderId)
+  await buildPromise(folderId, packageId, wsMap)
 
   // const zip = new AdmZip(path.resolve(__dirname, `./page-file/${folderId}.zip`))
   // zip.extractAllTo(path.resolve(__dirname, `./page-file/${folderId}`), true);

@@ -4,13 +4,17 @@ import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { useGetCurrentSelectPage } from '@/client/hooks'
+import { useGetCurrentSelectPage, useAppList } from '@/client/hooks'
 import { deletePage } from '@/client/actions/pageList'
 import { setCurrentSelectPage } from '@/client/actions/currentSelectPage'
+import queryString from 'query-string'
 import useNewPageModal from './hooks/useNewPageModal'
 import useEditPageModal from './hooks/useEditPageModal'
 import usePublishModal from './hooks/usePublishModal'
 import { v4 as uuidv4 } from 'uuid'
+import NewPageModal from './components/NewPageModal'
+import EditPageModal from './components/EditPageModal'
+import PublishModal from './components/PublishModal'
 
 const { Option } = Select
 const { Header } = Layout
@@ -77,20 +81,52 @@ function CustomHeader() {
     hidePublishModal
   } = usePublishModal()
 
+  const {
+    saveAppLayout
+  } = useAppList()
 
 
   const publish = () => {
+
+    const packageId = uuidv4()
+
     openPublishModal()
     setPublishStatus(2)
 
+    const ws = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
+
+    ws.onmessage = (e) => {
+      console.log(e.data)
+    }
+
     axios.post('http://localhost:9090/server/publish', {
       pageList,
+      packageId
     }, {
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(() => {
       setPublishStatus(3)
+      ws.close()
+    })
+  }
+
+  const save = () => {
+    const appId = queryString.parse(window.location.search).appId
+    saveAppLayout(appId, JSON.stringify(pageList))
+    message.info('保存成功！')
+  }
+
+  const preview = () => {
+    axios.post('http://localhost:9090/server/preview', {
+      pageList
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      window.open(`http://localhost:9090/preview/${res.data.folderId}/${selectedPage.path}.html`)
     })
   }
 
@@ -110,19 +146,6 @@ function CustomHeader() {
     } else {
       message.info('已是最后一个页面，无法删除')
     }
-  }
-
-  const preview = () => {
-    axios.post('http://localhost:9090/server/preview', {
-      pageList
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => {
-      console.log(res.data)
-      window.open(`http://localhost:9090/preview/${res.data.folderId}`)
-    })
   }
 
   return (
@@ -153,6 +176,7 @@ function CustomHeader() {
             <Button
               type="link"
               icon={<SaveOutlined />}
+              onClick={save}
             >
               保存
               </Button>
@@ -169,43 +193,26 @@ function CustomHeader() {
           </ButtonGroup>
         </div>
       </HeaderContainer>
-      <Modal
-        visible={newPageModalShow}
-        onCancel={hideNewPageModal}
-        onOk={newPageModalSubmit}
-      >
-        <Form style={{ marginTop: '30px' }}>
-          <Form.Item label="页面标题">
-            <Input
-              style={{ width: '400px' }}
-              value={newPageInfo.title}
-              onChange={inputNewPageInfo('title')}
-            />
-          </Form.Item>
-          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
-            <Input style={{ width: '400px' }} value={newPageInfo.path} onChange={inputNewPageInfo('path')} suffix=".html" />
-          </Form.Item>
-        </Form>
-      </Modal>
 
-      <Modal
-        visible={editPageModalShow}
-        onCancel={hideEditPageModal}
-        onOk={editPageModalSubmit}
-      >
-        <Form style={{ marginTop: '30px' }}>
-          <Form.Item label="页面标题">
-            <Input
-              style={{ width: '400px' }}
-              value={editPageInfo.title}
-              onChange={inputEditPageInfo('title')}
-            />
-          </Form.Item>
-          <Form.Item label="页面路径" extra={<div>页面路径只能包含字母、数字、下划线</div>}>
-            <Input style={{ width: '400px' }} value={editPageInfo.path} onChange={inputEditPageInfo('path')} suffix=".html" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <NewPageModal
+        newPageModalShow={newPageModalShow}
+        hideNewPageModal={hideNewPageModal}
+        newPageModalSubmit={newPageModalSubmit}
+        inputNewPageInfo={inputNewPageInfo}
+        newPageInfo={newPageInfo}
+      />
+
+      <EditPageModal
+        editPageModalShow={editPageModalShow}
+        hideEditPageModal={hideEditPageModal}
+        editPageModalSubmit={editPageModalSubmit}
+        editPageInfo={editPageInfo}
+        inputEditPageInfo={inputEditPageInfo}
+      />
+
+      <PublishModal 
+        
+      />
 
       <Modal
         visible={publishModalShow}
