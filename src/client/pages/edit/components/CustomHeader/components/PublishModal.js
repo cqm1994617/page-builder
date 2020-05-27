@@ -8,7 +8,8 @@ const Command = styled.div `
   color: #fff;
   padding: 15px;
   width: 700px;
-  max-height: 500px;
+  height: 400px;
+  overflow: auto;
 `
 
 function PackageModal({ publishModalShow, hidePublishModal, publishStatus }) {

@@ -71,8 +71,11 @@ async function createFile(list, packageId, wsMap) {
 
   await buildPromise(folderId, packageId, wsMap)
 
-  // const zip = new AdmZip(path.resolve(__dirname, `./page-file/${folderId}.zip`))
-  // zip.extractAllTo(path.resolve(__dirname, `./page-file/${folderId}`), true);
+  const zip = new AdmZip()
+  zip.addLocalFolder(path.resolve(__dirname, `./build-page/${folderId}`))
+  zip.writeZip(path.resolve(__dirname, `./build-page/${folderId}.zip`))
+
+  return folderId
 }
 
 

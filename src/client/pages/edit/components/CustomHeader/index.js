@@ -95,7 +95,12 @@ function CustomHeader() {
 
     ws.current = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
     ws.current.onmessage = (e) => {
+      console.log(e.data)
+      const data = JSON.parse(e.data)
       addPublishStatus(JSON.parse(e.data))
+      if (data.status === 'done') {
+        ws.current.close()
+      }
     }
 
     axios.post('http://localhost:9090/server/publish', {
@@ -106,6 +111,8 @@ function CustomHeader() {
         'Content-Type': 'application/json'
       }
     }).then(() => {
+      
+    }).catch(() => {
       ws.current.close()
     })
   }
@@ -210,7 +217,7 @@ function CustomHeader() {
 
       <PublishModal
         publishModalShow={publishModalShow}
-        hidePublishModal={hidePublishModal}
+        hidePublishModal={() => hidePublishModal(ws.current)}
         publishStatus={publishStatus}
       />
     </Header>

@@ -22,9 +22,11 @@ function usePublishModal() {
     setPublishModalShow(true)
   }, [])
 
-  const hidePublishModal = useCallback(() => {
+  const hidePublishModal = useCallback((ws) => {
+    ws.close()
+    clearPublishStatus()
     setPublishModalShow(false)
-  }, [])
+  }, [clearPublishStatus])
 
   const addPublishStatus = useCallback((statuObj) => {
     dispatch({
