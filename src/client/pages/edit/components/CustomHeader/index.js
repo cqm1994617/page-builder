@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { Layout, Button, Select, Modal, Form, Input, message } from 'antd'
 import { EyeOutlined, SaveOutlined, SendOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -55,6 +55,8 @@ function CustomHeader() {
   const pageList = useSelector(state => state.pageListReducer)
   const selectedPage = useGetCurrentSelectPage()
 
+  const ws = useRef(null)
+
   const {
     newPageModalSubmit,
     hideNewPageModal,
@@ -75,7 +77,8 @@ function CustomHeader() {
 
   const {
     publishStatus,
-    setPublishStatus,
+    addPublishStatus,
+    clearPublishStatus,
     publishModalShow,
     openPublishModal,
     hidePublishModal
@@ -85,18 +88,14 @@ function CustomHeader() {
     saveAppLayout
   } = useAppList()
 
-
   const publish = () => {
 
     const packageId = uuidv4()
-
     openPublishModal()
-    setPublishStatus(2)
 
-    const ws = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
-
-    ws.onmessage = (e) => {
-      console.log(e.data)
+    ws.current = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
+    ws.current.onmessage = (e) => {
+      addPublishStatus(JSON.parse(e.data))
     }
 
     axios.post('http://localhost:9090/server/publish', {
@@ -107,8 +106,7 @@ function CustomHeader() {
         'Content-Type': 'application/json'
       }
     }).then(() => {
-      setPublishStatus(3)
-      ws.close()
+      ws.current.close()
     })
   }
 
@@ -210,29 +208,11 @@ function CustomHeader() {
         inputEditPageInfo={inputEditPageInfo}
       />
 
-      <PublishModal 
-        
+      <PublishModal
+        publishModalShow={publishModalShow}
+        hidePublishModal={hidePublishModal}
+        publishStatus={publishStatus}
       />
-
-      <Modal
-        visible={publishModalShow}
-        onCancel={hidePublishModal}
-        onOk={hidePublishModal}
-      >
-        <div>
-          {(() => {
-            if (publishStatus === 1) {
-              return '未开始'
-            }
-            if (publishStatus === 2) {
-              return '打包中'
-            }
-            if (publishStatus === 3) {
-              return '打包完成'
-            }
-          })()}
-        </div>
-      </Modal>
     </Header>
   )
 

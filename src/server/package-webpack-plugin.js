@@ -33,7 +33,7 @@ class PackageWebpackPlugin {
     compiler.hooks.emit.tap('done', () => {
       this.wsMap[this.packageId].send(JSON.stringify({
         status: 'done',
-        text: `打包成功！用时${((Date.now() - this.time) / 1000).toFixed(1)}`
+        text: `打包成功！用时${((Date.now() - this.time) / 1000).toFixed(1)}秒`
       }))
     })
   }
