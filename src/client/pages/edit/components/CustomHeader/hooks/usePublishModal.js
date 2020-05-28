@@ -2,21 +2,23 @@ import React, { useState, useReducer, useCallback } from 'react'
 
 function statuReducer(state, action) {
   switch (action.type) {
-    case 'ADD': 
+    case 'ADD_STATUS': 
       return [
         ...state,
         {...action.payload}
       ]
-    case 'CLEAR':
+    case 'CLEAR_STATUS':
       return []
     default:
       return [...state]
   }
 }
 
+
 function usePublishModal() {
   const [publishModalShow, setPublishModalShow] = useState(false)
   const [publishStatus, dispatch] = useReducer(statuReducer, [])
+  const [filePath, setFilePath] = useState('')
 
   const openPublishModal = useCallback(() => {
     setPublishModalShow(true)
@@ -26,18 +28,19 @@ function usePublishModal() {
     ws.close()
     clearPublishStatus()
     setPublishModalShow(false)
+    setFilePath('')
   }, [clearPublishStatus])
 
   const addPublishStatus = useCallback((statuObj) => {
     dispatch({
-      type: 'ADD',
+      type: 'ADD_STATUS',
       payload: statuObj
     })
   }, [dispatch])
 
   const clearPublishStatus = useCallback(() => {
     dispatch({
-      type: 'CLEAR'
+      type: 'CLEAR_STATUS'
     })
   }, [dispatch])
 
@@ -47,7 +50,9 @@ function usePublishModal() {
     addPublishStatus,
     publishModalShow,
     openPublishModal,
-    hidePublishModal
+    hidePublishModal,
+    filePath,
+    setFilePath
   }
 
 }

@@ -78,10 +78,11 @@ function CustomHeader() {
   const {
     publishStatus,
     addPublishStatus,
-    clearPublishStatus,
     publishModalShow,
     openPublishModal,
-    hidePublishModal
+    hidePublishModal,
+    filePath,
+    setFilePath
   } = usePublishModal()
 
   const {
@@ -95,7 +96,6 @@ function CustomHeader() {
 
     ws.current = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
     ws.current.onmessage = (e) => {
-      console.log(e.data)
       const data = JSON.parse(e.data)
       addPublishStatus(JSON.parse(e.data))
       if (data.status === 'done') {
@@ -110,8 +110,8 @@ function CustomHeader() {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(() => {
-      
+    }).then((res) => {
+      setFilePath(res.data.filePath)
     }).catch(() => {
       ws.current.close()
     })
@@ -219,6 +219,7 @@ function CustomHeader() {
         publishModalShow={publishModalShow}
         hidePublishModal={() => hidePublishModal(ws.current)}
         publishStatus={publishStatus}
+        filePath={filePath}
       />
     </Header>
   )
