@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 import NewPageModal from './components/NewPageModal'
 import EditPageModal from './components/EditPageModal'
 import PublishModal from './components/PublishModal'
+import { cleanEmpty } from '@/client/actions/componentList'
 
 const { Option } = Select
 const { Header } = Layout
@@ -81,8 +82,8 @@ function CustomHeader() {
     publishModalShow,
     openPublishModal,
     hidePublishModal,
-    filePath,
-    setFilePath
+    resultFile,
+    setResultFile
   } = usePublishModal()
 
   const {
@@ -111,7 +112,11 @@ function CustomHeader() {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      setFilePath(res.data.filePath)
+      console.log(res.data)
+      setResultFile({
+        path: res.data.filePath,
+        folderId: res.data.folderId
+      })
     }).catch(() => {
       ws.current.close()
     })
@@ -136,6 +141,7 @@ function CustomHeader() {
   }
 
   const changePage = (id) => {
+    dispatch(cleanEmpty())
     dispatch(setCurrentSelectPage(id))
   }
 
@@ -219,7 +225,7 @@ function CustomHeader() {
         publishModalShow={publishModalShow}
         hidePublishModal={() => hidePublishModal(ws.current)}
         publishStatus={publishStatus}
-        filePath={filePath}
+        resultFile={resultFile}
       />
     </Header>
   )

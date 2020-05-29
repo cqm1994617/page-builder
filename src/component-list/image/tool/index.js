@@ -48,6 +48,7 @@ function Tool() {
     reader.addEventListener('load', () => {
       if (file.size < 1024000) {
         setImgUrl(reader.result)
+        submit()
       } else {
         message.info('图片大小不得超过1M')
       }

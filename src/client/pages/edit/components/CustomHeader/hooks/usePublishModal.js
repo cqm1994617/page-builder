@@ -14,11 +14,13 @@ function statuReducer(state, action) {
   }
 }
 
-
 function usePublishModal() {
   const [publishModalShow, setPublishModalShow] = useState(false)
   const [publishStatus, dispatch] = useReducer(statuReducer, [])
-  const [filePath, setFilePath] = useState('')
+  const [resultFile, setResultFile] = useState({
+    path: '',
+    folderId: ''
+  })
 
   const openPublishModal = useCallback(() => {
     setPublishModalShow(true)
@@ -28,7 +30,10 @@ function usePublishModal() {
     ws.close()
     clearPublishStatus()
     setPublishModalShow(false)
-    setFilePath('')
+    setResultFile({
+      path: '',
+      folderId: ''
+    })
   }, [clearPublishStatus])
 
   const addPublishStatus = useCallback((statuObj) => {
@@ -51,8 +56,8 @@ function usePublishModal() {
     publishModalShow,
     openPublishModal,
     hidePublishModal,
-    filePath,
-    setFilePath
+    resultFile,
+    setResultFile
   }
 
 }

@@ -12,7 +12,12 @@ const Command = styled.div `
   overflow: auto;
 `
 
-function PackageModal({ publishModalShow, hidePublishModal, publishStatus, filePath }) {
+const Download = styled.a `
+  display: block;
+  margin: 20px 0;
+`
+
+function PackageModal({ publishModalShow, hidePublishModal, publishStatus, resultFile }) {
 
   return (
     <Modal
@@ -26,7 +31,7 @@ function PackageModal({ publishModalShow, hidePublishModal, publishStatus, fileP
           publishStatus.map((item, index) => <div key={index}>{item.text}</div>)
         }
       </Command>
-      {filePath && <a href={filePath}>下载压缩包</a>}
+      {resultFile.path && <Download href={resultFile.path}>下载 {resultFile.folderId}.zip</Download>}
     </Modal>
   )
 

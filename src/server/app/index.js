@@ -28,6 +28,7 @@ router
 
     ctx.body = {
       status: 0,
+      folderId,
       text: '打包成功',
       filePath: `http://localhost:9090/build-page/${folderId}.zip`
     }
