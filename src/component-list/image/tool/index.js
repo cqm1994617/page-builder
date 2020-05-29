@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Form, Input, Button, message, Radio, Upload } from 'antd'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
+import { Form, Input, Button, message, Radio, Modal } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
@@ -12,11 +12,46 @@ import styled from 'styled-components'
 const RadioGroup = styled.div`
   margin-bottom: 20px;
 `
-const Tips = styled.div `
+const Tips = styled.div`
   font-size: 14px;
   color: #333;
   margin-bottom: 10px;
 `
+const CustomUpload = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 15px;
+  & > label {
+    cursor: pointer;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 5px 15px;
+    flex: none;
+  }
+  & > span {
+    text-overflow: ellipsis;
+    flex: none;
+    margin-left: 10px;
+  }
+`
+const PreviewImage = styled.div `
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  background: url(${props => props.imgUrl}) no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 30px;
+`
+const DetailImage = styled.img `
+  width: 400px;
+  height: auto;
+`
+
 function Tool() {
 
   const dispatch = useDispatch()
@@ -25,11 +60,14 @@ function Tool() {
   const deleteCurrentComponent = useDeleteCurrentComponent()
 
   const [imgUrl, setImgUrl] = useState(currentSelectComponent.props.imgUrl)
+  const [imgName, setImgName] = useState('')
+  const [previewVisible, setPreviewVisible] = useState(false)
   const [imgType, setImgType] = useState(1)
   const [height, setHeight] = useState(currentSelectComponent.props.height)
 
   const submit = () => {
     const newKey = uuidv4()
+
     dispatch(editComponent({
       type: 'image',
       key: newKey,
@@ -43,17 +81,17 @@ function Tool() {
 
   const upload = (e) => {
     const file = e.target.files[0]
-
     const reader = new FileReader()
+    reader.readAsDataURL(file)
+
     reader.addEventListener('load', () => {
-      if (file.size < 1024000) {
+      if (file.size < 2048000) {
         setImgUrl(reader.result)
-        submit()
+        setImgName(file.name)
       } else {
-        message.info('图片大小不得超过1M')
+        message.info('图片大小不得超过2M')
       }
     })
-    reader.readAsDataURL(file)
   }
 
   return (
@@ -64,8 +102,8 @@ function Tool() {
         </Form.Item>
         <RadioGroup>
           <Radio.Group value={imgType} onChange={(e) => setImgType(e.target.value)}>
-            <Radio value={1}>网络图片</Radio>
-            <Radio value={2}>本地图片</Radio>
+            <Radio value={1}>输入图片链接</Radio>
+            <Radio value={2}>上传本地图片</Radio>
           </Radio.Group>
         </RadioGroup>
         {
@@ -76,15 +114,30 @@ function Tool() {
         {
           imgType === 2 && <>
             <Tips>大小不得超过2M</Tips>
-            <input type="file" onChange={upload} accept=".jpg,.png,.jpeg,.gif" />
+            <CustomUpload>
+              <label htmlFor="files">
+                上传图片
+              </label>
+              <span>{imgName}</span>
+              <input id="files" style={{ visibility: 'hidden' }} type="file" onChange={upload} accept=".jpg,.png,.jpeg,.gif" />
+            </CustomUpload>
           </>
         }
+        <PreviewImage onClick={() => setPreviewVisible(true)} imgUrl={imgUrl} />
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item style={{ marginTop: '40px' }}>
           <Button type="primary" onClick={submit}>确认</Button>
           <Button type="danger" style={{ marginLeft: '20px' }} onClick={deleteCurrentComponent}>删除</Button>
         </Form.Item>
       </Form>
+
+      <Modal
+        visible={previewVisible}
+        onOk={() => setPreviewVisible(false)}
+        onCancel={() => setPreviewVisible(false)}
+      >
+        <DetailImage src={imgUrl} />
+      </Modal>
     </ToolContainer>
   )
 

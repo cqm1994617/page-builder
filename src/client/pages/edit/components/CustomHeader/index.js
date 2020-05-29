@@ -175,6 +175,8 @@ function CustomHeader() {
         </PageSelected>
         <div>
           <ButtonGroup>
+            <Button style={{marginRight: '20px'}}>后退</Button>
+            <Button style={{marginRight: '30px'}}>前进</Button>
             <Button
               type="link"
               icon={<EyeOutlined />}
