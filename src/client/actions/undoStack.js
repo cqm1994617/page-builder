@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { setPageList } from './pageList'
 
 const { undoStack } = createActions({
-  'UNDO_STACK/SET_UNDO_STACK': (state) => {
-console.log(state)
+  'UNDO_STACK/ADD_UNDO_STACK': (state) => {
     const currentStepId = uuidv4()
 
     const pageList = [...state.pageListReducer]
@@ -20,6 +19,19 @@ console.log(state)
 
     return stack
   },
+  'UNDO_STACK/INIT_UNDO_STACK': (stack, pageList) => {
+    sessionStorage.clear()
+    stack.forEach(stepId => {
+      sessionStorage.setItem(stepId, JSON.stringify(pageList))
+    })
+    return [...stack]
+  },
+  'UNDO_STACK/SET_UNDO_STACK': (stack, pageList) => {
+    stack.forEach(stepId => {
+      sessionStorage.setItem(stepId, JSON.stringify(pageList))
+    })
+    return [...stack]
+  },
   'UNDO_STACK/CLEAR_UNDO_STACK': (stack) => {
 
     stack.forEach(stepId => {
@@ -30,7 +42,9 @@ console.log(state)
   }
 })
 
-const { setUndoStack, clearUndoStack } = undoStack
+const { addUndoStack, initUndoStack, setUndoStack, clearUndoStack } = undoStack
+
+console.log(setUndoStack)
 
 const undo = (undoStack) => (dispatch, getState) => {
 
@@ -41,6 +55,8 @@ const redo = (undoStack) => (dispatch, getState) => {
 }
 
 export {
+  addUndoStack,
+  initUndoStack,
   setUndoStack,
   clearUndoStack,
   undo,

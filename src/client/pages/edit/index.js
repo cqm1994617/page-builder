@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { setPageList, clearPageList } from '@/client/actions/pageList'
 import { setCurrentSelectPage, clearCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import { clearCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
+import { initUndoStack, clearUndoStack } from '@/client/actions/undoStack'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentPanel from './components/ComponentPanel'
@@ -53,6 +54,9 @@ function Edit() {
     dispatch(
       setCurrentSelectPage(initPage.id)
     )
+    dispatch(
+      initUndoStack([uuidv4()], [initPage])
+    )
   }, [dispatch])
 
   useEffect(() => {
@@ -64,8 +68,12 @@ function Edit() {
       if (!appDetail.layout) {
         return _initPage()
       }
-      
+
       const layout = JSON.parse(appDetail.layout)
+      console.log('layout:', layout)
+      dispatch(
+        initUndoStack([uuidv4()], layout)
+      )
 
       if (layout.length === 0) {
         _initPage()
@@ -92,9 +100,14 @@ function Edit() {
       dispatch(
         clearCurrentSelectComponent()
       )
+      dispatch(
+        clearUndoStack()
+      )
     }
 
   }, [dispatch, getAppDetail, _initPage])
+
+  console.log(state)
 
   return (
     <Page>

@@ -2,7 +2,7 @@ import { setPageList } from './pageList'
 import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
-import { setUndoStack } from './undoStack'
+import { addUndoStack } from './undoStack'
 
 const addComponent = () => (dispatch, getState) => {
   console.log('addComponent')
@@ -66,7 +66,7 @@ const selectComponent = (component) => (dispatch, getState) => {
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
 
-  dispatch(setUndoStack(state))
+  dispatch(addUndoStack(state))
 
   const newPageList = pageList.map(item => item.id === pageId ? {
     ...item,
