@@ -41,7 +41,7 @@ const editPage = (pageInfo) => (dispatch, getState) => {
 }
 
 const deletePage = (pageId) => (dispatch, getState) => {
-  console.log(deletePage)
+  console.log('deletePage')
   const pageList = (getState()).pageListReducer
   const newPageList = pageList.filter(item => item.id !== pageId)
 
