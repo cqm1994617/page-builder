@@ -19,7 +19,7 @@ const PanelContainer = styled.div`
   width: 400px;
   height: 100%;
   position: relative;
-  z-index: 9;
+  z-index: 999;
   background-color: #fff;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
 `
@@ -44,7 +44,7 @@ const HeaderTitle = styled.div`
 `
 const Mask = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 99;
   width: 100%;
   height: 100%;
   left: 0;

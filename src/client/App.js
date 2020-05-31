@@ -11,12 +11,14 @@ import styled from 'styled-components'
 const Home = lazy(() => import('./pages/home/index'))
 const Edit = lazy(() => import('./pages/edit/index'))
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+
 const store = createStore(reducers, composeEnhancers(
   applyMiddleware(thunk)
 )
 )
 
-const Loading = styled.div `
+const Loading = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;

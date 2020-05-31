@@ -2,8 +2,10 @@ import { setPageList } from './pageList'
 import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
+import { setUndoStack } from './util'
 
 const addComponent = () => (dispatch, getState) => {
+  console.log('addComponent')
   dispatch(setComponentPanelVisible(true))
 
   const state = getState()
@@ -25,6 +27,7 @@ const addComponent = () => (dispatch, getState) => {
 }
 
 const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
+  console.log('addComponentFromWrap')
   dispatch(setComponentPanelVisible(true))
 
   const state = getState()
@@ -58,9 +61,12 @@ const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
 }
 
 const selectComponent = (component) => (dispatch, getState) => {
+  console.log('selectComponent')
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
+
+  setUndoStack(pageList)
 
   const newPageList = pageList.map(item => item.id === pageId ? {
     ...item,
@@ -76,6 +82,7 @@ const selectComponent = (component) => (dispatch, getState) => {
 }
 
 const deleteComponent = (component) => (dispatch, getState) => {
+  console.log('deleteComponent')
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -94,6 +101,7 @@ const deleteComponent = (component) => (dispatch, getState) => {
 }
 
 const editComponent = (component) => (dispatch, getState) => {
+  console.log('editComponent')
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const componentKey = state.currentSelectComponentReducer
@@ -133,6 +141,7 @@ const cleanEmpty = () => (dispatch, getState) => {
 }
 
 const moveUpComponent = (component) => (dispatch, getState) => {
+  console.log('moveUpComponent')
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -157,6 +166,7 @@ const moveUpComponent = (component) => (dispatch, getState) => {
 }
 
 const moveDownComponent = (component) => (dispatch, getState) => {
+  console.log('moveDownComponent')
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]

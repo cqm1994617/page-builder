@@ -44,13 +44,13 @@ const AddButton = styled.div`
 const TopButton = styled(AddButton)`
   top: 0;
   transform: translate(-50%, -50%);
-  z-index: 99;
+  z-index: 9;
   left: 50%;
 `
 const BottomButton = styled(AddButton)`
   bottom: 0;
   transform: translate(-50%, 50%);
-  z-index: 99;
+  z-index: 9;
   left: 50%;
 `
 

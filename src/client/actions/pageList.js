@@ -10,7 +10,7 @@ const { pageList } = createActions({
 const { setPageList, clearPageList } = pageList
 
 const addPage = (pageInfo) => (dispatch, getState) => {
-
+  console.log('addPage')
   const pageList = (getState()).pageListReducer
   const info = {
     ...pageInfo,
@@ -26,6 +26,7 @@ const addPage = (pageInfo) => (dispatch, getState) => {
 }
 
 const editPage = (pageInfo) => (dispatch, getState) => {
+  console.log('editPage')
   const pageList = (getState()).pageListReducer
   const newPageList = pageList.map(item => {
     if (item.id === pageInfo.id) {
@@ -40,6 +41,7 @@ const editPage = (pageInfo) => (dispatch, getState) => {
 }
 
 const deletePage = (pageId) => (dispatch, getState) => {
+  console.log(deletePage)
   const pageList = (getState()).pageListReducer
   const newPageList = pageList.filter(item => item.id !== pageId)
 
