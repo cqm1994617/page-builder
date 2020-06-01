@@ -16,6 +16,7 @@ import NewPageModal from './components/NewPageModal'
 import EditPageModal from './components/EditPageModal'
 import PublishModal from './components/PublishModal'
 import { cleanEmpty } from '@/client/actions/componentList'
+import { undo, redo } from '@/client/actions/undoStack'
 
 const { Option } = Select
 const { Header } = Layout
@@ -54,6 +55,7 @@ function CustomHeader() {
 
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.pageListReducer)
+  const undoStack = useSelector(state => state.undoStackReducer)
   const selectedPage = useGetCurrentSelectPage()
 
   const ws = useRef(null)
@@ -159,6 +161,14 @@ function CustomHeader() {
     }
   }
 
+  const undoClick = () => {
+    dispatch(undo(undoStack))
+  }
+
+  const redoClick = () => {
+    dispatch(redo(undoStack))
+  }
+
   return (
     <Header style={headerStyle}>
       <HeaderContainer>
@@ -175,8 +185,8 @@ function CustomHeader() {
         </PageSelected>
         <div>
           <ButtonGroup>
-            <Button style={{marginRight: '20px'}}>后退</Button>
-            <Button style={{marginRight: '30px'}}>前进</Button>
+            <Button style={{marginRight: '20px'}} onClick={undoClick}>后退</Button>
+            <Button style={{marginRight: '30px'}} onClick={redoClick}>前进</Button>
             <Button
               type="link"
               icon={<EyeOutlined />}

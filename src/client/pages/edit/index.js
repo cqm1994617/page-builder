@@ -5,6 +5,7 @@ import { setPageList, clearPageList } from '@/client/actions/pageList'
 import { setCurrentSelectPage, clearCurrentSelectPage } from '@/client/actions/currentSelectPage'
 import { clearCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import { initUndoStack, clearUndoStack } from '@/client/actions/undoStack'
+import { setCurrentStep, clearCurrentStep } from '@/client/actions/currentUndoStep'
 import CustomHeader from './components/CustomHeader'
 import styled from 'styled-components'
 import ComponentPanel from './components/ComponentPanel'
@@ -48,6 +49,7 @@ function Edit() {
       path: 'index',
       componentList: []
     }
+    const stepId = uuidv4()
     dispatch(
       setPageList([initPage])
     )
@@ -55,7 +57,10 @@ function Edit() {
       setCurrentSelectPage(initPage.id)
     )
     dispatch(
-      initUndoStack([uuidv4()], [initPage])
+      initUndoStack([stepId], [initPage])
+    )
+    dispatch(
+      setCurrentStep(stepId)
     )
   }, [dispatch])
 
@@ -70,9 +75,12 @@ function Edit() {
       }
 
       const layout = JSON.parse(appDetail.layout)
-      console.log('layout:', layout)
+      const stepId = uuidv4()
       dispatch(
-        initUndoStack([uuidv4()], layout)
+        initUndoStack([stepId], layout)
+      )
+      dispatch(
+        setCurrentStep(stepId)
       )
 
       if (layout.length === 0) {
@@ -102,6 +110,9 @@ function Edit() {
       )
       dispatch(
         clearUndoStack()
+      )
+      dispatch(
+        clearCurrentStep()
       )
     }
 

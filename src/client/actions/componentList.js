@@ -3,6 +3,13 @@ import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 import { addUndoStack } from './undoStack'
+import { setCurrentStep } from './currentUndoStep'
+
+const _addUndoStack = (dispatch, undoStack, pageList) => {
+  const currentStepId = uuidv4()
+  dispatch(addUndoStack(pageList, undoStack, currentStepId))
+  dispatch(setCurrentStep(currentStepId))
+}
 
 const addComponent = () => (dispatch, getState) => {
   console.log('addComponent')
@@ -61,17 +68,17 @@ const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
 }
 
 const selectComponent = (component) => (dispatch, getState) => {
-  console.log('selectComponent')
+  console.log('selectComponent', component)
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
-
-  dispatch(addUndoStack(state))
 
   const newPageList = pageList.map(item => item.id === pageId ? {
     ...item,
     componentList: item.componentList.map(item => item.type === 'empty' ? component : item)
   } : item)
+
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList)
 
   dispatch(
     setPageList(newPageList)
