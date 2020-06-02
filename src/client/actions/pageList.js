@@ -11,9 +11,9 @@ const { pageList } = createActions({
 
 const { setPageList, clearPageList } = pageList
 
-const _addUndoStack = (dispatch, undoStack, pageList, currentSelectPage, currentSelectComponent) => {
+const _addUndoStack = (dispatch, undoStack, prevStepId, pageList, currentSelectPage, currentSelectComponent) => {
   const currentStepId = uuidv4()
-  dispatch(addUndoStack(pageList, undoStack, currentStepId, currentSelectPage, currentSelectComponent))
+  dispatch(addUndoStack(pageList, undoStack, prevStepId, currentStepId, currentSelectPage, currentSelectComponent))
   dispatch(setCurrentStep(currentStepId))
 }
 
@@ -27,7 +27,7 @@ const addPage = (pageInfo) => (dispatch, getState) => {
   }
   const newPageList = pageList.concat([info])
 
-  _addUndoStack(dispatch, state.undoStackReducer, newPageList, info.id, null)
+  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, info.id, null)
 
   dispatch(
     setPageList(newPageList)
@@ -51,7 +51,7 @@ const editPage = (pageInfo) => (dispatch, getState) => {
     return item
   })
 
-  _addUndoStack(dispatch, state.undoStackReducer, newPageList, pageInfo.id, state.currentSelectComponentReducer)
+  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, pageInfo.id, state.currentSelectComponentReducer)
   
   dispatch(setPageList(newPageList))
 }
@@ -62,7 +62,7 @@ const deletePage = (pageId) => (dispatch, getState) => {
   const pageList = state.pageListReducer
   const newPageList = pageList.filter(item => item.id !== pageId)
 
-  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
+  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(setPageList(newPageList))
   dispatch(setCurrentSelectPage(pageList[0].id))

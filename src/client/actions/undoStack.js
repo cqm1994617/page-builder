@@ -6,14 +6,22 @@ import { setCurrentSelectPage } from './currentSelectPage'
 
 
 const { undoStack } = createActions({
-  'UNDO_STACK/ADD_UNDO_STACK': (pageList, undoStack, currentStepId, currentSelectPage, currentSelectComponent) => {
+  'UNDO_STACK/ADD_UNDO_STACK': (pageList, undoStack, prevStepId, currentStepId, currentSelectPage, currentSelectComponent) => {
 
     let stack = []
 
-    if (undoStack.length > 49) {
-      stack = undoStack.slice(1).concat([currentStepId])
+
+    if (undoStack.indexOf(prevStepId) < undoStack.length - 1) {
+      
+      stack = undoStack.slice(0, undoStack.indexOf(prevStepId) + 1)
+      console.log('中途', prevStepId)
+      console.log(stack)
     } else {
-      stack = [...undoStack, currentStepId]
+      if (undoStack.length > 49) {
+        stack = undoStack.slice(1).concat([currentStepId])
+      } else {
+        stack = [...undoStack, currentStepId]
+      }
     }
 
     sessionStorage[currentStepId] = JSON.stringify({
@@ -50,7 +58,8 @@ const undo = () => (dispatch, getState) => {
   const undoStack = (getState()).undoStackReducer
 
   const index = undoStack.indexOf(currentStepId)
-
+console.log(undoStack)
+console.log(currentStepId)
   if (index > 0) {
 
     const prevStep = undoStack[index - 1]
