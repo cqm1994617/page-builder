@@ -40,16 +40,16 @@ const { undoStack } = createActions({
 
 const { addUndoStack, initUndoStack, setUndoStack, clearUndoStack } = undoStack
 
-console.log(setUndoStack)
 
-const undo = (undoStack) => (dispatch, getState) => {
+const undo = () => (dispatch, getState) => {
   const currentStepId = (getState()).currentUndoStep
   const undoStack = (getState()).undoStackReducer
-  console.log(currentStepId)
-  console.log(sessionStorage[undoStack[undoStack.indexOf(currentStepId) - 1]])
-  if (undoStack.indexOf(currentStepId) > 0) {
 
-    const prevStep = undoStack[undoStack.indexOf(currentStepId) - 1]
+  const index = undoStack.indexOf(currentStepId)
+  
+  if (index > 0) {
+
+    const prevStep = undoStack[index - 1]
 
     const prevPageList = JSON.parse(sessionStorage[prevStep])
     dispatch(
@@ -61,10 +61,22 @@ const undo = (undoStack) => (dispatch, getState) => {
   }
 }
 
-const redo = (undoStack) => (dispatch, getState) => {
-  console.log(undoStack)
+const redo = () => (dispatch, getState) => {
   const currentStepId = (getState()).currentUndoStep
-  console.log(currentStepId)
+  const undoStack = (getState()).undoStackReducer
+
+  const index = undoStack.indexOf(currentStepId)
+
+  if (index < undoStack.length - 1) {
+    const nextStep = undoStack[index + 1]
+    const nextPageList = JSON.parse(sessionStorage[nextStep])
+    dispatch(
+      setPageList(nextPageList)
+    )
+    dispatch(setCurrentStep(nextStep))
+  }
+
+
 }
 
 export {
