@@ -1,9 +1,12 @@
 import { createActions } from 'redux-actions'
 import { setPageList } from './pageList'
 import { setCurrentStep } from './currentUndoStep'
+import { setCurrentSelectComponent } from './currentSelectComponent'
+import { setCurrentSelectPage } from './currentSelectPage'
+
 
 const { undoStack } = createActions({
-  'UNDO_STACK/ADD_UNDO_STACK': (pageList, undoStack, currentStepId) => {
+  'UNDO_STACK/ADD_UNDO_STACK': (pageList, undoStack, currentStepId, currentSelectPage, currentSelectComponent) => {
 
     let stack = []
 
@@ -13,20 +16,21 @@ const { undoStack } = createActions({
       stack = [...undoStack, currentStepId]
     }
 
-    sessionStorage[currentStepId] = JSON.stringify(pageList)
-    console.log(sessionStorage)
+    sessionStorage[currentStepId] = JSON.stringify({
+      pageList,
+      currentSelectComponent,
+      currentSelectPage
+    })
     return stack
   },
-  'UNDO_STACK/INIT_UNDO_STACK': (stack, pageList) => {
+  'UNDO_STACK/INIT_UNDO_STACK': (stack, pageList, currentSelectPage, currentSelectComponent) => {
     sessionStorage.clear()
     stack.forEach(stepId => {
-      sessionStorage.setItem(stepId, JSON.stringify(pageList))
-    })
-    return [...stack]
-  },
-  'UNDO_STACK/SET_UNDO_STACK': (stack, pageList) => {
-    stack.forEach(stepId => {
-      sessionStorage.setItem(stepId, JSON.stringify(pageList))
+      sessionStorage.setItem(stepId, JSON.stringify({
+        pageList,
+        currentSelectComponent,
+        currentSelectPage
+      }))
     })
     return [...stack]
   },
@@ -38,7 +42,7 @@ const { undoStack } = createActions({
   }
 })
 
-const { addUndoStack, initUndoStack, setUndoStack, clearUndoStack } = undoStack
+const { addUndoStack, initUndoStack, clearUndoStack } = undoStack
 
 
 const undo = () => (dispatch, getState) => {
@@ -46,14 +50,21 @@ const undo = () => (dispatch, getState) => {
   const undoStack = (getState()).undoStackReducer
 
   const index = undoStack.indexOf(currentStepId)
-  
+
   if (index > 0) {
 
     const prevStep = undoStack[index - 1]
 
-    const prevPageList = JSON.parse(sessionStorage[prevStep])
+    const prevPageInfo = JSON.parse(sessionStorage[prevStep])
     dispatch(
-      setPageList(prevPageList)
+      setPageList(prevPageInfo.pageList)
+    )
+    console.log(getState())
+    dispatch(
+      setCurrentSelectPage(prevPageInfo.currentSelectPage)
+    )
+    dispatch(
+      setCurrentSelectComponent(prevPageInfo.currentSelectComponent)
     )
     dispatch(setCurrentStep(prevStep))
   } else {
@@ -69,9 +80,17 @@ const redo = () => (dispatch, getState) => {
 
   if (index < undoStack.length - 1) {
     const nextStep = undoStack[index + 1]
-    const nextPageList = JSON.parse(sessionStorage[nextStep])
+    const nextPageInfo = JSON.parse(sessionStorage[nextStep])
     dispatch(
-      setPageList(nextPageList)
+      setPageList(nextPageInfo.pageList)
+    )
+    console.log('redo')
+    console.log(getState())
+    dispatch(
+      setCurrentSelectPage(nextPageInfo.currentSelectPage)
+    )
+    dispatch(
+      setCurrentSelectComponent(nextPageInfo.currentSelectComponent)
     )
     dispatch(setCurrentStep(nextStep))
   }
@@ -82,7 +101,6 @@ const redo = () => (dispatch, getState) => {
 export {
   addUndoStack,
   initUndoStack,
-  setUndoStack,
   clearUndoStack,
   undo,
   redo

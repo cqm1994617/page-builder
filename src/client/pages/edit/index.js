@@ -37,7 +37,6 @@ const MainContent = styled.div`
 function Edit() {
 
   const { getAppDetail } = useAppList()
-  const pageList = useSelector(state => state.pageListReducer)
   const state = useSelector(state => state)
   const dispatch = useDispatch()
   const panelShow = useSelector(state => state.componentPanelReducer)
@@ -57,7 +56,7 @@ function Edit() {
       setCurrentSelectPage(initPage.id)
     )
     dispatch(
-      initUndoStack([stepId], [initPage])
+      initUndoStack([stepId], [initPage], initPage.id, null)
     )
     dispatch(
       setCurrentStep(stepId)
@@ -75,13 +74,6 @@ function Edit() {
       }
 
       const layout = JSON.parse(appDetail.layout)
-      const stepId = uuidv4()
-      dispatch(
-        initUndoStack([stepId], layout)
-      )
-      dispatch(
-        setCurrentStep(stepId)
-      )
 
       if (layout.length === 0) {
         _initPage()
@@ -91,6 +83,15 @@ function Edit() {
         )
         dispatch(
           setCurrentSelectPage(layout[0].id)
+        )
+
+        // 有记录时初始化undo栈
+        const stepId = uuidv4()
+        dispatch(
+          setCurrentStep(stepId)
+        )
+        dispatch(
+          initUndoStack([stepId], layout, layout[0].id, null)
         )
       }
     } catch (err) {
@@ -117,8 +118,6 @@ function Edit() {
     }
 
   }, [dispatch, getAppDetail, _initPage])
-
-  console.log(state)
 
   return (
     <Page>

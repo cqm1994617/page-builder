@@ -5,14 +5,14 @@ import { setCurrentSelectComponent } from './currentSelectComponent'
 import { addUndoStack } from './undoStack'
 import { setCurrentStep } from './currentUndoStep'
 
-const _addUndoStack = (dispatch, undoStack, pageList) => {
+const _addUndoStack = (dispatch, undoStack, pageList, currentSelectPage, currentSelectComponent) => {
   const currentStepId = uuidv4()
-  dispatch(addUndoStack(pageList, undoStack, currentStepId))
+  dispatch(addUndoStack(pageList, undoStack, currentStepId, currentSelectPage, currentSelectComponent))
   dispatch(setCurrentStep(currentStepId))
 }
 
 const addComponent = () => (dispatch, getState) => {
-  console.log('addComponent')
+
   dispatch(setComponentPanelVisible(true))
 
   const state = getState()
@@ -34,7 +34,7 @@ const addComponent = () => (dispatch, getState) => {
 }
 
 const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
-  console.log('addComponentFromWrap')
+
   dispatch(setComponentPanelVisible(true))
 
   const state = getState()
@@ -68,7 +68,7 @@ const addComponentFromWrap = (key, direction) => (dispatch, getState) => {
 }
 
 const selectComponent = (component) => (dispatch, getState) => {
-  console.log('selectComponent', component)
+
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -78,7 +78,7 @@ const selectComponent = (component) => (dispatch, getState) => {
     componentList: item.componentList.map(item => item.type === 'empty' ? component : item)
   } : item)
 
-  _addUndoStack(dispatch, state.undoStackReducer, newPageList)
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setPageList(newPageList)
@@ -89,7 +89,7 @@ const selectComponent = (component) => (dispatch, getState) => {
 }
 
 const deleteComponent = (component) => (dispatch, getState) => {
-  console.log('deleteComponent')
+
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -98,6 +98,8 @@ const deleteComponent = (component) => (dispatch, getState) => {
     ...item,
     componentList: item.componentList.filter(item => item.key !== component.key)
   } : item)
+
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setCurrentSelectComponent(null)
@@ -108,7 +110,7 @@ const deleteComponent = (component) => (dispatch, getState) => {
 }
 
 const editComponent = (component) => (dispatch, getState) => {
-  console.log('editComponent')
+
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const componentKey = state.currentSelectComponentReducer
@@ -121,6 +123,8 @@ const editComponent = (component) => (dispatch, getState) => {
       return componentItem.key === componentKey ? component : componentItem
     })
   } : item)
+
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setPageList(newPageList)
@@ -148,7 +152,7 @@ const cleanEmpty = () => (dispatch, getState) => {
 }
 
 const moveUpComponent = (component) => (dispatch, getState) => {
-  console.log('moveUpComponent')
+
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -166,6 +170,8 @@ const moveUpComponent = (component) => (dispatch, getState) => {
     componentList: componentList
   } : item)
 
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
+
   dispatch(
     setPageList(newPageList)
   )
@@ -173,7 +179,7 @@ const moveUpComponent = (component) => (dispatch, getState) => {
 }
 
 const moveDownComponent = (component) => (dispatch, getState) => {
-  console.log('moveDownComponent')
+
   const state = getState()
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
@@ -189,6 +195,8 @@ const moveDownComponent = (component) => (dispatch, getState) => {
     ...item,
     componentList: componentList
   } : item)
+
+  _addUndoStack(dispatch, state.undoStackReducer, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setPageList(newPageList)
