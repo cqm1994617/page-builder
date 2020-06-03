@@ -14,7 +14,7 @@ class PackageWebpackPlugin {
     })
     compiler.hooks.emit.tap('afterEmit', () => {
       this.wsMap[this.packageId] && this.wsMap[this.packageId].send(JSON.stringify({
-        status: 'emit',
+        status: 'afterEmit',
         text: '资源生成完成'
       }))
     })
