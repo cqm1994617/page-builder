@@ -17,6 +17,7 @@ import EditPageModal from './components/EditPageModal'
 import PublishModal from './components/PublishModal'
 import { cleanEmpty } from '@/client/actions/componentList'
 import { undo, redo } from '@/client/actions/undoStack'
+import config from '../../../../config'
 
 const { Option } = Select
 const { Header } = Layout
@@ -97,7 +98,7 @@ function CustomHeader() {
     const packageId = uuidv4()
     openPublishModal()
 
-    ws.current = new WebSocket(`ws://localhost:9090/ws?packageId=${packageId}`)
+    ws.current = new WebSocket(`${config.wsHost}/ws?packageId=${packageId}`)
     ws.current.onmessage = (e) => {
       const data = JSON.parse(e.data)
       addPublishStatus(JSON.parse(e.data))
@@ -106,7 +107,7 @@ function CustomHeader() {
       }
     }
 
-    axios.post('http://localhost:9090/server/publish', {
+    axios.post(`${config.host}/server/publish`, {
       pageList,
       packageId
     }, {
@@ -131,14 +132,14 @@ function CustomHeader() {
   }
 
   const preview = () => {
-    axios.post('http://localhost:9090/server/preview', {
+    axios.post(`${config.host}/server/preview`, {
       pageList
     }, {
       headers: {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      window.open(`http://localhost:9090/preview/${res.data.folderId}/${selectedPage.path}.html`)
+      window.open(`${config.host}/preview/${res.data.folderId}/${selectedPage.path}.html`)
     })
   }
 
