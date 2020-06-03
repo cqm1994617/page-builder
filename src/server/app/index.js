@@ -61,7 +61,7 @@ const server = http.createServer(app.callback())
 
 const wss = new WebSocket.Server({
   server,
-  path: '/ws'
+  path: '/page-builder-server/ws'
 })
 
 WebSocketAPI(wss, wsMap)
