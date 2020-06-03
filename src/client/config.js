@@ -1,4 +1,4 @@
 export default {
-  host: 'http://localhost:9090',
-  wsHost: 'ws://localhost:9090'
+  host: 'https://cqmfe.club/page-builder-server',
+  wsHost: 'ws://cqmfe.club/page-builder-server'
 }
