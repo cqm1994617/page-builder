@@ -9,7 +9,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
     "server": "nodemon ./src/server/app/index.js",
     "build": "npm run package & cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
-    "production": "pm2 ./src/server/app/index.js",
+    "production": "pm2 start ./src/server/app/index.js --name pageBuilder",
     "clean": "node ./clean.js",
     "package": "webpack --config ./config/webpack.package.js"
   },
