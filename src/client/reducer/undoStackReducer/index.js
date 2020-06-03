@@ -1,11 +1,11 @@
 import { handleActions } from 'redux-actions'
-import { clearUndoStack, addUndoStack, initUndoStack } from '@/client/actions/undoStack'
+import { clearUndoStack, setUndoStack, initUndoStack } from '@/client/actions/undoStack'
 
 const initialState = []
 
 const undoStackReducer = handleActions(
   {
-    [addUndoStack]: (state, action) => {
+    [setUndoStack]: (state, action) => {
       return action.payload
     },
     [initUndoStack]: (state, action) => {

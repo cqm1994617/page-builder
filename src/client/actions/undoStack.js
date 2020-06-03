@@ -3,33 +3,11 @@ import { setPageList } from './pageList'
 import { setCurrentStep } from './currentUndoStep'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 import { setCurrentSelectPage } from './currentSelectPage'
-
+import { v4 as uuidv4 } from 'uuid'
 
 const { undoStack } = createActions({
-  'UNDO_STACK/ADD_UNDO_STACK': (pageList, undoStack, prevStepId, currentStepId, currentSelectPage, currentSelectComponent) => {
-
-    let stack = []
-
-
-    if (undoStack.indexOf(prevStepId) < undoStack.length - 1) {
-      
-      stack = undoStack.slice(0, undoStack.indexOf(prevStepId) + 1)
-      console.log('中途', prevStepId)
-      console.log(stack)
-    } else {
-      if (undoStack.length > 49) {
-        stack = undoStack.slice(1).concat([currentStepId])
-      } else {
-        stack = [...undoStack, currentStepId]
-      }
-    }
-
-    sessionStorage[currentStepId] = JSON.stringify({
-      pageList,
-      currentSelectComponent,
-      currentSelectPage
-    })
-    return stack
+  'UNDO_STACK/SET_UNDO_STACK': (stack) => {
+    return [...stack]
   },
   'UNDO_STACK/INIT_UNDO_STACK': (stack, pageList, currentSelectPage, currentSelectComponent) => {
     sessionStorage.clear()
@@ -50,16 +28,52 @@ const { undoStack } = createActions({
   }
 })
 
-const { addUndoStack, initUndoStack, clearUndoStack } = undoStack
+const { setUndoStack, initUndoStack, clearUndoStack } = undoStack
 
+const addUndoStack = (currentInfo) => (dispatch, getState) => {
+  const state = getState()
+  const undoStack = state.undoStackReducer
+  const prevStep = state.currentUndoStep
+  const currentStep = uuidv4()
+  const currentSelectComponent = currentInfo.currentSelectComponent
+  const currentSelectPage = currentInfo.currentSelectPage
+
+  const index = undoStack.indexOf(prevStep)
+  const isLast = undoStack.length > 0 ? index === undoStack.length - 1 : false
+
+  let stack = []
+
+  if (isLast) {
+    if (undoStack.length > 49) {
+      sessionStorage.removeItem(undoStack[0])
+      stack = undoStack.slice(1).concat([currentStep])
+    } else {
+      stack = [...undoStack, currentStep]
+    }
+  } else {
+    undoStack.slice(index + 1).forEach(removeKey => {
+      sessionStorage.removeItem(removeKey)
+    })
+    stack = undoStack.slice(0, index + 1).concat([currentStep])
+  }
+
+  dispatch(setUndoStack(stack))
+  dispatch(setCurrentStep(currentStep))
+
+  sessionStorage[currentStep] = JSON.stringify({
+    pageList: currentInfo.pageList,
+    currentSelectComponent,
+    currentSelectPage
+  })
+
+}
 
 const undo = () => (dispatch, getState) => {
   const currentStepId = (getState()).currentUndoStep
   const undoStack = (getState()).undoStackReducer
 
   const index = undoStack.indexOf(currentStepId)
-console.log(undoStack)
-console.log(currentStepId)
+
   if (index > 0) {
 
     const prevStep = undoStack[index - 1]
@@ -68,7 +82,6 @@ console.log(currentStepId)
     dispatch(
       setPageList(prevPageInfo.pageList)
     )
-    console.log(getState())
     dispatch(
       setCurrentSelectPage(prevPageInfo.currentSelectPage)
     )
@@ -93,8 +106,6 @@ const redo = () => (dispatch, getState) => {
     dispatch(
       setPageList(nextPageInfo.pageList)
     )
-    console.log('redo')
-    console.log(getState())
     dispatch(
       setCurrentSelectPage(nextPageInfo.currentSelectPage)
     )
@@ -109,6 +120,7 @@ const redo = () => (dispatch, getState) => {
 
 export {
   addUndoStack,
+  setUndoStack,
   initUndoStack,
   clearUndoStack,
   undo,

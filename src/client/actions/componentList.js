@@ -3,13 +3,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { setComponentPanelVisible } from './componentPanel'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 import { addUndoStack } from './undoStack'
-import { setCurrentStep } from './currentUndoStep'
-
-const _addUndoStack = (dispatch, undoStack, prevStepId, pageList, currentSelectPage, currentSelectComponent) => {
-  const currentStepId = uuidv4()
-  dispatch(addUndoStack(pageList, undoStack, prevStepId, currentStepId, currentSelectPage, currentSelectComponent))
-  dispatch(setCurrentStep(currentStepId))
-}
 
 const addComponent = () => (dispatch, getState) => {
 
@@ -73,14 +66,10 @@ const selectComponent = (component) => (dispatch, getState) => {
   const pageId = state.currentSelectPageReducer
   const pageList = [...state.pageListReducer]
 
-  console.log(state)
-
   const newPageList = pageList.map(item => item.id === pageId ? {
     ...item,
     componentList: item.componentList.map(item => item.type === 'empty' ? component : item)
   } : item)
-
-  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setPageList(newPageList)
@@ -88,6 +77,12 @@ const selectComponent = (component) => (dispatch, getState) => {
 
   dispatch(setComponentPanelVisible(false))
   dispatch(setCurrentSelectComponent(component.key))
+
+  dispatch(addUndoStack({
+    pageList: newPageList,
+    currentSelectComponent: component.key,
+    currentSelectPage: pageId
+  }))
 }
 
 const deleteComponent = (component) => (dispatch, getState) => {
@@ -101,14 +96,17 @@ const deleteComponent = (component) => (dispatch, getState) => {
     componentList: item.componentList.filter(item => item.key !== component.key)
   } : item)
 
-  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
-
   dispatch(
     setCurrentSelectComponent(null)
   )
   dispatch(
     setPageList(newPageList)
   )
+  dispatch(addUndoStack({
+    pageList: newPageList,
+    currentSelectComponent: null,
+    currentSelectPage: pageId
+  }))
 }
 
 const editComponent = (component) => (dispatch, getState) => {
@@ -126,11 +124,17 @@ const editComponent = (component) => (dispatch, getState) => {
     })
   } : item)
 
-  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
 
   dispatch(
     setPageList(newPageList)
   )
+
+  dispatch(addUndoStack({
+    pageList: newPageList,
+    currentSelectComponent: componentKey,
+    currentSelectPage: pageId
+  }))
+
 }
 
 const cleanEmpty = () => (dispatch, getState) => {
@@ -172,12 +176,14 @@ const moveUpComponent = (component) => (dispatch, getState) => {
     componentList: componentList
   } : item)
 
-  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
-
   dispatch(
     setPageList(newPageList)
   )
-
+  dispatch(addUndoStack({
+    pageList: newPageList,
+    currentSelectComponent: component.key,
+    currentSelectPage: pageId
+  }))
 }
 
 const moveDownComponent = (component) => (dispatch, getState) => {
@@ -198,8 +204,11 @@ const moveDownComponent = (component) => (dispatch, getState) => {
     componentList: componentList
   } : item)
 
-  _addUndoStack(dispatch, state.undoStackReducer, state.currentUndoStep, newPageList, state.currentSelectPageReducer, state.currentSelectComponentReducer)
-
+  dispatch(addUndoStack({
+    pageList: newPageList,
+    currentSelectComponent: component.key,
+    currentSelectPage: pageId
+  }))
   dispatch(
     setPageList(newPageList)
   )

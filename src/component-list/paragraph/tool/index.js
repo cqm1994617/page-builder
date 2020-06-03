@@ -43,8 +43,6 @@ function Tool() {
     })
   }
 
-  console.log(currentSelectComponent)
-
   return (
     <ToolContainer>
       <Form>
