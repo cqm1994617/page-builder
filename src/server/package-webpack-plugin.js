@@ -6,18 +6,6 @@ class PackageWebpackPlugin {
     this.wsMap = option.wsMap
   }
   apply(compiler) {
-    compiler.hooks.entryOption.tap('entryOption', () => {
-      this.wsMap[this.packageId] && this.wsMap[this.packageId].send(JSON.stringify({
-        status: 'entryOption',
-        text: '成功接收配置'
-      }))
-    })
-    compiler.hooks.afterPlugins.tap('afterPlugins', () => {
-      this.wsMap[this.packageId] && this.wsMap[this.packageId].send(JSON.stringify({
-        status: 'afterPlugins',
-        text: '插件加载完成'
-      }))
-    })
     compiler.hooks.emit.tap('emit', () => {
       this.wsMap[this.packageId] && this.wsMap[this.packageId].send(JSON.stringify({
         status: 'emit',
