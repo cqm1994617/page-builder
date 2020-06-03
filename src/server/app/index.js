@@ -18,10 +18,10 @@ app.use(bodyParser())
 const wsMap = {}
 
 router
-  .get('/server', (ctx) => {
+  .get('/page-builder-server/server', (ctx) => {
     ctx.body = "服务已开启"
   })
-  .post('/server/publish', async (ctx) => {
+  .post('/page-builder-server/server/publish', async (ctx) => {
     const body = ctx.request.body
 
     const folderId = await createFile(body.pageList, body.packageId, wsMap)
@@ -30,10 +30,10 @@ router
       status: 0,
       folderId,
       text: '打包成功',
-      filePath: `http://localhost:9090/build-page/${folderId}.zip`
+      filePath: `https://cqmfe.club/page-builder-server/build-page/${folderId}.zip`
     }
   })
-  .post('/server/preview', async (ctx) => {
+  .post('/page-builder-server/server/preview', async (ctx) => {
 
     const body = ctx.request.body
 
@@ -50,8 +50,8 @@ router
 
 app.use(cors())
 
-app.use(mount('/preview', serve(path.resolve(__dirname, '../preview-page'))))
-app.use(mount('/build-page', serve(path.resolve(__dirname, '../build-page'))))
+app.use(mount('/page-builder-server/preview', serve(path.resolve(__dirname, '../preview-page'))))
+app.use(mount('/page-builder-server/build-page', serve(path.resolve(__dirname, '../build-page'))))
 
 app.use(router.routes()).use(router.allowedMethods())
 
