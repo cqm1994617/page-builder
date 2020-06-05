@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectComponent, cleanEmpty } from '@/client/actions/componentList'
 import { setComponentPanelVisible } from '@/client/actions/componentPanel'
-import componentList from '@/component-list/componentList'
+import {componentList} from '@/component-list/componentList'
 
 const Panel = styled.div`
   position: absolute;
@@ -100,30 +100,6 @@ function ComponentPanel() {
 
   const dispatch = useDispatch()
   const [selectItem, setSelectItem] = useState(componentList[0])
-
-  // const addBanner = () => {
-  //   dispatch(
-  //     selectComponent({
-  //       type: 'banner',
-  //       key: uuidv4(),
-  //       props: {
-  //         bannerList: [
-  //           {
-  //             id: uuidv4(),
-  //             imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
-  //             to: 'https://www.baidu.com'
-  //           },
-  //           {
-  //             id: uuidv4(),
-  //             imgUrl: 'http://qiniu.xingheaoyou.com/2.jpg',
-  //             to: 'https://www.taobao.com'
-  //           }
-  //         ],
-  //         height: 200
-  //       }
-  //     })
-  //   )
-  // }
 
   const closePanel = () => {
     dispatch(setComponentPanelVisible(false))

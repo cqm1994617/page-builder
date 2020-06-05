@@ -4,6 +4,7 @@ import { ToolPanel as BannerToolPanel } from '@/component-list/banner'
 import { ToolPanel as ParagraphPanel } from '@/component-list/paragraph'
 import { ToolPanel as TextPanel } from '@/component-list/text'
 import { ToolPanel as ImagePanel } from '@/component-list/image'
+import { getPanelMap } from '@/component-list/componentList'
 import { useDispatch, useSelector } from 'react-redux'
 import { useGetCurrentSelectComponent } from '@/client/hooks'
 
@@ -22,16 +23,6 @@ const Info = styled.div`
   text-align: center;
   color: #999;
 `
-
-const getPanelMap = (name) => {
-  const panelMap = {
-    'banner': () => <BannerToolPanel />,
-    'paragraph': () => <ParagraphPanel />,
-    'text': () => <TextPanel />,
-    'image': () => <ImagePanel />
-  }
-  return panelMap[name]
-}
 
 function EditPanel() {
 

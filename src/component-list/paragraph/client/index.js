@@ -19,13 +19,19 @@ const Title = styled.div`
     background-color: #1890ff;
   }
 `
+const Content = styled.div `
+  & > p {
+    white-space: pre-wrap;
+    margin-bottom: 0;
+  }
+`
 
 function Paragraph({ title, content, onClick }) {
 
   return (
     <Container onClick={onClick}>
       <Title>{title}</Title>
-      <div dangerouslySetInnerHTML={{ __html: content }}></div>
+      <Content dangerouslySetInnerHTML={{ __html: content }}></Content>
     </Container>
   )
 }

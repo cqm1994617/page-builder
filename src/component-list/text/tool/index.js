@@ -38,7 +38,7 @@ function Tool() {
     <ToolContainer>
       <Form>
         <Form.Item label="内容">
-          <TextArea placeholder="标题" rows={5} onChange={(e) => setContent(e.target.value)} value={content} />
+          <TextArea placeholder="输入文本内容" rows={5} onChange={(e) => setContent(e.target.value)} value={content} />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item style={{ marginTop: '40px' }}>

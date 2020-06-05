@@ -33,8 +33,6 @@ function getConfig(folderId, packageId, wsMap) {
 
   const entries = getEntry(path.resolve(__dirname, `./page-file/${folderId}/*.js`))
 
-  console.log('entries: ', entries)
-
   const config = {
     mode: 'production',
     entry: entries,

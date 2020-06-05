@@ -1,7 +1,9 @@
-import { defaultValue as bannerDefaultValue } from './banner'
-import { defaultValue as paragraphDefaultValue } from './paragraph'
-import { defaultValue as textDefaultValue } from './text'
-import { defaultValue as imageDefaultValue } from './image'
+import React from 'react'
+import { defaultValue as bannerDefaultValue, BannerClient, ToolPanel as BannerToolPanel } from './banner'
+import { defaultValue as paragraphDefaultValue, ParagraphClient, ToolPanel as ParagraphToolPanel } from './paragraph'
+import { defaultValue as textDefaultValue, TextClient, ToolPanel as TextToolPanel } from './text'
+import { defaultValue as imageDefaultValue, ImageClient, ToolPanel as ImageToolPanel } from './image'
+import { defaultValue as articleDefaultValue, ArticleClient, ToolPanel as ArticleToolPanel } from './article'
 
 const componentList = [
   {
@@ -31,7 +33,37 @@ const componentList = [
     children: [
       { ...imageDefaultValue }
     ]
+  },
+  {
+    id: 'ARTICLE_COMPONENT',
+    name: '文章',
+    children: [
+      { ...articleDefaultValue }
+    ]
   }
 ]
 
-export default componentList
+const componentClientMap = {
+  'banner': (props, select) => <BannerClient onClick={select} {...props} />,
+  'paragraph': (props, select) => <ParagraphClient onClick={select} {...props} />,
+  'text': (props, select) => <TextClient onClick={select} {...props} />,
+  'image': (props, select) => <ImageClient onClick={select} {...props} />,
+  'article': (props, select) => <ArticleClient onClick={select} {...props} />
+}
+
+const getPanelMap = (name) => {
+  const panelMap = {
+    'banner': () => <BannerToolPanel />,
+    'paragraph': () => <ParagraphToolPanel />,
+    'text': () => <TextToolPanel />,
+    'image': () => <ImageToolPanel />,
+    'article': () => <ArticleToolPanel />
+  }
+  return panelMap[name]
+}
+
+export {
+  componentList,
+  componentClientMap,
+  getPanelMap
+}
