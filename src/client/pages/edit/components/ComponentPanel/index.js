@@ -122,7 +122,8 @@ function ComponentPanel() {
       })
     )
   }
-
+console.log(componentList)
+console.log(selectItem)
   return (
     <Panel>
       <PanelContainer>

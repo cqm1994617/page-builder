@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const TabBar = styled.div`
-  
+  display: flex;
+  height: 40px;
 `
 const TabBarItem = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const TabContent = styled.div `
 
 `
 
@@ -15,14 +22,14 @@ function Tab({ onClick, tabList }) {
   )
 
   return (
-    <div>
+    <div onClick={onClick}>
       <TabBar>
         {
-          tabList.map(item => <TarBarItem key={item.id}></TarBarItem>)
+          tabList && tabList.map(item => <TabBarItem key={item.id}>{item.tabName}</TabBarItem>)
         }
       </TabBar>
       <TabContent>
-        
+
       </TabContent>
     </div>
   )

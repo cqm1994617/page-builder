@@ -4,6 +4,7 @@ import { defaultValue as paragraphDefaultValue, ParagraphClient, ToolPanel as Pa
 import { defaultValue as textDefaultValue, TextClient, ToolPanel as TextToolPanel } from './text'
 import { defaultValue as imageDefaultValue, ImageClient, ToolPanel as ImageToolPanel } from './image'
 import { defaultValue as articleDefaultValue, ArticleClient, ToolPanel as ArticleToolPanel } from './article'
+import { defaultValue as tabDefaultValue, TabClient, ToolPanel as TabToolPanel } from './tab'
 
 const componentList = [
   {
@@ -40,6 +41,13 @@ const componentList = [
     children: [
       { ...articleDefaultValue }
     ]
+  },
+  {
+    id: 'TAB_COMPONENT',
+    name: 'TAB',
+    children: [
+      { ...tabDefaultValue }
+    ]
   }
 ]
 
@@ -48,7 +56,8 @@ const componentClientMap = {
   'paragraph': (props, select) => <ParagraphClient onClick={select} {...props} />,
   'text': (props, select) => <TextClient onClick={select} {...props} />,
   'image': (props, select) => <ImageClient onClick={select} {...props} />,
-  'article': (props, select) => <ArticleClient onClick={select} {...props} />
+  'article': (props, select) => <ArticleClient onClick={select} {...props} />,
+  'tab': (props, select) => <TabClient onClick={select} {...props} />
 }
 
 const getPanelMap = (name) => {
@@ -57,7 +66,8 @@ const getPanelMap = (name) => {
     'paragraph': () => <ParagraphToolPanel />,
     'text': () => <TextToolPanel />,
     'image': () => <ImageToolPanel />,
-    'article': () => <ArticleToolPanel />
+    'article': () => <ArticleToolPanel />,
+    'tab': () => <TabToolPanel />
   }
   return panelMap[name]
 }
