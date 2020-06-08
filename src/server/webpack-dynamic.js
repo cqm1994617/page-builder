@@ -80,7 +80,7 @@ function getConfig(folderId, packageId, wsMap) {
               loader: 'url-loader',
               options: {
                 limit: 8192,
-                name: 'static/assets/images/[name].[hash].[ext]'
+                name: './static/assets/images/[name].[hash].[ext]'
               },
             },
           ],

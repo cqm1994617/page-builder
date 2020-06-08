@@ -28,6 +28,7 @@ function getPageHTML(title, componentList) {
   import {TextServer as Text} from '@/component-list/text'
   import {ImageServer as Image} from '@/component-list/image'
   import {ArticleServer as Article} from '@/component-list/article'
+  import {TabServer as Tab} from '@/component-list/tab'
 
   const list = ${JSON.stringify(componentList)}
   document.title = '${title}' || '页面生成平台'
@@ -37,7 +38,8 @@ function getPageHTML(title, componentList) {
     'paragraph': (item) => <Paragraph key={item.key} {...item.props} />,
     'text': (item) => <Text key={item.key} {...item.props} />,
     'image': (item) => <Image key={item.key} {...item.props} />,
-    'article': (item) => <Article key={item.key} {...item.props} />
+    'article': (item) => <Article key={item.key} {...item.props} />,
+    'tab': (item) => <Tab key={item.key} {...item.props} />
   }
 
   function App() {

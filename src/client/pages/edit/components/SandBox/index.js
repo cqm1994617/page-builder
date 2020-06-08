@@ -44,9 +44,12 @@ function SandBox() {
 
   const dispatch = useDispatch()
   const componentList = useGetComponentList()
+  const currentSelectComponent = useGetCurrentSelectComponent()
 
   const select = (key) => {
-    dispatch(setCurrentSelectComponent(key))
+    if ((!currentSelectComponent) || (currentSelectComponent.key !== key)) {
+      dispatch(setCurrentSelectComponent(key))
+    }
   }
 
   const add = () => {

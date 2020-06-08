@@ -21,7 +21,7 @@ const { undoStack } = createActions({
     return [...stack]
   },
   'UNDO_STACK/CLEAR_UNDO_STACK': (stack) => {
-    stack.forEach(stepId => {
+    stack && stack.forEach(stepId => {
       sessionStorage.removeItem(stepId)
     })
     return []

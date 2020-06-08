@@ -67,6 +67,7 @@ function getPageHTML(title, componentList, packageList, cssList) {
         'text': (item) => <MyComponent.text.default key={item.key} {...item.props} />,
         'image': (item) => <MyComponent.image.default key={item.key} {...item.props} />,
         'article': (item) => <MyComponent.article.default key={item.key} {...item.props} />,
+        'tab': (item) => <MyComponent.tab.default key={item.key} {...item.props} />,
       }
   
       function App() {

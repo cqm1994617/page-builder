@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, message, Radio, Modal } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
