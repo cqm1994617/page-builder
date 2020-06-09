@@ -79,6 +79,10 @@ function Tab({ tabList }) {
     setActiveIndex(id)
   }
 
+  const to = (item) => () => {
+    window.location.href = item.redirectUrl
+  }
+
   return (
     <div>
       <TabBar>
@@ -95,7 +99,7 @@ function Tab({ tabList }) {
         {
           activeContent.map(item => {
             return (
-              <ListItem key={item.id}>
+              <ListItem key={item.id} onClick={to(item)}>
                 <ListImage src={item.imgUrl} />
                 <ListContent>
                   <h3>{item.title}</h3>

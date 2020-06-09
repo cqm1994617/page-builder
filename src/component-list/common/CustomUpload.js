@@ -14,6 +14,7 @@ const Container = styled.div`
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 5px 15px;
+    background-color: #fff;
     flex: none;
   }
   & > span {

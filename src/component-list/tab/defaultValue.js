@@ -15,13 +15,15 @@ const defaultValue = {
             id: uuidv4(),
             title: '标签1-标题1',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           },
           {
             id: uuidv4(),
             title: '标签1-标题2',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.taobao.com'
           }
         ]
       },
@@ -33,13 +35,15 @@ const defaultValue = {
             id: uuidv4(),
             title: '标签2-标题1',
             content: 'Hello World!2',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           },
           {
             id: uuidv4(),
             title: '标签2-标题2',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           }
         ]
       },
@@ -51,13 +55,15 @@ const defaultValue = {
             id: uuidv4(),
             title: '标签3-标题1',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           },
           {
             id: uuidv4(),
             title: '标签3-标题2',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           }
         ]
       },
@@ -69,13 +75,15 @@ const defaultValue = {
             id: uuidv4(),
             title: '标签4-标题1',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           },
           {
             id: uuidv4(),
             title: '标签4-标题2',
             content: 'Hello World!',
-            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg'
+            imgUrl: 'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg',
+            redirectUrl: 'https://www.baidu.com'
           }
         ]
       }

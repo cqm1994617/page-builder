@@ -15,7 +15,7 @@ const Panel = styled.div`
   height: 100%;
   width: 400px;
   background-color: #fff;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 3px 0 16px rgba(0, 0, 0, 0.06);
 `
 const Info = styled.div`
