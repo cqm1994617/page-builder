@@ -66,6 +66,7 @@
     "qs": "^6.9.3",
     "query-string": "^6.12.1",
     "react": "^16.12.0",
+    "react-color": "^2.18.1",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",

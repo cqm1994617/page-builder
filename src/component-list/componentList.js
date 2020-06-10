@@ -5,6 +5,7 @@ import { defaultValue as textDefaultValue, TextClient, ToolPanel as TextToolPane
 import { defaultValue as imageDefaultValue, ImageClient, ToolPanel as ImageToolPanel } from './image'
 import { defaultValue as articleDefaultValue, ArticleClient, ToolPanel as ArticleToolPanel } from './article'
 import { defaultValue as tabDefaultValue, TabClient, ToolPanel as TabToolPanel } from './tab'
+import { defaultValue as blankDefaultValue, BlankClient, ToolPanel as BlankToolPanel } from './blank'
 
 const componentList = [
   {
@@ -48,6 +49,13 @@ const componentList = [
     children: [
       { ...tabDefaultValue }
     ]
+  },
+  {
+    id: 'BLANK_COMPONENT',
+    name: '分隔',
+    children: [
+      { ...blankDefaultValue }
+    ]
   }
 ]
 
@@ -57,7 +65,8 @@ const componentClientMap = {
   'text': (props, select) => <TextClient onClick={select} {...props} />,
   'image': (props, select) => <ImageClient onClick={select} {...props} />,
   'article': (props, select) => <ArticleClient onClick={select} {...props} />,
-  'tab': (props, select) => <TabClient onClick={select} {...props} />
+  'tab': (props, select) => <TabClient onClick={select} {...props} />,
+  'blank': (props, select) => <BlankClient onClick={select} {...props} />
 }
 
 const getPanelMap = (name) => {
@@ -67,7 +76,8 @@ const getPanelMap = (name) => {
     'text': () => <TextToolPanel />,
     'image': () => <ImageToolPanel />,
     'article': () => <ArticleToolPanel />,
-    'tab': () => <TabToolPanel />
+    'tab': () => <TabToolPanel />,
+    'blank': () => <BlankToolPanel />
   }
   return panelMap[name]
 }

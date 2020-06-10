@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Modal } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
-import RichEdit from '@/component-list/common/RichEdit'
-import { editComponent, deleteComponent } from '@/client/actions/componentList'
+import { editComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import ToolContainer from '@/component-list/common/ToolContainer'
+import { SketchPicker } from 'react-color';
 import { useGetComponentList, useGetCurrentSelectComponent, useDeleteCurrentComponent } from '@/client/hooks'
 import { useDispatch } from 'react-redux'
 
@@ -16,21 +16,17 @@ function Tool() {
   const currentSelectComponent = useGetCurrentSelectComponent()
   const deleteCurrentComponent = useDeleteCurrentComponent()
 
-  const [title, setTitle] = useState(currentSelectComponent.props.title)
-  const [author, setAuthor] = useState(currentSelectComponent.props.author)
-  const [dateStr, setDateStr] = useState(currentSelectComponent.props.dateStr)
-  const [content, setContent] = useState(currentSelectComponent.props.content)
+  const [height, setHeight] = useState(currentSelectComponent.props.height)
+  const [backgroundColor, setBackgroundColor] = useState(currentSelectComponent.props.backgroundColor)
 
   const submit = () => {
     const newKey = uuidv4()
     dispatch(editComponent({
-      type: 'article',
+      type: 'blank',
       key: newKey,
       props: {
-        title,
-        author,
-        dateStr,
-        content
+        height,
+        backgroundColor
       }
     }))
     dispatch(setCurrentSelectComponent(newKey))
@@ -39,19 +35,15 @@ function Tool() {
   return (
     <ToolContainer>
       <Form>
-        <Form.Item label="标题">
-          <Input placeholder="请输入标题" onChange={e => setTitle(e.target.value)} value={title} />
+        <Form.Item label="高度">
+          <Input placeholder="请输入高度" onChange={(e) => setHeight(e.target.value)} value={height} />
         </Form.Item>
-        <Form.Item label="作者">
-          <Input placeholder="请输入作者" onChange={e => setAuthor(e.target.value)} value={author} />
-        </Form.Item>
-        <Form.Item label="日期">
-          <Input placeholder="请输入日期" onChange={e => setDateStr(e.target.value)} value={dateStr} />
-        </Form.Item>
-        <Form.Item label="内容">
-          <RichEdit
-            onChange={html => { setContent(html) }}
-            html={currentSelectComponent.props.content}
+        <Form.Item label="颜色">
+          <Input style={{ marginBottom: '20px' }} placeholder="请输入色值" onChange={(e) => setBackgroundColor(e.target.value)} value={backgroundColor} />
+          <SketchPicker
+            width="300px"
+            color={backgroundColor}
+            onChangeComplete={(e) => setBackgroundColor(e.hex)}
           />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
