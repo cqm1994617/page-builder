@@ -19,12 +19,15 @@ const Download = styled.a `
 
 function PackageModal({ publishModalShow, hidePublishModal, publishStatus, resultFile }) {
 
+
+
   return (
     <Modal
       visible={publishModalShow}
       onCancel={hidePublishModal}
       onOk={hidePublishModal}
       width={800}
+      maskClosable={false}
     >
       <Command>
         {

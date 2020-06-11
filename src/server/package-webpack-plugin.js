@@ -6,8 +6,14 @@ class PackageWebpackPlugin {
     this.wsMap = option.wsMap
   }
   apply(compiler) {
-    compiler.hooks.afterCompile.tap('afterCompile', () => {
-      console.log('afterCompile')
+
+    compiler.hooks.afterCompile.tap('afterCompile', (e) => {
+      if (e.name) {
+        this.wsMap[this.packageId] && this.wsMap[this.packageId].send(JSON.stringify({
+          status: 'afterCompile',
+          text: `${e.name} 文件编译完成`
+        }))
+      }
     })
 
     compiler.hooks.emit.tap('emit', () => {
