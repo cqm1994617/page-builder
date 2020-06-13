@@ -83,6 +83,7 @@ function CustomHeader() {
     publishStatus,
     addPublishStatus,
     publishModalShow,
+    publishModalShowRef,
     openPublishModal,
     hidePublishModal,
     resultFile,
@@ -115,11 +116,12 @@ function CustomHeader() {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      console.log(res.data)
-      setResultFile({
-        path: res.data.filePath,
-        folderId: res.data.folderId
-      })
+      if (publishModalShowRef) {
+        setResultFile({
+          path: res.data.filePath,
+          folderId: res.data.folderId
+        })
+      }
     }).catch(() => {
       ws.current.close()
     })
@@ -186,8 +188,8 @@ function CustomHeader() {
         </PageSelected>
         <div>
           <ButtonGroup>
-            <Button style={{marginRight: '20px'}} onClick={undoClick}>后退</Button>
-            <Button style={{marginRight: '30px'}} onClick={redoClick}>前进</Button>
+            <Button style={{ marginRight: '20px' }} onClick={undoClick}>后退</Button>
+            <Button style={{ marginRight: '30px' }} onClick={redoClick}>前进</Button>
             <Button
               type="link"
               icon={<EyeOutlined />}

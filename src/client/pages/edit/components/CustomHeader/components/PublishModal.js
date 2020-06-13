@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Modal } from 'antd'
 import styled from 'styled-components'
 
-const Command = styled.div `
+const Command = styled.div`
   margin-top: 20px;
   background-color: #111;
   color: #fff;
@@ -12,14 +12,21 @@ const Command = styled.div `
   overflow: auto;
 `
 
-const Download = styled.a `
+const Download = styled.a`
   display: block;
   margin: 20px 0;
 `
 
 function PackageModal({ publishModalShow, hidePublishModal, publishStatus, resultFile }) {
 
+  const commandRef = useRef(null)
 
+  useEffect(() => {
+    if (commandRef && commandRef.current) {
+      const dom = commandRef.current
+      dom.scrollTop = dom.scrollHeight - dom.clientHeight > 0 ? dom.scrollHeight - dom.clientHeight : 0
+    }
+  }, [publishStatus])
 
   return (
     <Modal
@@ -29,7 +36,7 @@ function PackageModal({ publishModalShow, hidePublishModal, publishStatus, resul
       width={800}
       maskClosable={false}
     >
-      <Command>
+      <Command ref={commandRef}>
         {
           publishStatus.map((item, index) => <div key={index}>{item.text}</div>)
         }

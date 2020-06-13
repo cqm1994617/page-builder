@@ -10,9 +10,9 @@ function usePageModal() {
     title: '',
     path: ''
   })
+  const [newPageModalShow, setNewPageModalShow] = useState(false)
   const dispatch = useDispatch()
   const pageList = useSelector(state => state.pageListReducer)
-  const [newPageModalShow, setNewPageModalShow] = useState(false)
 
   const newPageModalSubmit = () => {
     const hasPath = pageList.map(item => item.path).includes(newPageInfo.path)
