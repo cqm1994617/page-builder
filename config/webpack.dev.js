@@ -29,8 +29,8 @@ module.exports = merge(baseConfig, {
   plugins: [
     new OpenBrowserPlugin({ url: 'http://localhost:9000/page-builder/home' }),
     new webpack.DefinePlugin({
-      'REQUEST_URL': JSON.stringify(config.dev.host),
-      'WS_URL': JSON.stringify(config.dev.wsHost)
+      REQUEST_URL: JSON.stringify(config.dev.host),
+      WS_URL: JSON.stringify(config.dev.wsHost)
     })
   ]
 })

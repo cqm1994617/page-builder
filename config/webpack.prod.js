@@ -26,8 +26,8 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
-      'REQUEST_URL': JSON.stringify(config.production.host),
-      'WS_URL': JSON.stringify(config.production.wsHost)
+      REQUEST_URL: JSON.stringify(config.production.host),
+      WS_URL: JSON.stringify(config.production.wsHost)
     }),
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash].css",
