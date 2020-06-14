@@ -40,8 +40,8 @@ router
 
 app.use(cors())
 
-app.use(mount('/preview', serve(path.resolve(__dirname, '../preview-page'))))
-app.use(mount('/build-page', serve(path.resolve(__dirname, '../build-page'))))
+app.use(mount(`${config.prefix}/preview`, serve(path.resolve(__dirname, '../preview-page'))))
+app.use(mount(`${config.prefix}/build-page`, serve(path.resolve(__dirname, '../build-page'))))
 
 app.use(router.routes()).use(router.allowedMethods())
 
@@ -51,7 +51,7 @@ const server = http.createServer(app.callback())
 
 const wss = new WebSocket.Server({
   server,
-  path: '/ws'
+  path: `${config.prefix}/ws`
 })
 
 WebSocketAPI(wss, wsMap)
