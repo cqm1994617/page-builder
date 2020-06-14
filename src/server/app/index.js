@@ -17,13 +17,13 @@ app.use(bodyParser())
 
 const wsMap = {}
 
-router.prefix(config.prefix)
+// router.prefix(config.prefix)
 
 router
-  .get('/server', (ctx) => {
+  .get('/page-builder-server/server', (ctx) => {
     ctx.body = "服务已开启"
   })
-  .post('/server/preview', async (ctx) => {
+  .post('/page-builder-server/server/preview', async (ctx) => {
 
     const body = ctx.request.body
 
