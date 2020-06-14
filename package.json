@@ -7,7 +7,7 @@
     "start": "concurrently \"npm run dev\"  \"npm run server\"",
     "test": "jest",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js",
-    "server": "nodemon ./src/server/app/index.js",
+    "server": "cross-env NODE_ENV=development nodemon ./src/server/app/index.js",
     "build": "npm run package & cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "production": "pm2 ./src/server/app/index.js",
     "clean": "node ./clean.js",

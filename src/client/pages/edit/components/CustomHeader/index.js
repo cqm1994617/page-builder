@@ -17,7 +17,6 @@ import EditPageModal from './components/EditPageModal'
 import PublishModal from './components/PublishModal'
 import { cleanEmpty } from '@/client/actions/componentList'
 import { undo, redo } from '@/client/actions/undoStack'
-import config from '../../../../config'
 
 const { Option } = Select
 const { Header } = Layout
@@ -99,32 +98,32 @@ function CustomHeader() {
     const packageId = uuidv4()
     openPublishModal()
 
-    ws.current = new WebSocket(`${config.wsHost}/ws?packageId=${packageId}`)
+    ws.current = new WebSocket(`${WS_URL}/ws?packageId=${packageId}`)
+
+    ws.current.onopen = (e) => {
+      ws.current.send(
+        JSON.stringify({
+          type: 'PAGELIST',
+          pageList,
+          packageId
+        })
+      )
+    }
+
     ws.current.onmessage = (e) => {
       const data = JSON.parse(e.data)
-      addPublishStatus(JSON.parse(e.data))
-      if (data.status === 'done') {
+      if (data.status !== 'finish') {
+        addPublishStatus(JSON.parse(e.data))
+      } else {
+        if (publishModalShowRef) {
+          setResultFile({
+            path: data.filePath,
+            folderId: data.folderId
+          })
+        }
         ws.current.close()
       }
     }
-
-    axios.post(`${config.host}/server/publish`, {
-      pageList,
-      packageId
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => {
-      if (publishModalShowRef) {
-        setResultFile({
-          path: res.data.filePath,
-          folderId: res.data.folderId
-        })
-      }
-    }).catch(() => {
-      ws.current.close()
-    })
   }
 
   const save = () => {
@@ -134,14 +133,14 @@ function CustomHeader() {
   }
 
   const preview = () => {
-    axios.post(`${config.host}/server/preview`, {
+    axios.post(`${REQUEST_URL}/server/preview`, {
       pageList
     }, {
       headers: {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      window.open(`${config.host}/preview/${res.data.folderId}/${selectedPage.path}.html`)
+      window.open(`${REQUEST_URL}/preview/${res.data.folderId}/${selectedPage.path}.html`)
     })
   }
 
