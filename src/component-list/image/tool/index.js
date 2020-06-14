@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Button, message, Radio, Modal } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
+import CustomUpload from '@/component-list/common/CustomUpload'
 import { editComponent, deleteComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import ToolContainer from '@/component-list/common/ToolContainer'
@@ -17,27 +18,7 @@ const Tips = styled.div`
   color: #333;
   margin-bottom: 10px;
 `
-const CustomUpload = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 15px;
-  & > label {
-    cursor: pointer;
-    display: block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 5px 15px;
-    flex: none;
-  }
-  & > span {
-    text-overflow: ellipsis;
-    flex: none;
-    margin-left: 10px;
-  }
-`
+
 const PreviewImage = styled.div `
   cursor: pointer;
   width: 100px;
@@ -80,18 +61,8 @@ function Tool() {
   }
 
   const upload = (e) => {
-    const file = e.target.files[0]
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-
-    reader.addEventListener('load', () => {
-      if (file.size < 2048000) {
-        setImgUrl(reader.result)
-        setImgName(file.name)
-      } else {
-        message.info('图片大小不得超过2M')
-      }
-    })
+    setImgUrl(e.url)
+    setImgName(e.imgName)
   }
 
   return (
@@ -114,13 +85,7 @@ function Tool() {
         {
           imgType === 2 && <>
             <Tips>大小不得超过2M</Tips>
-            <CustomUpload>
-              <label htmlFor="files">
-                上传图片
-              </label>
-              <span>{imgName}</span>
-              <input id="files" style={{ visibility: 'hidden' }} type="file" onChange={upload} accept=".jpg,.png,.jpeg,.gif" />
-            </CustomUpload>
+            <CustomUpload onChange={upload} imgName={imgName} />
           </>
         }
         <PreviewImage onClick={() => setPreviewVisible(true)} imgUrl={imgUrl} />

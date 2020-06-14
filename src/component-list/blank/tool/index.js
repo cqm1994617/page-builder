@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, message, Modal } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import PositionMove from '@/component-list/common/PositionMove'
-import { editComponent, deleteComponent } from '@/client/actions/componentList'
+import { editComponent } from '@/client/actions/componentList'
 import { setCurrentSelectComponent } from '@/client/actions/currentSelectComponent'
 import ToolContainer from '@/component-list/common/ToolContainer'
+import { SketchPicker } from 'react-color';
 import { useGetComponentList, useGetCurrentSelectComponent, useDeleteCurrentComponent } from '@/client/hooks'
 import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
-
-const TextArea = styled(Input.TextArea) `
-  width: 300px;
-`
 
 function Tool() {
 
@@ -20,15 +16,17 @@ function Tool() {
   const currentSelectComponent = useGetCurrentSelectComponent()
   const deleteCurrentComponent = useDeleteCurrentComponent()
 
-  const [content, setContent] = useState(currentSelectComponent.props.content)
+  const [height, setHeight] = useState(currentSelectComponent.props.height)
+  const [backgroundColor, setBackgroundColor] = useState(currentSelectComponent.props.backgroundColor)
 
   const submit = () => {
     const newKey = uuidv4()
     dispatch(editComponent({
-      type: 'text',
+      type: 'blank',
       key: newKey,
       props: {
-        content
+        height,
+        backgroundColor
       }
     }))
     dispatch(setCurrentSelectComponent(newKey))
@@ -37,8 +35,16 @@ function Tool() {
   return (
     <ToolContainer>
       <Form>
-        <Form.Item label="内容">
-          <TextArea placeholder="输入文本内容" rows={5} onChange={(e) => setContent(e.target.value)} value={content} />
+        <Form.Item label="高度">
+          <Input placeholder="请输入高度" onChange={(e) => setHeight(e.target.value)} value={height} />
+        </Form.Item>
+        <Form.Item label="颜色">
+          <Input style={{ marginBottom: '20px' }} placeholder="请输入色值" onChange={(e) => setBackgroundColor(e.target.value)} value={backgroundColor} />
+          <SketchPicker
+            width="300px"
+            color={backgroundColor}
+            onChangeComplete={(e) => setBackgroundColor(e.hex)}
+          />
         </Form.Item>
         <PositionMove component={currentSelectComponent} componentList={componentList} />
         <Form.Item style={{ marginTop: '40px' }}>

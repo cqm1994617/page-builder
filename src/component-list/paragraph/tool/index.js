@@ -32,17 +32,6 @@ function Tool() {
     dispatch(setCurrentSelectComponent(newKey))
   }
 
-  const remove = () => {
-    Modal.confirm({
-      content: '确认要删除当前组件？',
-      onOk() {
-        dispatch(
-          deleteComponent(currentSelectComponent)
-        )
-      }
-    })
-  }
-
   return (
     <ToolContainer>
       <Form>

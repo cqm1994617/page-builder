@@ -65,19 +65,20 @@ function getPageHTML(title, componentList, packageList, cssList) {
         'banner': (item) => <MyComponent.banner.default key={item.key} {...item.props} />,
         'paragraph': (item) => <MyComponent.paragraph.default key={item.key} {...item.props} />,
         'text': (item) => <MyComponent.text.default key={item.key} {...item.props} />,
-        'image': (item) => <MyComponent.image.default key={item.key} {...item.props} />
+        'image': (item) => <MyComponent.image.default key={item.key} {...item.props} />,
+        'article': (item) => <MyComponent.article.default key={item.key} {...item.props} />,
+        'tab': (item) => <MyComponent.tab.default key={item.key} {...item.props} />,
+        'blank': (item) => <MyComponent.blank.default key={item.key} {...item.props} />
       }
   
       function App() {
         return <div>
-          
-            ${
+          ${
             componentList.map(item => {
               const data = JSON.stringify(item)
               return `{componentMap["${item.type}"](${data})}`
             }).join('\n')
-            }
-          
+          }
         </div>
       }
   

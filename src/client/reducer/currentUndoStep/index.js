@@ -8,7 +8,7 @@ const currentUndoStep = handleActions(
     [setCurrentStep]: (state, action) => {
       return action.payload
     },
-    clearCurrentStep: () => null
+    [clearCurrentStep]: () => null
   },
   initialState
 )

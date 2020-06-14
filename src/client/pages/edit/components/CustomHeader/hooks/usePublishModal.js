@@ -1,11 +1,11 @@
-import React, { useState, useReducer, useCallback } from 'react'
+import React, { useState, useRef, useReducer, useCallback, useEffect } from 'react'
 
 function statuReducer(state, action) {
   switch (action.type) {
-    case 'ADD_STATUS': 
+    case 'ADD_STATUS':
       return [
         ...state,
-        {...action.payload}
+        { ...action.payload }
       ]
     case 'CLEAR_STATUS':
       return []
@@ -14,46 +14,87 @@ function statuReducer(state, action) {
   }
 }
 
+function resultFileReducer(state, action) {
+  switch (action.type) {
+    case 'SET_RESULT_FILE':
+      return {
+        ...action.payload
+      }
+    default:
+      return {
+        ...state
+      }
+  }
+}
+
+function publishModalReducer(state, action) {
+  switch (action.type) {
+    case 'OPEN_PUBLISH_MODAL':
+      return true
+    case 'HIDE_PUBLISH_MODAL':
+      return false
+    default:
+      return state
+  }
+}
+
 function usePublishModal() {
-  const [publishModalShow, setPublishModalShow] = useState(false)
-  const [publishStatus, dispatch] = useReducer(statuReducer, [])
-  const [resultFile, setResultFile] = useState({
+  const [publishModalShow, publishModalDispatch] = useReducer(publishModalReducer, false)
+  const publishModalShowRef = useRef(false)
+  const [publishStatus, statuDispatch] = useReducer(statuReducer, [])
+  const [resultFile, resultFileDispatch] = useReducer(resultFileReducer, {
     path: '',
     folderId: ''
   })
 
+  useEffect(() => {
+    publishModalShowRef.current = publishModalShow
+  }, [publishModalShow])
+
   const openPublishModal = useCallback(() => {
-    setPublishModalShow(true)
-  }, [])
+    publishModalDispatch({
+      type: 'OPEN_PUBLISH_MODAL'
+    })
+  }, [publishModalDispatch])
 
   const hidePublishModal = useCallback((ws) => {
     ws.close()
     clearPublishStatus()
-    setPublishModalShow(false)
+    publishModalDispatch({
+      type: 'HIDE_PUBLISH_MODAL'
+    })
     setResultFile({
       path: '',
       folderId: ''
     })
-  }, [clearPublishStatus])
+  }, [clearPublishStatus, setResultFile, publishModalDispatch])
 
   const addPublishStatus = useCallback((statuObj) => {
-    dispatch({
+    statuDispatch({
       type: 'ADD_STATUS',
       payload: statuObj
     })
-  }, [dispatch])
+  }, [statuDispatch])
 
   const clearPublishStatus = useCallback(() => {
-    dispatch({
+    statuDispatch({
       type: 'CLEAR_STATUS'
     })
-  }, [dispatch])
+  }, [statuDispatch])
+
+  const setResultFile = useCallback((payload) => {
+    resultFileDispatch({
+      type: 'SET_RESULT_FILE',
+      payload
+    })
+  }, [resultFileDispatch])
 
   return {
     publishStatus,
     clearPublishStatus,
     addPublishStatus,
     publishModalShow,
+    publishModalShowRef,
     openPublishModal,
     hidePublishModal,
     resultFile,

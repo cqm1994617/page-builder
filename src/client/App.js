@@ -43,6 +43,9 @@ class App extends React.Component {
 
   render() {
 
+    console.log(REQUEST_URL)
+    console.log(WS_URL)
+
     return (
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
