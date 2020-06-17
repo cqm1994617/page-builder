@@ -19,10 +19,51 @@ npm start  //启动服务
 
 ## 实现思路
 
+
+### 页面数据结构介绍
+
 当前项目中所包含的页面以及页面中的组件和组件中的状态，均以json格式存在redux store当中。数据结构大致如下：
 
 ```
-{
-
-}
+[
+  {
+    id: "519a2c84-d7db-4127-aac9-a0e5a101e9a7",
+    path: "index",
+    title: "首页",
+    componentList: [
+      {
+        id: "7eeedba8-5e7c-4b14-b42f-81ff2c6be414",
+        type: "banner",
+        props: {
+          bannerList: [
+            ...滚动项的属性
+          ],
+          height: 200
+        }
+      },
+      {
+        id: "a86cec25-6db8-44e0-b60e-fbde838227b2",
+        type: "text",
+        props: {
+          content: "这是一段文本"
+        }
+      }
+    ]
+  },
+  {
+    id: "662776d3-14d5-46e7-b258-9a6bd0d2e1df",
+    path: "child",
+    title: "子页面",
+    componentList: [
+      {
+        id: "",
+        type: "paragraph",
+        props: {
+          content: "<p>这是一段p标签中的文本</p>",
+          title: "段落标题"
+        }
+      }
+    ]
+  }
+]
 ```

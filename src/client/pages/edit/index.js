@@ -119,6 +119,8 @@ function Edit() {
 
   }, [dispatch, getAppDetail, _initPage])
 
+  console.log(state)
+
   return (
     <Page>
       <div>
