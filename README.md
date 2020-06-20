@@ -20,7 +20,7 @@ npm start  //启动服务
 ## 实现思路
 
 
-### 页面数据结构介绍
+### 页面数据结构和打包原理介绍
 
 当前项目中所包含的页面以及页面中的组件和组件中的状态，均以json格式存在redux store当中。数据结构大致如下：
 
@@ -68,3 +68,44 @@ npm start  //启动服务
 ]
 ```
 
+数组中的每一个对象都代表了一个页面，页面项中的componentList属性则是该页面中所存在的数组。
+
+对页面的新增和修改操作，均是对以上数据结构进行编辑和操作。
+
+当点击提交时，会将这个json发送至服务端，服务端会根据生成对应的React.js文件(如页面有多个，则生成对个js文件)。生成的文件示例如下：
+
+```
+//引入React相关依赖包
+import React from 'react'
+import ReactDOM from 'react-dom'
+//引入开发好的页面组件
+import {BannerServer as Banner} from '@/component-list/banner'
+import {ParagraphServer as Paragraph} from '@/component-list/paragraph'
+//.....
+
+const list = [...接收到的json数据]
+document.title = 'xxx'
+
+//根据type选择渲染不同的组件
+const componentMap = {
+  'banner': (item) => <Banner key={item.key} {...item.props} />,
+  'paragraph': (item) => <Paragraph key={item.key} {...item.props} />,
+  ...
+}
+
+function App() {
+  return (
+    <div style={{overflow: 'hidden'}}>
+      {
+        list.map((item) => {
+          return componentMap[item.type](item)
+        })
+      }
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('app'))
+```
+
+在React.js文件生成完成后，会运行一个webpack脚本对这些文件进行打包，之后就能够生成
