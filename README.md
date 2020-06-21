@@ -227,3 +227,18 @@ ReactDOM.render(<App />, document.getElementById('app'))
 ```
 
 也就是说在预览过程中，我们是不执行任何webpack脚本的，ES6和React化代码是在外部引入了React.js和Babel的链接这一环境下执行的，可能会带来一些的性能问题，但这在“预览”这一场景下并不算致命，而且这种做法只需要node执行一个生成文件的api，执行速度非常快，的确达到了迅速反馈用户的这一要求。
+
+### Undo、Redo功能
+
+在每次对页面进行操作，如新增/编辑组件、新增/编辑页面时，均会将当前页面状态的json数据存入sessionStorage中。存入方式如下：
+
+1. 生成一个随机key值
+2. sessionStorage.setItem(key, JSON.stringify({...页面状态的对象}))
+3. 将key值存入redux store中的一个数组，这个数组专门用来代表操作记录。
+
+之后的redo、undo操作就可以通过操作这个数组，去sessionStorage取某次对应的页面数据，然后重新渲染到页面上就可以了。
+
+将页面状态数据放入sessionStorage中主要也是考虑到这个json数据体积还是有点大的，如果将多次操作的页面数据均存入redux store中，可能会引起性能问题，所以使用在redux中保存操作id，然后根据id去sessionStorage中取对应值的方式。
+
+当然sessionStorage本身也有体积限制，这边为演示项目所以没有采用数据库存储之类的方案。
+
