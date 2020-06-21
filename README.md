@@ -19,7 +19,6 @@ npm start  //启动服务
 
 ## 实现思路
 
-
 ### 页面数据结构和打包原理介绍
 
 当前项目中所包含的页面以及页面中的组件和组件中的状态，均以json格式存在redux store当中。数据结构大致如下：
@@ -72,7 +71,7 @@ npm start  //启动服务
 
 对页面的新增和修改操作，均是对以上数据结构进行编辑和操作。
 
-当点击提交时，会将这个json发送至服务端，服务端会根据生成对应的React.js文件(如页面有多个，则生成对个js文件)。生成的文件示例如下：
+当点击提交时，会将这个json发送至服务端，服务端会使用Node的writeFile API来生成React.js文件(如页面有多个，则生成对个js文件)。生成的文件示例如下：
 
 ```
 //引入React相关依赖包
@@ -108,4 +107,78 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('app'))
 ```
 
-在React.js文件生成完成后，会运行一个webpack脚本对这些文件进行打包，之后就能够生成
+在React.js文件生成完成后，会运行一个webpack脚本对这些文件进行打包，之后就能够生成能够直接打开展示的结果页面。
+
+### 预览功能
+
+上文已经简要描述了打包生成实际页面的流程，那么预览功能相比于实际打包，又有什么区别呢？
+
+相比于打包，预览需要能够在更短的时间将页面呈现给使用者。如果按照打包的思路，那么用户等待的实际会过长，所以我们需要换一种思路来实现这一功能。
+
+首先在上线部署前，我们需要将我们编写好的组件进行一次单独的打包，在本项目中对应运行``npm run package``。打包完成后，组件如果未发生变化，是不需要进行重新执行该命令的。
+
+在实际操作中，当用户点击预览功能后，也会将页面状态的json发送至服务端。
+服务端会调用Node的writeFile API生成``.html``文件。
+
+**注意这边是不去执行webpack的脚本的，生成的只有html文件**
+
+为了使生成的html文件能方便快捷地展示出我们打包好的React组件，我们需要对html文件用一些比较古老的方式来引入React和Babel——使用script标签引入……因为预览页其实只是起一个参考的用处，所以有稍大一点的外部包引入体积亦或是稍慢几十或者百来毫秒的加载速度损失并不致命。
+
+最终我们生成的html文件大概是如下的格式：
+
+```
+<html>
+  ...
+  <!--引入React和Babel-->
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+  <!--引入之前打包好的组件-->
+  <script src="/preview/package/MyComponent.common.js"></script>
+  <script src="/preview/package/MyComponent.article.js"></script>
+  <script src="/preview/package/MyComponent.banner.js"></script>
+  ...
+
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      //打包好的组件会被挂载在MyComponent这一全局对象上
+      const componentMap = {
+        'banner': (item) => <MyComponent.banner.default key={item.key} {...item.props} />,
+        'article': (item) => <MyComponent.article.default key={item.key} {...item.props} />,
+        ...更多组件
+      }
+
+      function App() {
+        return (
+          <div>
+            {
+              /*代表一个banner组件*/
+              componentMap["banner"]({
+                "type": "banner",
+                "key": "xxx",
+                "props": {...组件展示内容}
+              })
+            }
+            {
+              /*代表一个article组件*/
+              componentMap["article"]({
+                "type": "article",
+                "key": "xxxxx",
+                "props": {...组件展示内容}
+              })
+            }
+          </div>
+        )
+      }
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById("app")
+      )
+    </script>
+  </body>
+</html>
+```
+
+也就是说在预览过程中，我们是不执行任何webpack脚本的，ES6和React化代码是在外部引入了React.js和Babel的链接这一环境下执行的，可能会带来一些的性能问题，但这在“预览”这一场景下并不算致命，而且这种做法只需要node执行一个生成文件的api，执行速度非常快，的确达到了迅速反馈用户的这一要求。
