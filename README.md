@@ -17,7 +17,7 @@ npm start  //启动服务
 
 ## 注意事项
 
-该项目以展示思路为主，只有打包和预览部分运用了node吗，并未使用数据库，项目列表等其它部分的数据均保存在``localStorage``与``sessionStorage``中。
+该项目以展示思路为主，只有打包和预览部分运用了node，并未使用数据库，项目列表等其它部分的数据均保存在``localStorage``与``sessionStorage``中。
 
 ## 项目目录
 
