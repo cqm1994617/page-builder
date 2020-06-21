@@ -2,6 +2,8 @@
 
 这是一个页面构建平台demo，通过在平台上进行相关组件的选择，即可构建出想要的页面。
 
+[demo点这里(服务器是最垃圾的，撑不太住较多人……)](https://cqmfe.club/page-builder/home)
+
 
 ## 运行项目
 
@@ -16,6 +18,49 @@ npm start  //启动服务
 ## 注意事项
 
 该项目以展示思路为主，只有打包和预览部分运用了node吗，并未使用数据库，项目列表等其它部分的数据均保存在``localStorage``与``sessionStorage``中。
+
+## 项目目录
+
+src/client 下基本为页面生成平台的客户端部分，内部包含了页面平台web端操作的流程代码。
+
+src/component-list 下为你所编写可添加到页面上的组件，也包括了一些开发组件的公共函数。
+
+以article组件为例，在src/component-list/article下可以看到三个文件夹和两个文件。
+
+src/component-list/article/client目录下编写的文件是显示在操作平台上的组件，并不是实际打包生成的组件。
+
+src/component-list/article/tool目录下编写的文件是用于编辑自定义组件中数据的一个操作面板。
+
+src/component-list/article/server目录下编写的文件是实际打包生成到页面上的组件代码。
+
+src/component-list/article/defaultValue是组件中默认填充的数值
+
+src/component-list/article/index是一个单纯的入口文件
+
+其它组件的目录结构也同理。
+
+---
+
+src/server 中存放的是项目服务端的代码
+
+src/server/app 中存放的是服务端的一些接口代码
+
+src/server/createFile.js 根据客户端上传的页面状态json，动态生成React.js文件的逻辑代码
+
+src/server/createPreview.js 用来创建预览的.html文件的逻辑代码
+
+src/server/package-webpack-plugin.js 单独对src/component-list/**/server/index中文件打包的脚本，预览功能需要先单独对这些组件进行一次打包才可正常使用
+
+src/server/webpack-dynamic.js 一个webpack配置文件，对createFile.js文件生成的js代码进行打包
+
+src/server下动态生成的目录
+
+src/server/build-page/ 存放最终打包完成生成的文件和压缩包
+
+src/server/page-file/ 存放createFile.js文件生成的React.js代码
+
+src/server/preview-page/ 存放createPreview文件生成的可供预览的``.html``文件
+
 
 ## 实现思路
 
