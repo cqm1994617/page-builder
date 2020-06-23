@@ -3,6 +3,7 @@ const path = require('path')
 const AdmZip = require('adm-zip')
 const uuid = require('uuid')
 const glob = require('glob')
+const config = require('./config')
 
 function getPageHTML(title, componentList, packageList, cssList) {
   return `
@@ -49,7 +50,7 @@ function getPageHTML(title, componentList, packageList, cssList) {
     <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
-    <script src="/preview/package/MyComponent.common.js"></script>
+    <script src="${config.prefix}/preview/package/MyComponent.common.js"></script>
     ${
       packageList.filter(item => item !== 'MyComponent.common.js').map(item => {
         return `<script src="/preview/package/${item}"></script>`
