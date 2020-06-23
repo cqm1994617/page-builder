@@ -1,10 +1,10 @@
 const defaultValue = {
   id: 'IMAGE_COMPONENT_DEFAULT',
   name: '默认图片',
-  imgUrl: 'https://gw.alipayobjects.com/os/q/cms/images/jnlh4m2u/c348b729-8622-4fcd-9467-3d14c4a3c1fd.cms/images/df694a8d-32d9-4be3-987b-d493d7688a47.png?x-oss-process=image/resize,w_560/crop,h_560',
+  imgUrl: 'https://storage-1257012839.cos.ap-chengdu.myqcloud.com/%E6%B5%8B%E8%AF%953.jpg',
   componentType: 'image',
   defaultProps: {
-    imgUrl: 'http://qiniu.xingheaoyou.com/1.jpg',
+    imgUrl: 'https://storage-1257012839.cos.ap-chengdu.myqcloud.com/%E6%B5%8B%E8%AF%953.jpg',
     height: 200,
     mode: 'cover'
   }

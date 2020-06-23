@@ -15,6 +15,18 @@ npm run package  //对组件打包，使预览功能能正常使用
 npm start  //启动服务
 ```
 
+## 项目展示图
+
+该项目UI部分模仿了阿里云凤蝶
+
+![图1](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo1.png)
+
+![图2](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo2.png)
+
+![图3](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo3.png)
+
+![图4](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo4.png)
+
 ## 注意事项
 
 该项目以展示思路为主，只有打包和预览部分运用了node，并未使用数据库，项目列表等其它部分的数据均保存在``localStorage``与``sessionStorage``中。
@@ -153,6 +165,10 @@ ReactDOM.render(<App />, document.getElementById('app'))
 ```
 
 在React.js文件生成完成后，会运行一个webpack脚本对这些文件进行打包，之后就能够生成能够直接打开展示的结果页面。
+
+打包流程简单示意图如下：
+
+![打包流程](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/%E5%B1%95%E7%A4%BA%E5%9B%BE.png)
 
 ### 预览功能
 
