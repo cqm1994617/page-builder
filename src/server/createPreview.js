@@ -15,7 +15,7 @@ function getPageHTML(title, componentList, packageList, cssList) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     ${
       cssList.map(item => {
-        return `<link href="/preview/package/static/css/${item}" rel="stylesheet">`
+        return `<link href="${config.prefix}/preview/package/static/css/${item}" rel="stylesheet">`
       })
     }
     <title>${title}</title>
@@ -53,7 +53,7 @@ function getPageHTML(title, componentList, packageList, cssList) {
     <script src="${config.prefix}/preview/package/MyComponent.common.js"></script>
     ${
       packageList.filter(item => item !== 'MyComponent.common.js').map(item => {
-        return `<script src="/preview/package/${item}"></script>`
+        return `<script src="${config.prefix}/preview/package/${item}"></script>`
       }).join('\n')
     }
   </head>
