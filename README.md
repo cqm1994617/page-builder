@@ -19,7 +19,7 @@ npm start  //启动服务
 
 该项目UI部分模仿了阿里云凤蝶
 
-![图1](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo1.png)
+![图1](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo1.png?v=1)
 
 ![图2](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo2.png)
 
