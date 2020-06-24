@@ -40,6 +40,9 @@ function PackageModal({ publishModalShow, hidePublishModal, publishStatus, resul
         {
           publishStatus.map((item, index) => <div key={index}>{item.text}</div>)
         }
+        {
+          publishStatus[publishStatus.length - 1 ] && (publishStatus[publishStatus.length - 1].status !== 'done' ? <div>打包中...</div> : null)
+        }
       </Command>
       {resultFile.path && <Download href={resultFile.path}>下载 {resultFile.folderId}.zip</Download>}
     </Modal>
