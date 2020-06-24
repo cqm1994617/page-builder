@@ -61,7 +61,7 @@ src/server/createFile.js 根据客户端上传的页面状态json，动态生成
 
 src/server/createPreview.js 用来创建预览的.html文件的逻辑代码
 
-src/server/package-webpack-plugin.js 单独对src/component-list/**/server/index中文件打包的脚本，预览功能需要先单独对这些组件进行一次打包才可正常使用
+src/server/package-webpack-plugin.js 一个webpack自定义插件，用来监控打包状况，并通过websocket告知客户端进度
 
 src/server/webpack-dynamic.js 一个webpack配置文件，对createFile.js文件生成的js代码进行打包
 
