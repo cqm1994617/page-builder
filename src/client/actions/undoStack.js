@@ -4,6 +4,7 @@ import { setCurrentStep } from './currentUndoStep'
 import { setCurrentSelectComponent } from './currentSelectComponent'
 import { setCurrentSelectPage } from './currentSelectPage'
 import { v4 as uuidv4 } from 'uuid'
+import { message } from 'antd'
 
 const { undoStack } = createActions({
   'UNDO_STACK/SET_UNDO_STACK': (stack) => {
@@ -90,7 +91,7 @@ const undo = () => (dispatch, getState) => {
     )
     dispatch(setCurrentStep(prevStep))
   } else {
-    console.log('已经是第一项')
+    message.info('已是第一项')
   }
 }
 
@@ -113,6 +114,8 @@ const redo = () => (dispatch, getState) => {
       setCurrentSelectComponent(nextPageInfo.currentSelectComponent)
     )
     dispatch(setCurrentStep(nextStep))
+  } else {
+    message.info('已是最后一项')
   }
 
 
