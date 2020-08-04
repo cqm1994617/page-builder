@@ -19,13 +19,13 @@ npm start  //启动服务
 
 该项目UI部分模仿了阿里云凤蝶
 
-![图1](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo11.png)
+![图1](https://github.com/cqm1994617/page-builder/blob/master/demo/demo1.png?raw=true)
 
-![图2](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo2.png)
+![图2](https://github.com/cqm1994617/page-builder/blob/master/demo/demo2.png?raw=true)
 
-![图3](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo3.png)
+![图3](https://github.com/cqm1994617/page-builder/blob/master/demo/demo3.png?raw=true)
 
-![图4](https://storage-1257012839.cos.ap-chengdu.myqcloud.com/demo4.png)
+![图4](https://github.com/cqm1994617/page-builder/blob/master/demo/demo4.png?raw=true)
 
 ## 注意事项
 
@@ -61,7 +61,7 @@ src/server/createFile.js 根据客户端上传的页面状态json，动态生成
 
 src/server/createPreview.js 用来创建预览的.html文件的逻辑代码
 
-src/server/package-webpack-plugin.js 单独对src/component-list/**/server/index中文件打包的脚本，预览功能需要先单独对这些组件进行一次打包才可正常使用
+src/server/package-webpack-plugin.js 一个webpack自定义插件，用来监控打包状况，并通过websocket告知客户端进度
 
 src/server/webpack-dynamic.js 一个webpack配置文件，对createFile.js文件生成的js代码进行打包
 
