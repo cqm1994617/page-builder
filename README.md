@@ -2,7 +2,7 @@
 
 这是一个页面构建平台demo，通过在平台上进行相关组件的选择，即可构建出想要的页面。
 
-[demo点这里(服务器是最垃圾的，撑不太住较多人……)](https://cqmfe.club/page-builder/home)
+[demo点这里(预览功能可能需要翻墙。服务器是最垃圾的，撑不太住较多人……)](https://cqmfe.club/page-builder/home)
 
 
 ## 运行项目
