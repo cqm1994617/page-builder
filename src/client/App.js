@@ -42,7 +42,6 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
@@ -56,7 +55,6 @@ class App extends React.Component {
       </Provider>
     )
   }
-
 }
 
 export default App
