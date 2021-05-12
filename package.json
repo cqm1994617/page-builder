@@ -75,7 +75,7 @@
     "redux-actions": "^2.6.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.0.0",
-    "swiper": "^5.3.6",
+    "swiper": "^6.5.1",
     "uuid": "^7.0.2",
     "ws": "^7.3.0"
   },
